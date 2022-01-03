@@ -12,6 +12,7 @@ import sys.FileSystem;
 
 using StringTools;
 
+// this functions originally used in FNF Extra https://github.com/TheLeerName/FNF-extra/blob/stable/source/CoolUtil.hx
 class FileAPI
 {
 	public static var file:FileAPI;

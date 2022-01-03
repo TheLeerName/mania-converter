@@ -30,7 +30,7 @@ class TitleState extends StateWorker
 	{
 		//checkFolders();
 
-		Debug.log.trace('Starting...');
+		Debug.log.trace('Starting... (version ${Application.current.meta.get('version')})');
 
 		var options:Options = {
 			from_file: "beatmap.json",
