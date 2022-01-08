@@ -7,6 +7,7 @@ typedef OptionsJSON = {
 	var from_key_default:Int;
 	var to_key_default:Int;
 	var extra_keys_sync:Bool;
+	var leather_sync:Bool;
 	var algorithm:Array<Dynamic>;
 }
 
@@ -23,6 +24,7 @@ class Options
 			from_key_default: 4, // default value for key count before converting (crash preventing)
 			to_key_default: 4, // default value for key count after converting (crash preventing)
 			extra_keys_sync: true, // sync with mania from extra keys mod (real key count - 1, example 4 keys is mania = 3)
+			leather_sync: false, // sync with keyCount from leather engine (mania = (keyCount && playerKeyCount)), if its true extra_keys_sync = false
 			algorithm: [ // algorithm for placing a notes
 					[],
 					[
@@ -153,6 +155,7 @@ class Options
 			json.to_key == null ||
 			json.from_key_default == null ||
 			json.extra_keys_sync == null ||
+			json.leather_sync == null ||
 			json.algorithm == null ||
 			json.from_file == null ||
 			json.to_file == null
