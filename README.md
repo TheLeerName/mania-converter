@@ -1,5 +1,5 @@
 # Mania Converter
-Converter of FNF maps/charts, example from 4 key to 6 key.
+Converter of FNF maps/charts, example from 4 key to 6 key. If you want convert from osu!mania, [you can use this](https://github.com/ItzFireable/mania2fnf).
 
 ## How to use this?
 1. Run a EXE file, it will be crash.
