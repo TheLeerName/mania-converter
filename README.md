@@ -1,5 +1,5 @@
 # Mania Converter
-Converter of FNF or osu!mania maps/charts, example from 4 key to 6 key. If you want convert from osu!mania, type in `options.json` in line `osu_convert` true.
+Converter of FNF or osu!mania maps/charts, example from 4 key to 6 key. If you want convert from osu!mania, set `true` in line `osu_convert` in `options.json`.
 
 ## How to use this?
 1. Run a EXE file, it will be crash.
