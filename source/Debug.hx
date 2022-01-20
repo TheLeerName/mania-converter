@@ -6,7 +6,7 @@ class Debug
 {
 	public static var log:Debug;
 
-	public function trace(string:String)
+	public function trace(string:Dynamic)
 	{
 		if (!FileAPI.file.exists('log.txt'))
 			FileAPI.file.saveFile('log.txt');
@@ -22,7 +22,7 @@ class Debug
 		#end
 	}
 
-	public function warn(string:String)
+	public function warn(string:Dynamic)
 	{
 		if (!FileAPI.file.exists('log.txt'))
 			FileAPI.file.saveFile('log.txt');
@@ -38,7 +38,7 @@ class Debug
 		#end
 	}
 
-	public function error(string:String)
+	public function error(string:Dynamic)
 	{
 		if (!FileAPI.file.exists('log.txt'))
 			FileAPI.file.saveFile('log.txt');

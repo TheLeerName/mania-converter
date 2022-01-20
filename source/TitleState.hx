@@ -8,29 +8,45 @@ using StringTools;
 
 class TitleState extends FlxUIState
 {
-	/*function checkFolders()
+	function checkFolders()
 	{
 		var folders:Array<String> = [
-			"logs"
+			"algorithms"
 		];
 
 		for (i in 0...folders.length) if (!FileAPI.file.isDir(folders[i]))
 			{
 				FileAPI.file.createDir(folders[i]);
-				trace('Successfully created /${folders[i]} folder!');
+				Debug.log.trace('Successfully created /${folders[i]} folder!');
 			}
-	}*/
+	}
 
 	override function create()
 	{
-		//checkFolders();
+		checkFolders();
 		FlxTransitionableState.skipNextTransOut = true;
 		FlxTransitionableState.skipNextTransIn = true;
 
-		Debug.log.trace('Starting... (version ${Application.current.meta.get('version')})');
+		Debug.log.trace('Starting version ${Application.current.meta.get('version')}...');
+
+		Options.get.createAlgorithm();
 
 		var options:Options.OptionsJSON = Options.get.options();
-		var alg:Array<Dynamic> = options.algorithm;
+		if (!options.osu_convert)
+		{
+			options.from_file += '.json';
+			options.to_file += '.json';
+		}
+		else
+			options.from_file += '.osu';
+
+		if (options.osu_convert)
+		{
+			OsuMania.parser.convert();
+			Debug.log.trace('Successfully converted beatmap from osu!mania to fnf!');
+			Application.current.window.close();
+			return;
+		}
 
 		if (!FileAPI.file.exists(options.from_file))
 		{
@@ -74,9 +90,9 @@ class TitleState extends FlxUIState
 		}
 
 		var to_key:Int = 0;
-		if (options.to_key < 1 || options.to_key > options.algorithm.length - 1)
+		if (options.to_key < 1 || options.to_key > Options.get.algLength())
 		{
-			Debug.log.warn('Key count ${options.to_key < 1 ? 'less than 1' : 'more than ${options.algorithm.length - 1}'}, returning ${options.to_key_default}...');
+			Debug.log.warn('Key count ${options.to_key < 1 ? 'less than 1' : 'more than ${Options.get.algLength()}'}, returning ${options.to_key_default}...');
 			to_key = options.to_key_default;
 		}
 		else
@@ -95,13 +111,14 @@ class TitleState extends FlxUIState
 			{
 				if (json.song.notes[i].sectionNotes[i1][1] >= 0)
 				{
-					var alg_var:Dynamic = alg[from_key][to_key][json.song.notes[i].sectionNotes[i1][1]];
+					//var alg_var:Dynamic = alg[from_key][to_key][json.song.notes[i].sectionNotes[i1][1]];
+					var alg_var:Dynamic = Options.get.alg(from_key, to_key)[json.song.notes[i].sectionNotes[i1][1]];
 					if (alg_var.length > 1)
-						json.song.notes[i].sectionNotes[i1][1] = alg_var[Std.random(alg_var.length)];
+						json.song.notes[i].sectionNotes[i1][1] = Std.parseInt(alg_var[Std.random(alg_var.length)]);
 					else if (alg_var.length == 1)
-						json.song.notes[i].sectionNotes[i1][1] = alg_var[0];
+						json.song.notes[i].sectionNotes[i1][1] = Std.parseInt(alg_var[0]);
 					else
-						json.song.notes[i].sectionNotes[i1][1] = alg_var;
+						json.song.notes[i].sectionNotes[i1][1] = Std.parseInt(alg_var);
 				}
 			}
 
