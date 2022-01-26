@@ -36,9 +36,11 @@ typedef Notes = {
 
 class Options
 {
-	public static var get:Options;
+	public static var func:Options;
 
-	public function options()
+	public static var get:Dynamic = options_();
+
+	public static function options_()
 	{
 		var optionsJSON:OptionsJSON = {
 			from_file: 'beatmap', // path to map/file before convert
@@ -71,7 +73,7 @@ class Options
 
 		if (!FileAPI.file.exists('options.json'))
 		{
-			Debug.log.warn('Path options.json not found! Creating a one...');
+			Debug.log.warn('Path options.json not found! Creating a file...');
 			FileAPI.file.saveFile('options.json', FileAPI.file.stringify(optionsJSON, "\t", false));
 		}
 		var json:Dynamic = FileAPI.file.parseJSON('options.json');

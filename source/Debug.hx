@@ -52,6 +52,7 @@ class Debug
 		#else
 		trace(string);
 		#end
+		FileAPI.file.closeWindow();
 	}
 
 	inline function toString(array:Array<Dynamic>)

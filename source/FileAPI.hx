@@ -26,11 +26,11 @@ class FileAPI
 			return haxe.Json.parse(File.getContent(key));
 		else
 		{
-			trace('Error: Can\'t parse ${key}, file is not exist!');
+			Debug.log.error('Can\'t parse ${key}, file is not exist!');
 			return [];
 		}
 		#else
-		trace('This function is disabled, when sys is false!');
+		Debug.log.error('This function is disabled, when sys is false!');
 		return [];
 		#end
 	}
@@ -44,11 +44,11 @@ class FileAPI
 			return haxe.Json.stringify(key, string);
 		else
 		{
-			trace('Error: Can\'t stringify ${key}, file is not exist!');
+			Debug.log.error('Can\'t stringify ${key}, file is not exist!');
 			return [];
 		}
 		#else
-		trace('This function is disabled, when sys is false!');
+		Debug.log.error('This function is disabled, when sys is false!');
 		return [];
 		#end
 	}
@@ -61,6 +61,7 @@ class FileAPI
 		return null;
 		#end
 	}
+
 	inline public function readDir(path:String)
 	{
 		#if sys
@@ -68,22 +69,24 @@ class FileAPI
 			return sys.FileSystem.readDirectory(path);
 		else
 		{
-			trace('Error: Can\'t read directory ${path}, directory is not exist!');
+			Debug.log.error('Can\'t read directory ${path}, directory is not exist!');
 			return null;
 		}
 		#else
 		return null;
 		#end
 	}
+
 	public function createDir(path:String)
 	{
 		#if sys
 		if (!isDir(path))
 			sys.FileSystem.createDirectory(path);
 		else
-			trace('Error: Can\'t create directory ${path}, directory already exist!');
+			Debug.log.warn('Can\'t create directory ${path}, directory already exist!');
 		#end
 	}
+
 	// function from https://ashes999.github.io/learnhaxe/recursively-delete-a-directory-in-haxe.html
 	public function deleteDir(key:String, recursively:Bool = true):Void
 	{
@@ -117,6 +120,7 @@ class FileAPI
 		return null;
 		#end
 	}
+
 	inline public function getContent(path:String)
 	{
 		#if sys
@@ -124,26 +128,47 @@ class FileAPI
 			return sys.io.File.getContent(path);
 		else
 		{
-			trace('Error: Can\'t get content from ${path}, file is not exist!');
+			Debug.log.error('Error: Can\'t get content from ${path}, file is not exist!');
 			return null;
 		}
 		#else
 		return null;
 		#end
 	}
+
 	public function deleteFile(path:String)
 	{
 		#if sys
 		if (exists(path))
 			sys.FileSystem.deleteFile(path);
 		else
-			trace('Error: Can\'t delete file ${path}, file is not exist!');
+			Debug.log.warn('Error: Can\'t delete file ${path}, file is not exist!');
 		#end
 	}
+
 	public function saveFile(to_file:String, from_file:String = '')
 	{
 		#if sys
 		sys.io.File.saveContent(to_file, from_file);
 		#end
+	}
+
+	public function closeWindow()
+	{
+		Application.current.window.close();
+	}
+	public function projectXML(name:String):String
+	{
+		return Application.current.meta.get(name);
+	}
+
+	// from funkin coolutil.hx
+	public function parseTXT(path:String):Array<String>
+	{
+		var daList:Array<String> = getContent(path).trim().split('\n');
+		// "error: Dynamic should be String have: Array<Dynamic> want : Array<String>", WTF???
+		for (i in 0...daList.length)
+			daList[i] = daList[i].trim();
+		return daList;
 	}
 }

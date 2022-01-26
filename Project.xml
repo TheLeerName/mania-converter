@@ -6,7 +6,7 @@
 	<app packageName="com.theleername.maniaconverter" main="Main" company="ManiaConverter"/>
 
 	<!-- Better change this -->
-	<app title="Mania Converter" package="com.theleername.maniaconverter" version="1.2" file="ManiaConverter"/>
+	<app title="Mania Converter" package="com.theleername.maniaconverter" version="1.2.1" file="ManiaConverter"/>
 
 
 	<!--Switch Export with Unique ApplicationID and Icon-->

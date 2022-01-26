@@ -2,7 +2,6 @@ package;
 
 import flixel.addons.ui.FlxUIState;
 import flixel.addons.transition.FlxTransitionableState;
-import lime.app.Application;
 
 using StringTools;
 
@@ -27,118 +26,107 @@ class TitleState extends FlxUIState
 		FlxTransitionableState.skipNextTransOut = true;
 		FlxTransitionableState.skipNextTransIn = true;
 
-		Debug.log.trace('Starting version ${Application.current.meta.get('version')}...');
+		Debug.log.trace('Starting version ${FileAPI.file.projectXML('version')}...');
 
-		Options.get.createAlgorithm();
+		Options.func.createAlgorithm();
+		#if desktop
+		initializeCMD();
+		#end
 
-		var options:Options.OptionsJSON = Options.get.options();
-		if (!options.osu_convert)
+		if (!Options.get.osu_convert)
 		{
-			options.from_file += '.json';
-			options.to_file += '.json';
-		}
-		else
-			options.from_file += '.osu';
-
-		if (options.osu_convert)
-		{
-			OsuMania.parser.convert();
-			Debug.log.trace('Successfully converted beatmap from osu!mania to fnf!');
-			Application.current.window.close();
-			return;
-		}
-
-		if (!FileAPI.file.exists(options.from_file))
-		{
-			Debug.log.error('Path ${options.from_file} not found!');
-			Application.current.window.close();
-			return;
-		}
-		var json:Dynamic = FileAPI.file.parseJSON(options.from_file);
-
-		var from_key:Dynamic = 0;
-		if (options.leather_sync)
-		{
-			var keys:Array<Int> = [0, 0];
-			if (json.song.keyCount == null)
-				keys[0] = options.from_key_default;
-			else
-				keys[0] = json.song.keyCount;
-
-			if (json.song.playerKeyCount == null)
-				keys[1] = options.from_key_default;
-			else
-				keys[1] = json.song.playerKeyCount;
-
-			if (keys[0] != keys[1])
-			{
-				Debug.log.error('Charts/maps with different numbers of keys not supported! (you have ${keys[0]} for opponent and ${keys[1]} for player)');
-				Application.current.window.close();
-				return;
-			}
-			else
-				from_key = keys[0];
-
-			options.extra_keys_sync = false;
+			Options.get.from_file += '.json';
+			Options.get.to_file += '.json';
 		}
 		else
 		{
-			if (json.song.mania == null)
-				from_key = options.from_key_default;
-			else
-				from_key = json.song.mania + (options.extra_keys_sync ? 1 : 0);
+			Options.get.from_file += '.osu';
+			Options.get.to_file += '.json';
 		}
 
-		var to_key:Int = 0;
-		if (options.to_key < 1 || options.to_key > Options.get.algLength())
-		{
-			Debug.log.warn('Key count ${options.to_key < 1 ? 'less than 1' : 'more than ${Options.get.algLength()}'}, returning ${options.to_key_default}...');
-			to_key = options.to_key_default;
-		}
+		if (Options.get.osu_convert)
+			Osu.parser.convert(FileAPI.file.parseTXT(Options.get.from_file), Options.get.to_file);
 		else
-			to_key = options.to_key;
-
-		if (from_key == to_key)
-		{
-			Debug.log.error('Chart/Map already is ${from_key} key!');
-			Application.current.window.close();
-			return;
-		}
-
-		Debug.log.trace('Converting notes...');
-		for (i in 0...json.song.notes.length)
-			for (i1 in 0...json.song.notes[i].sectionNotes.length)
-			{
-				if (json.song.notes[i].sectionNotes[i1][1] >= 0)
-				{
-					//var alg_var:Dynamic = alg[from_key][to_key][json.song.notes[i].sectionNotes[i1][1]];
-					var alg_var:Dynamic = Options.get.alg(from_key, to_key)[json.song.notes[i].sectionNotes[i1][1]];
-					if (alg_var.length > 1)
-						json.song.notes[i].sectionNotes[i1][1] = Std.parseInt(alg_var[Std.random(alg_var.length)]);
-					else if (alg_var.length == 1)
-						json.song.notes[i].sectionNotes[i1][1] = Std.parseInt(alg_var[0]);
-					else
-						json.song.notes[i].sectionNotes[i1][1] = Std.parseInt(alg_var);
-				}
-			}
-
-		var value:Float = 0;
-		for (i in 0...json.song.notes.length)
-			value += json.song.notes[i].sectionNotes.length;
-
-		if (options.leather_sync)
-		{
-			json.song.keyCount = to_key;
-			json.song.playerKeyCount = to_key;
-		}
-		else
-			json.song.mania = to_key + (options.extra_keys_sync ? -1 : 0);
-
-		FileAPI.file.saveFile(options.to_file, FileAPI.file.stringify(json, "\t", false));
-
-		Debug.log.trace('Successfully converted ${json.song.song} from ${from_key} keys to ${to_key} keys (${value} notes, include events)!');
-		Application.current.window.close();
+			FNF.parser.convert(FileAPI.file.parseJSON(Options.get.from_file), Options.get.to_file);
+		FileAPI.file.closeWindow();
+		return;
 
 		super.create();
 	}
+
+	#if desktop
+	var sysargs:Array<String> = Sys.args();
+	inline function args_bool(string:String, int:Int):Bool
+	{
+		return sysargs[int].startsWith(string);
+	}
+	inline function args_get(what_remove:String, int:Int):String
+	{
+		return sysargs[int].replace(what_remove, '').trim();
+	}
+
+	function initializeCMD()
+	{
+		var damn_bulls:Array<Bool> = [false, false, false, false, false];
+		for (i in 0...sysargs.length)
+		{
+			if (args_bool('-path:', i) && !damn_bulls[0])
+			{
+				Options.get.from_file = args_get('-path:', i);
+				damn_bulls[0] = true;
+			}
+
+			if (args_bool('-saveto:', i) && !damn_bulls[1])
+			{
+				Options.get.to_file = args_get('-saveto:', i);
+				damn_bulls[1] = true;
+			}
+
+			if (args_bool('-fromosu:', i) && !damn_bulls[2])
+			{
+				switch (args_get('-fromosu:', i))
+				{
+					case '1' | 'true' | 'y' | 'yes':
+						Options.get.osu_convert = true;
+					default:
+						Options.get.osu_convert = false;
+				}
+				damn_bulls[2] = true;
+			}
+			if (!args_bool('-fromosu:', i) && !damn_bulls[2])
+				Options.get.osu_convert = false;
+
+			if (args_bool('-sync', i) && !damn_bulls[3])
+			{
+				switch (args_get('-sync:', i))
+				{
+					case 'extrakeys' | 'extra_keys' | 'tposejank' | '0':
+						Options.get.extra_keys_sync = true;
+						Options.get.leather_sync = false;
+					case 'leather' | 'leather_engine' | 'leatherengine' | '1':
+						Options.get.extra_keys_sync = false;
+						Options.get.leather_sync = true;
+					default:
+						Options.get.extra_keys_sync = false;
+						Options.get.leather_sync = false;
+				}
+				damn_bulls[3] = true;
+			}
+			if (!args_bool('-sync:', i) && !damn_bulls[3])
+			{
+				Options.get.extra_keys_sync = false;
+				Options.get.leather_sync = false;
+			}
+
+			if (args_bool('-key:', i) && !damn_bulls[4])
+			{
+				Options.get.to_key = Std.parseInt(args_get('-key:', i));
+				damn_bulls[4] = true;
+			}
+		}
+		var int:Int = 0;
+		for (i in 0...damn_bulls.length) if (damn_bulls[i]) int++;
+		if (int != 0) Debug.log.trace('Found ${int} command-line arguments');
+	}
+	#end
 }
