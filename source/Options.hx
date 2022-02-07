@@ -3,18 +3,17 @@ package;
 using StringTools;
 
 typedef OptionsJSON = {
-	var from_file:String;
-	var to_file:String;
+	var file_paths:Array<String>;
 	var to_key:Int;
-	var from_key_default:Int;
-	var to_key_default:Int;
-	var extra_keys_sync:Bool;
-	var leather_sync:Bool;
-	var osu_convert:Bool;
-	var osu_defaults:ODefaults;
+	var key_default:Array<Int>;
+	var fnf_sync:Int;
+	var converter_mode:Int;
+	var osu_side:Int;
+	var fnf_values:FNFValues;
+	var osu_values:OsuValues;
 }
 
-typedef ODefaults = {
+typedef FNFValues = {
 	var player1:String;
 	var player2:String;
 	var gfVersion:String;
@@ -23,6 +22,14 @@ typedef ODefaults = {
 	var bpm:Float;
 	var needsVoices:Bool;
 	var stage:String;
+}
+typedef OsuValues = {
+	var audioFilename:String;
+	var artist:String;
+	var creator:String;
+	var version:String;
+	var hpDrainRate:Float;
+	var volumeHitsound:Int;
 }
 
 typedef Notes = {
@@ -43,31 +50,38 @@ class Options
 	public static function options_()
 	{
 		var optionsJSON:OptionsJSON = {
-			from_file: 'beatmap', // path to map/file before convert
-			to_file: 'beatmap-converted', // path to map/file after convert
+			file_paths: ['beatmap', 'beatmap-converted'], // converting from 1 value to 2 value
 			to_key: 6, // value for key count after converting
-			from_key_default: 4, // default value for key count before converting (crash preventing)
-			to_key_default: 4, // default value for key count after converting (crash preventing)
-			extra_keys_sync: true, // sync with mania from extra keys mod (real key count - 1, example 4 keys is mania = 3)
-			leather_sync: false, // sync with keyCount from leather engine (mania = (keyCount && playerKeyCount)), if its true extra_keys_sync = false
+			key_default: [4, 4], // default key count before (1 value) and after (2 value) converting (crash preventing)
+			fnf_sync: 0, // 0 = all engines, 1 = extra keys mod (real key count - 1, example 4 keys is mania = 3), 2 = leather engine (mania = (keyCount && playerKeyCount))
+			converter_mode: 0, // 0,'fnf' = FNF to FNF; 1,'to_fnf','tofnf' = osu!mania to FNF; 2,'to_osu','toosu' = FNF to osu!mania; 3,'osu' = osu!mania to osu!mania
+			osu_side: 1, // 0 = player1 (bf) and player2 (dad), 1 = player1, 2 = player2
 
-			osu_convert: false, // switch to osu!mania to fnf converter
-			osu_defaults: {
+			fnf_values: {
 				player1: 'bf',
 				player2: 'pico',
 				gfVersion: 'gf',
-				speed: 3,
+				speed: 3, // scroll speed of notes
 				notes: {
 					lengthInSteps: 160000,
 					typeOfSection: 0,
-					mustHitSection: true,
-					gfSection: false,
+					mustHitSection: true, // true = cam follow to player1, false = cam follow to player2
+					gfSection: false, // true = gf sings
 					changeBPM: false,
-					altAnim: false
+					altAnim: false // alt anims of characters
 				},
-				bpm: 150,
-				needsVoices: false,
+				bpm: 150, // bpm of song, uses in converter mode 0 and 1
+				needsVoices: false, // song uses Voices.ogg file?
 				stage: 'stage'
+			},
+
+			osu_values: {
+				audioFilename: 'audio.mp3', // name of audio file of song
+				artist: 'ManiaConverter', // artist of song
+				creator: 'ManiaConverter', // creator of beatmap
+				version: 'Normal', // name of difficulty
+				hpDrainRate: 8, // rate of hp drain in song
+				volumeHitsound: 50 // volume of hitsounds: 50 = 50%
 			}
 		}
 
@@ -79,28 +93,36 @@ class Options
 		var json:Dynamic = FileAPI.file.parseJSON('options.json');
 		if
 		(
+			json.file_paths == null ||
 			json.to_key == null ||
-			json.from_key_default == null ||
-			json.extra_keys_sync == null ||
-			json.leather_sync == null ||
-			json.osu_convert == null ||
-			json.osu_defaults == null ||
-			json.osu_defaults.player1 == null ||
-			json.osu_defaults.player2 == null ||
-			json.osu_defaults.gfVersion == null ||
-			json.osu_defaults.speed == null ||
-			json.osu_defaults.notes == null ||
-			json.osu_defaults.notes.gfSection == null ||
-			json.osu_defaults.notes.lengthInSteps == null ||
-			json.osu_defaults.notes.altAnim == null ||
-			json.osu_defaults.notes.typeOfSection == null ||
-			json.osu_defaults.notes.changeBPM == null ||
-			json.osu_defaults.notes.mustHitSection == null ||
-			json.osu_defaults.bpm == null ||
-			json.osu_defaults.needsVoices == null ||
-			json.osu_defaults.stage == null ||
-			json.from_file == null ||
-			json.to_file == null
+			json.key_default == null ||
+			json.fnf_sync == null ||
+			json.converter_mode == null ||
+			json.osu_side == null ||
+
+			json.fnf_values == null ||
+			json.fnf_values.player1 == null ||
+			json.fnf_values.player2 == null ||
+			json.fnf_values.gfVersion == null ||
+			json.fnf_values.speed == null ||
+			json.fnf_values.notes == null ||
+			json.fnf_values.notes.lengthInSteps == null ||
+			json.fnf_values.notes.typeOfSection == null ||
+			json.fnf_values.notes.mustHitSection == null ||
+			json.fnf_values.notes.gfSection == null ||
+			json.fnf_values.notes.changeBPM == null ||
+			json.fnf_values.notes.altAnim == null ||
+			json.fnf_values.bpm == null ||
+			json.fnf_values.needsVoices == null ||
+			json.fnf_values.stage == null ||
+
+			json.osu_values == null ||
+			json.osu_values.audioFilename == null ||
+			json.osu_values.artist == null ||
+			json.osu_values.creator == null ||
+			json.osu_values.version == null ||
+			json.osu_values.hpDrainRate == null ||
+			json.osu_values.volumeHitsound == null
 		)
 		{
 			Debug.log.warn('Some options are null! Recreating a file...');

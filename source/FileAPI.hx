@@ -56,7 +56,7 @@ class FileAPI
 	inline public function isDir(path:String):Bool
 	{
 		#if sys
-		return sys.FileSystem.isDirectory(path);
+		return FileSystem.isDirectory(path);
 		#else
 		return null;
 		#end
@@ -66,7 +66,7 @@ class FileAPI
 	{
 		#if sys
 		if (isDir(path))
-			return sys.FileSystem.readDirectory(path);
+			return FileSystem.readDirectory(path);
 		else
 		{
 			Debug.log.error('Can\'t read directory ${path}, directory is not exist!');
@@ -81,41 +81,46 @@ class FileAPI
 	{
 		#if sys
 		if (!isDir(path))
-			sys.FileSystem.createDirectory(path);
+			FileSystem.createDirectory(path);
 		else
 			Debug.log.warn('Can\'t create directory ${path}, directory already exist!');
 		#end
 	}
 
-	// function from https://ashes999.github.io/learnhaxe/recursively-delete-a-directory-in-haxe.html
-	public function deleteDir(key:String, recursively:Bool = true):Void
+	public function deleteDir(key:String):Void
 	{
 		#if sys
-		if (exists(key) && isDir(key) && recursively)
+		FileSystem.deleteDirectory(key);
+		#end
+	}
+
+	// function from https://ashes999.github.io/learnhaxe/recursively-delete-a-directory-in-haxe.html
+	public function deleteFiles(directory:String):Void
+	{
+		#if sys
+		if (exists(directory) && isDir(directory))
 		{
-			var entries = readDir(key);
+			var entries = readDir(directory);
 			for (entry in entries)
 			{
-				if (isDir(key + '/' + entry))
+				if (isDir(directory + '/' + entry))
 				{
-					deleteDir(key + '/' + entry);
-					sys.FileSystem.deleteDirectory(key + '/' + entry);
+					deleteFiles(directory + '/' + entry);
+					FileSystem.deleteDirectory(directory + '/' + entry);
 				}
 				else
 				{
-					deleteFile(key + '/' + entry);
+					deleteFile(directory + '/' + entry);
 				}
 			}
 		}
-		else if (!recursively)
-			sys.FileSystem.deleteDirectory(key);
 		#end
 	}
 
 	inline public function exists(path:String):Bool
 	{
 		#if sys
-		return sys.FileSystem.exists(path);
+		return FileSystem.exists(path);
 		#else
 		return null;
 		#end
@@ -125,7 +130,7 @@ class FileAPI
 	{
 		#if sys
 		if (exists(path))
-			return sys.io.File.getContent(path);
+			return File.getContent(path);
 		else
 		{
 			Debug.log.error('Error: Can\'t get content from ${path}, file is not exist!');
@@ -140,7 +145,7 @@ class FileAPI
 	{
 		#if sys
 		if (exists(path))
-			sys.FileSystem.deleteFile(path);
+			FileSystem.deleteFile(path);
 		else
 			Debug.log.warn('Error: Can\'t delete file ${path}, file is not exist!');
 		#end
@@ -149,7 +154,14 @@ class FileAPI
 	public function saveFile(to_file:String, from_file:String = '')
 	{
 		#if sys
-		sys.io.File.saveContent(to_file, from_file);
+		File.saveContent(to_file, from_file);
+		#end
+	}
+
+	public function copy(from_file:String, to_file:String)
+	{
+		#if sys
+		File.copy(from_file, to_file);
 		#end
 	}
 
@@ -163,9 +175,13 @@ class FileAPI
 	}
 
 	// from funkin coolutil.hx
-	public function parseTXT(path:String):Array<String>
+	public function parseTXT(path:String, fromFile:Bool = true):Array<String>
 	{
-		var daList:Array<String> = getContent(path).trim().split('\n');
+		var daList:Array<String> = [];
+		if (fromFile)
+			daList = getContent(path).trim().split('\n');
+		else
+			daList = path.trim().split('\n');
 		// "error: Dynamic should be String have: Array<Dynamic> want : Array<String>", WTF???
 		for (i in 0...daList.length)
 			daList[i] = daList[i].trim();
