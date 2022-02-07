@@ -1,4 +1,4 @@
-# osu_defaults, uses only in converter mode 2
+# osu_values, uses only in converter mode 2
 
 ## options.json
 1. `"audioFilename":"audio.mp3"` for name of audio file of song.

@@ -25,8 +25,8 @@ algorithms.
 - `fnf_sync` for sync with some FNF engines, 1 = [tposejank's Extra Keys Mod](https://gamebanana.com/mods/333373) (real key count - 1, example 4 keys is mania = 3), 2 = [Leather128's Leather Engine](https://gamebanana.com/mods/334945) (mania = (keyCount && playerKeyCount)), 0 = default.
 - `converter_mode` for switch in converter modes, 0 = FNF (converting from N key to N key), 1 = osu!mania to FNF, 2 = FNF to osu!mania, 3 = osu!mania (converting from N key to N key).
 - `osu_side` for switch in FNF sides, 0 = player1 (BF) and player2 (Opponent), 1 = player1 (BF), 2 = player2 (Opponent).
-- `fnf_defaults` for FNF default values in chart/map. ([see this](https://github.com/TheLeerName/mania-converter/blob/main/docs/fnf_defaults.md))
-- `osu_defaults` for osu!mania default values. ([see this](https://github.com/TheLeerName/mania-converter/blob/main/docs/osu_defaults.md))
+- `fnf_values` for FNF default values in chart/map. ([see this](https://github.com/TheLeerName/mania-converter/blob/main/docs/fnf_values.md))
+- `osu_values` for osu!mania default values. ([see this](https://github.com/TheLeerName/mania-converter/blob/main/docs/osu_values.md))
 3. Move your chart/map to the converter folder, and rename it to `beatmap.json` or `beatmap.osu` (you can edit this in `options.json` in line `from_file`).
 4. Run a EXE file again.
 5. Now you have a converted chart/map!
@@ -42,8 +42,8 @@ algorithms.
 - `"osu_side:1"` or `"side:1"` for switch in FNF sides, 0 = player1 (BF) and player2 (Opponent), 1 = player1 (BF), 2 = player2 (Opponent). **(uses only in converter mode 2!)**
 - `"fnf_sync:0"` or `"fnf_sync:0"` for sync with some FNF engines, 1 = [tposejank's Extra Keys Mod](https://gamebanana.com/mods/333373) (real key count - 1, example 4 keys is mania = 3), 2 = [Leather128's Leather Engine](https://gamebanana.com/mods/334945) (mania = (keyCount && playerKeyCount)), 0 = default. **(not uses in converter mode 3!)**
 - `"key:6"` for a **REAL** number of keys you want to convert to.
-- **[see Osu arguments cmd](https://github.com/TheLeerName/mania-converter/blob/main/docs/osu_defaults.md)**
-- **[see FNF arguments cmd](https://github.com/TheLeerName/mania-converter/blob/main/docs/fnf_defaults.md)**
+- **[see Osu arguments cmd](https://github.com/TheLeerName/mania-converter/blob/main/docs/osu_values.md)**
+- **[see FNF arguments cmd](https://github.com/TheLeerName/mania-converter/blob/main/docs/fnf_values.md)**
 5. Move your chart/map to the converter folder with name like in cmd argument `-path:`.
 6. Run a EXE file again.
 7. Now you have a converted chart/map!

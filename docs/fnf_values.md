@@ -1,4 +1,4 @@
-# fnf_defaults, uses only in converter mode 1
+# fnf_values, uses only in converter mode 1
 
 ## options.json
 1. `"player1":"bf"` for name of player1.
