@@ -40,7 +40,7 @@ algorithms.
 - `"-saveto:ballistic-7k"` for path to converted chart/map. (please not type in it `.json` or `.osu`) **(if you use `converter_mode` 2 or 3: in `saveto:` you can choose folder, just type `/` in end of line)**
 - `"-converter_mode:0"` or `"mode:0"` for switch in converter modes, 0 = FNF (converting from N key to N key), 1 = osu!mania to FNF, 2 = FNF to osu!mania, 3 = osu!mania (converting from N key to N key).
 - `"osu_side:1"` or `"side:1"` for switch in FNF sides, 0 = player1 (BF) and player2 (Opponent), 1 = player1 (BF), 2 = player2 (Opponent). **(uses only in converter mode 2!)**
-- `"fnf_sync:0"` or `"fnf_sync:0"` for sync with some FNF engines, 1 = [tposejank's Extra Keys Mod](https://gamebanana.com/mods/333373) (real key count - 1, example 4 keys is mania = 3), 2 = [Leather128's Leather Engine](https://gamebanana.com/mods/334945) (mania = (keyCount && playerKeyCount)), 0 = default. **(not uses in converter mode 3!)**
+- `"fnf_sync:0"` or `"sync:0"` for sync with some FNF engines, 1 = [tposejank's Extra Keys Mod](https://gamebanana.com/mods/333373) (real key count - 1, example 4 keys is mania = 3), 2 = [Leather128's Leather Engine](https://gamebanana.com/mods/334945) (mania = (keyCount && playerKeyCount)), 0 = default. **(not uses in converter mode 3!)**
 - `"key:6"` for a **REAL** number of keys you want to convert to.
 - **[see Osu arguments cmd](https://github.com/TheLeerName/mania-converter/blob/main/docs/osu_values.md)**
 - **[see FNF arguments cmd](https://github.com/TheLeerName/mania-converter/blob/main/docs/fnf_values.md)**
