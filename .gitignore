@@ -2,3 +2,4 @@ export/
 .vscode/
 vscode-project.hxml
 dump/
+start.bat
