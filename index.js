@@ -3,7 +3,7 @@ var converter = require('./lib/Converter.js');
 var alg = require('./lib/Algorithm.js');
 var options = require('./lib/Options.js');
 var debug = require('./lib/Debug.js');
-var version = '1.3';
+var version = '1.3.1';
 
 debug.trace('Starting version ' + version + '...');
 
