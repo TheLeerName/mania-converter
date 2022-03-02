@@ -1,5 +1,5 @@
 # Mania Converter 1.3.2
-Converter of FNF or osu!mania maps/charts, example from 4 key to 6 key. Supports Psych Engine, Kade Engine and Leather Engine (leather not fully).
+Converter of FNF or osu!mania maps/charts, example from 4 key to 6 key. It can remove damage notes, convert to osu!mania and more. Supports Psych Engine, Kade Engine and Leather Engine (leather not fully).
 
 ## [Examples for using](https://github.com/TheLeerName/mania-converter/blob/main/docs/examples.md)
 
