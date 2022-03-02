@@ -1,16 +1,16 @@
-# Mania Converter 1.3
-Converter of FNF or osu!mania maps/charts, example from 4 key to 6 key.
+# Mania Converter 1.3.2
+Converter of FNF or osu!mania maps/charts, example from 4 key to 6 key. Supports Psych Engine, Kade Engine and Leather Engine (leather not fully).
 
 ## [Examples for using](https://github.com/TheLeerName/mania-converter/blob/main/docs/examples.md)
 
 ## [How to build it *(click)*](https://github.com/TheLeerName/mania-converter/blob/main/docs/building.md)
 
-## 1.3 - JavaScript Update
-- Fully **rewritten to JavaScript Language** (no more annoying window and `lime.ndll`, and less file size)
-- **Options v2:** now options written in a more understandable format than `.json`, like in `.osu` files hehe
-- If you have old `options.json`, converter take them there and type them in `options.ini`!
-- Converting **FNF to osu!mania** 1-10 key to 1-10 key
-- [Checkout **new CMD arguments**](https://github.com/TheLeerName/mania-converter/blob/main/docs/guideoptions.md)
+## 1.3.2 - New option IgnoreNote
+- **New line in options** `IgnoreNote`: for list a ignored notetypes split on comma (for example, you want convert chart/map without damage notes)
+- Removed **kinds of engines sync**, now **it syncs by default**
+- **Fixed issue with bugged sides** in osu convert
+- **Fully rewritten a log system**
+- `mc options v3`, app will be convert options from v1 or v2 to v3
 ### [Check past changelogs here](https://github.com/TheLeerName/mania-converter/blob/main/docs/changelogs.md)
 
 ## How to use this? (Editing options.ini, scroll down to see cmd using)

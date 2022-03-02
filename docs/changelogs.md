@@ -1,6 +1,17 @@
 # Changelogs of Mania Converter
 
-## (Latest) 1.3 - JavaScript Update
+## (Latest) 1.3.2 - New option IgnoreNote
+- **New line in options** `IgnoreNote`: for list a ignored notetypes split on comma (for example, you want convert chart/map without damage notes)
+- Removed **kinds of engines sync**, now **it syncs by default**
+- **Fixed issue with bugged sides** in osu convert
+- **Fully rewritten a log system**
+- `mc options v3`, app will be convert options from v1 or v2 to v3
+
+## 1.3.1 - Fix of sides
+- Fix of option `Side`
+- Fix of song name in to osu!mania convert
+
+## 1.3 - JavaScript Update
 - Fully **rewritten to JavaScript Language** (no more annoying window and `lime.ndll`, and less file size)
 - **Options v2:** now options written in a more understandable format than `.json`, like in `.osu` files hehe
 - If you have old `options.json`, converter take them there and type them in `options.ini`!

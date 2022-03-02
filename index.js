@@ -3,9 +3,16 @@ var converter = require('./lib/Converter.js');
 var alg = require('./lib/Algorithm.js');
 var options = require('./lib/Options.js');
 var debug = require('./lib/Debug.js');
-var version = '1.3.1';
 
-debug.trace('Starting version ' + version + '...');
+exports.getVersion = function(){return getVersion();}
+function getVersion()
+{
+	var version = '1.3.2';
+	return version;
+}
+
+debug.start();
+debug.trace('Starting version ' + getVersion() + '...');
 
 alg.createAlgorithm();
 options.checkOptionsINI();
@@ -33,6 +40,8 @@ switch (parseInt(options.getOption('Mode')))
 	default: // fnf
 		file.saveFile(options.getOption('FileOutput') + '.json', converter.convert(options.getOption('FileInput') + '.json', parseInt(options.getOption('Mode'))));
 }
+
+debug.end();
 
 /*
 

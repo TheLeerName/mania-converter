@@ -3,7 +3,7 @@
 - `FileOutput:beatmap-converted` for name of chart/map after converting.
 - `Mode:0` for switch in converter modes, 0 = FNF (converting from N key to N key), 1 = osu!mania to FNF, 2 = FNF to osu!mania, 3 = osu!mania (converting from N key to N key).
 - `Key:6` for a REAL number of keys you want to convert to.
-- `EngineSync:0` for sync with some FNF engines, 1 or tposejank or extrakeys or extra_keys = tposejank's Extra Keys Mod (real key count - 1, example 4 keys is mania = 3), 2 or leather or leatherengine or leather_engine = Leather128's Leather Engine (mania = (keyCount && playerKeyCount)), 0 = default.
+- `IgnoreNote:Hurt Note` for list a ignored notetypes split on comma. (for example, you want convert chart without damage notes)
 - `Side:1` for switch in FNF sides, 0 = player1 (BF) and player2 (Opponent), 1 or player1 or bf = player1 (BF), 2 or player2 or opponent = player2 (Opponent).
 - `player1:bf` for name of player1 (BF).
 - `player2:pico` for name of player2 (Opponent, Dad).
