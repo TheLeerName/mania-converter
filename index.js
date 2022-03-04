@@ -4,18 +4,11 @@ var alg = require('./lib/Algorithm.js');
 var options = require('./lib/Options.js');
 var debug = require('./lib/Debug.js');
 
-exports.getVersion = function(){return getVersion();}
-function getVersion()
-{
-	var version = '1.3.2';
-	return version;
-}
-
 debug.start();
-debug.trace('Starting version ' + getVersion() + '...');
-
-alg.createAlgorithm();
+debug.trace('Starting version ' + require('./lib/Utils.js').getVersion() + '...');
 options.checkOptionsINI();
+alg.createAlgorithm();
+
 
 var modes = [
 	'FNF',
@@ -27,18 +20,38 @@ debug.trace('Current mode: ' + modes[parseInt(options.getOption('Mode'))]);
 switch (parseInt(options.getOption('Mode')))
 {
 	case 1: // to fnf
-		file.saveFile(options.getOption('FileOutput') + '.json', converter.convert(options.getOption('FileInput') + '.osu', parseInt(options.getOption('Mode'))));
+		var fileinput = options.getOption('FileInput') + '.osu';
+		if (file.exists(fileinput))
+			file.saveFile(options.getOption('FileOutput') + '.json', converter.convert(fileinput, parseInt(options.getOption('Mode'))));
+		else
+			debug.error('Couldn\'t find ' + options.getOption('FileInput') + '.osu');
 		break;
 	case 2: // to osu
-		var map = converter.convert(options.getOption('FileInput') + '.json', parseInt(options.getOption('Mode')));
-		file.saveFile(options.getOption('FileOutput') + map[1] + '.osu', map[0]);
+		var fileinput = options.getOption('FileInput') + '.json';
+		if (file.exists(fileinput))
+		{
+			var map = converter.convert(fileinput, parseInt(options.getOption('Mode')));
+			file.saveFile(options.getOption('FileOutput') + map[1] + '.osu', map[0]);
+		}
+		else
+			debug.error('Couldn\'t find ' + fileinput);
 		break;
 	case 3: // osu
-		var map = converter.convert(options.getOption('FileInput') + '.osu', parseInt(options.getOption('Mode')));
-		file.saveFile(options.getOption('FileOutput') + map[1] + '.osu', map[0]);
+		var fileinput = options.getOption('FileInput') + '.osu';
+		if (file.exists(fileinput))
+		{
+			var map = converter.convert(fileinput, parseInt(options.getOption('Mode')));
+			file.saveFile(options.getOption('FileOutput') + map[1] + '.osu', map[0]);
+		}
+		else
+			debug.error('Couldn\'t find ' + fileinput);
 		break;
 	default: // fnf
-		file.saveFile(options.getOption('FileOutput') + '.json', converter.convert(options.getOption('FileInput') + '.json', parseInt(options.getOption('Mode'))));
+		var fileinput = options.getOption('FileInput') + '.json';
+		if (file.exists(fileinput))
+			file.saveFile(options.getOption('FileOutput') + '.json', converter.convert(fileinput, parseInt(options.getOption('Mode'))));
+		else
+			debug.error('Couldn\'t find ' + fileinput);
 }
 
 debug.end();
