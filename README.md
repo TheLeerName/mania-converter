@@ -1,16 +1,17 @@
-# Mania Converter 1.3.2
-Converter of FNF or osu!mania maps/charts, example from 4 key to 6 key. It can remove damage notes, convert to osu!mania and more. Supports Psych Engine, Kade Engine and Leather Engine (leather not fully).
+# Mania Converter 1.3.3
+Converter of FNF or osu!mania maps/charts, example from 4 key to 6 key. It can remove damage notes, convert to osu!mania and more. Supports Extra Keys Mod, Psych Engine, and Leather Engine (leather not fully).
 
 ## [Examples for using](https://github.com/TheLeerName/mania-converter/blob/main/docs/examples.md)
 
 ## [How to build it *(click)*](https://github.com/TheLeerName/mania-converter/blob/main/docs/building.md)
 
-## 1.3.2 - New option IgnoreNote
-- **New line in options** `IgnoreNote`: for list a ignored notetypes split on comma (for example, you want convert chart/map without damage notes)
-- Removed **kinds of engines sync**, now **it syncs by default**
-- **Fixed issue with bugged sides** in osu convert
-- **Fully rewritten a log system**
-- `mc options v3`, app will be convert options from v1 or v2 to v3
+## 1.3.3 - BPM calculating and fix of convert from osu
+- **From osu** converting now **working properly**: no more *"all notes in one section and make die debug menu"*
+- **BPM in from osu converting now using a mean value of BPM**
+- **Better converting a song name** in **to osu** converting
+- **Support of "changeBPM"** line in **to osu** converting
+- **Errors closes app immediately** now
+- `mc options v4`: lines **typeofsection, changebpm, lengthinsteps deleted**; **corrections** in lines **gfversion, gfsection, altanim, musthitsection, version, bpm**
 ### [Check past changelogs here](https://github.com/TheLeerName/mania-converter/blob/main/docs/changelogs.md)
 
 ## How to use this? (Editing options.ini, scroll down to see cmd using)

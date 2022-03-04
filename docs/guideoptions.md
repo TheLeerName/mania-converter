@@ -2,22 +2,19 @@
 - `FileInput:beatmap` for name of chart/map before converting.
 - `FileOutput:beatmap-converted` for name of chart/map after converting.
 - `Mode:0` for switch in converter modes, 0 = FNF (converting from N key to N key), 1 = osu!mania to FNF, 2 = FNF to osu!mania, 3 = osu!mania (converting from N key to N key).
-- `Key:6` for a REAL number of keys you want to convert to.
 - `IgnoreNote:Hurt Note` for list a ignored notetypes split on comma. (for example, you want convert chart without damage notes)
+- `Key:6` for a REAL number of keys you want to convert to.
 - `Side:1` for switch in FNF sides, 0 = player1 (BF) and player2 (Opponent), 1 or player1 or bf = player1 (BF), 2 or player2 or opponent = player2 (Opponent).
 - `player1:bf` for name of player1 (BF).
 - `player2:pico` for name of player2 (Opponent, Dad).
-- `gfVersion:gf` for name of GF.
+- `player3:gf` for name of GF.
 - `stage:stage` for name of stage.
 - `speed:3` for scroll speed of notes.
-- `bpm:150` for BPM of song.
+- `bpm:150` for BPM of song, now uses like a default value when bpm calculation error.
 - `needsVoices:0` 1 or true or y or yes = song uses Voices.ogg file.
-- `gfSection:0` 1 or true = GF sings instead player2.
-- `lengthInSteps:160000` not touch this if you not want crash osu!mania to fnf converting.
-- `altAnim:0` 1 or true = characters uses alt anims.
-- `typeOfSection:0` idk.
-- `changeBPM:0` idk.
-- `mustHitSection:1` 1 or true = cam follow to player1, any other values = cam follow to player2.
+- `gfSection:0` 1 or true or y or yes = GF sings instead player2.
+- `altAnim:0` 1 or true or y or yes = characters uses alt anims.
+- `mustHitSection:1` 1 or true or y or yes = cam follow to player1, any other values = cam follow to player2.
 - `AudioFileName:audio.mp3` for name of audio file of song.
 - `Artist:ManiaConverter` for name of artist of song.
 - `Creator:ManiaConverter` for name of creator of chart/map.
