@@ -163,16 +163,18 @@
 
 	var data = null;
 	var mode = null;
+	var filename = null;
 	function da()
 	{
 		if (data != null)
 		{
 			//data = data + '\nsuk';
 			//console.log(data);
-			download(data, 'c.txt', 'text/plain');
+			download(data, filename, 'text/plain');
 		}
 	}
 	document.getElementById('inputfile').addEventListener('change', function() {
+		filename = this.files[0].name.substring(0, this.files[0].name.lastIndexOf('.')) + '-converted.json';
 		var fr = new FileReader();
 		fr.onload = function()
 		{
@@ -680,6 +682,7 @@ function osu_to_fnf(map)
 	json.song.playerKeyCount = parseInt(options.keycount);
 	json.song.mania = parseInt(options.keycount) - 1;
 
+	filename = json.song.song.toLowerCase().replace(' ', '-') + '.json';
 	var pathto = (getMapOptions(map, 'Artist') != null ? getMapOptions(map, 'Artist') : getMapOptions(map, 'ArtistUnicode')) + ' - ' + (getMapOptions(map, 'Title') != null ? getMapOptions(map, 'Title') : getMapOptions(map, 'TitleUnicode')) + ' (' + getMapOptions(map, 'Creator') + ') [' + getMapOptions(map, 'Version') + ']';
 	console.log('Successfully converted ' + pathto + ' from osu!mania to FNF!');
 
@@ -903,6 +906,7 @@ function fnf_to_osu(map)
 		osuformat[osuformat_length + i] = notes[i];
 
 	var pathto = (getMapOptions(osuformat, 'Artist') != null ? getMapOptions(osuformat, 'Artist') : getMapOptions(osuformat, 'ArtistUnicode')) + ' - ' + (getMapOptions(osuformat, 'Title') != null ? getMapOptions(osuformat, 'Title') : getMapOptions(osuformat, 'TitleUnicode')) + ' (' + getMapOptions(osuformat, 'Creator') + ') [' + getMapOptions(osuformat, 'Version') + ']';
+	filename = pathto + '.osu';
 	console.log('Successfully converted ' + pathto + ' from FNF to osu!mania!');
 
 	return [osuformat, pathto];
@@ -972,6 +976,7 @@ function osu_to_osu(map_)
 		map[findLine(map, 'BeatmapID') + 1] = 'BeatmapSetID:-1';
 
 	var pathto = (getMapOptions(map, 'Artist') != null ? getMapOptions(map, 'Artist') : getMapOptions(map, 'ArtistUnicode')) + ' - ' + (getMapOptions(map, 'Title') != null ? getMapOptions(map, 'Title') : getMapOptions(map, 'TitleUnicode')) + ' (' + getMapOptions(map, 'Creator') + ') [' + getMapOptions(map, 'Version') + ']';
+	filename = pathto + '.osu';
 	console.log('Successfully converted osu!mania beatmap ' + pathto + ' from ' + from_key + 'k to ' + to_key + 'k!');
 
 	return [map, pathto];
