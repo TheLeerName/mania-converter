@@ -47,7 +47,6 @@
 	<!--<img src="c.gif" class="imageA">-->
 
 	<input style="position:absolute;left:400px;top:50px;" type="file" id="inputfile" accept=".osu,.json"/>
-	<br>
 	<button id="downloader" style="position:absolute;left:100px;top:50px;width:300px;height:22px;opacity:0;" onclick="da()" disabled>Download file</button>
 
 	<input id="b0" class="b0" type="button" value="FNF" onclick="updateMB(0)">
@@ -178,6 +177,7 @@
 		fr.onload = function()
 		{
 			data = fr.result;
+
 			document.getElementById('inputfile').disabled = true;
 			document.getElementById('inputfile').style.opacity = 0;
 			if (mode != null)
@@ -1157,5 +1157,13 @@ function makeSongName(string, toreplace, replacer)
 		}
 	}
 	return string2.join('');
+}
+
+function parseBool(string)
+{
+	if (string == 'on' || string == '1' || string == 'true' || string == 'y' || string == 'yes')
+		return true;
+	else
+		return false;
 }
 </script>
