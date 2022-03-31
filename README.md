@@ -7,6 +7,8 @@ Converter of FNF or osu!mania maps/charts, example from 4 key to 6 key. It can r
 
 ## [Examples for using](https://github.com/TheLeerName/mania-converter/blob/main/docs/examples.md)
 
+## [Creating Algorithms Guide](https://github.com/TheLeerName/mania-converter/blob/main/docs/algorithms.md)
+
 ## [How to build it *(click)*](https://github.com/TheLeerName/mania-converter/blob/main/docs/building.md)
 
 ## 1.3.3 - BPM calculating and fix of convert from osu
