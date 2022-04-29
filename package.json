@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "zip-local": "^0.3.5"
+  }
+}
