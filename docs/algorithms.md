@@ -1,4 +1,5 @@
 # Long-Awaited *by ZeroSupply* Guide of creating algorithms
+### Its not necessary, converter can use own algorithm
 ## Separators
 - Symbol `,` is separator of notes, example: `0,1,2,3`, 0 = left note, 1 = down note, 2 = up note, 3 = right note
 - Symbol `/` is separator of random, example: `0/1,2/3`, 0 or 1 = left note, 2 or 3 = down note
