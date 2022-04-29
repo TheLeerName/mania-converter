@@ -1,6 +1,17 @@
 # Changelogs of Mania Converter
 
-## (Latest) 1.3.3 - BPM calculating and fix of convert from osu
+## (Latest) 1.4 - Support of 1-512 key and functions
+- Pog support of 1-512 key for FNF and osu!mania
+- New options for osu!mania: `Source`, `Background`, `OverallDifficulty` (timing of notes)
+- Able to block changing key count of song, just type `Key:none`
+- Removed BPM changing for fnf to osu!mania converting, too bugged and useless
+- Watermark of Mania Converter in maps to let everyone know about this useful modding tool :)
+- Zip pack function, cmd command: `ManiaConverter pack "from_folder" "pack.zip"`
+- FFmpeg function, cmd command: `ManiaConverter ffmpeg combine "Inst.ogg|Voices.ogg" "audio.mp3"` (combines Voices.ogg and Inst.ogg to audio.mp3, may be used for fnf to osu!mania converting)
+- CMD argument `--silent` for no traces and no warns in console
+- Optimization of getting algorithm
+
+## 1.3.3 - BPM calculating and fix of convert from osu
 - **From osu** converting now **working properly**: no more *"all notes in one section and make die debug menu"*
 - **BPM in from osu converting now using a mean value of BPM**
 - **Better converting a song name** in **to osu** converting

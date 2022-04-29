@@ -1,5 +1,5 @@
-# Mania Converter 1.3.3
-Converter of FNF or osu!mania maps/charts, example from 4 key to 6 key. It can remove damage notes, convert to osu!mania and more. Supports Extra Keys Mod, Psych Engine, and Leather Engine (leather not fully).
+# Mania Converter 1.4
+Converter of FNF or osu!mania maps/charts, example from 4 key to 6 key. It can remove damage notes, zip packs, combine audio files, convert to osu!mania and more. Supports Extra Keys Mod, Psych Engine, and Leather Engine (leather not fully). Works with 1-512 keys.
 
 # [VERY POG WEB VERSION](https://theleername.github.io/mania-converter/)
 - wow! its support mobile devices!!!
@@ -11,13 +11,16 @@ Converter of FNF or osu!mania maps/charts, example from 4 key to 6 key. It can r
 
 ## [How to build it *(click)*](https://github.com/TheLeerName/mania-converter/blob/main/docs/building.md)
 
-## 1.3.3 - BPM calculating and fix of convert from osu
-- **From osu** converting now **working properly**: no more *"all notes in one section and make die debug menu"*
-- **BPM in from osu converting now using a mean value of BPM**
-- **Better converting a song name** in **to osu** converting
-- **Support of "changeBPM"** line in **to osu** converting
-- **Errors closes app immediately** now
-- `mc options v4`: lines **typeofsection, changebpm, lengthinsteps deleted**; **corrections** in lines **gfversion, gfsection, altanim, musthitsection, version, bpm**
+## 1.4 - Support of 1-512 key and functions
+- Pog support of 1-512 key for FNF and osu!mania
+- New options for osu!mania: `Source`, `Background`, `OverallDifficulty` (timing of notes)
+- Able to block changing key count of song, just type `Key:none`
+- Removed BPM changing for fnf to osu!mania converting, too bugged and useless
+- Watermark of Mania Converter in maps to let everyone know about this useful modding tool :)
+- Zip pack function, cmd command: `ManiaConverter pack "from_folder" "pack.zip"`
+- FFmpeg function, cmd command: `ManiaConverter ffmpeg combine "Inst.ogg|Voices.ogg" "audio.mp3"` (combines Voices.ogg and Inst.ogg to audio.mp3, may be used for fnf to osu!mania converting)
+- CMD argument `--silent` for no traces and no warns in console
+- Optimization of getting algorithm
 ### [Check past changelogs here](https://github.com/TheLeerName/mania-converter/blob/main/docs/changelogs.md)
 
 ## How to use this? (Editing options.ini, scroll down to see cmd using)
