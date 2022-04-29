@@ -1,4 +1,4 @@
-# Options guide of Mania Converter (with default values)
+# Options v5 guide of Mania Converter (with default values)
 - `FileInput:beatmap` for name of chart/map before converting.
 - `FileOutput:beatmap-converted` for name of chart/map after converting.
 - `Mode:0` for switch in converter modes, 0 = FNF (converting from N key to N key), 1 = osu!mania to FNF, 2 = FNF to osu!mania, 3 = osu!mania (converting from N key to N key).
@@ -19,7 +19,10 @@
 - `Artist:ManiaConverter` for name of artist of song.
 - `Creator:ManiaConverter` for name of creator of chart/map.
 - `Version:Normal` for name of difficulty of map.
-- `HPDrainRate:8` for rate of hp drain of map.
+- `Source:Friday Night Funkin` for source of song.
+- `Background:none` for background of song, leave "none" to disable it.
+- `HPDrainRate:8.5` for rate of hp drain of map.
+- `OverallDifficulty:7` for overall difficulty of map. (timing of notes)
 - `VolumeHitSound:20` for volume of hitsounds (20 = 20%).
 - `FromKeyDefault:4` for default REAL number of keys, if you type value in ToKey less than 1 or more than value of algorithms.
 - `ToKeyDefault:6` for default REAL number of keys, if in chart/map mania line is not exist.
