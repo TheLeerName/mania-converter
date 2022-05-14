@@ -1,6 +1,12 @@
 # Changelogs of Mania Converter
 
-## (Latest) 1.4 - Support of 1-512 key and functions
+## (Latest) 1.4.1 - Fix of overlapping notes
+- New option `Sensitivity`, for sensitivity of removing duplicate notes, leave 0 for removing notes ONLY with same timing and direction. (in milliseconds) (request from [CEMEHzzz](https://gamebanana.com/members/1776409))
+- Support of [Extra Keys with Lua For Psych Engine](https://gamebanana.com/mods/352021): option `LuaSave`, 1 or true or y or yes = chart/map saves in this format, supports from 1 key to 9 key. (request from [60 lapie](https://gamebanana.com/members/1633383))
+- Support of [Yoshi Engine](https://gamebanana.com/mods/352532): added keyNumber thing
+- Fixed unexpected crash when folder is not exist
+
+## 1.4 - Support of 1-512 key and functions
 - Pog support of 1-512 key for FNF and osu!mania
 - New options for osu!mania: `Source`, `Background`, `OverallDifficulty` (timing of notes)
 - Able to block changing key count of song, just type `Key:none`

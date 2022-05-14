@@ -3,6 +3,8 @@ var converter = require('./lib/Converter.js');
 var alg = require('./lib/Algorithm.js');
 var options = require('./lib/Options.js');
 var debug = require('./lib/Debug.js');
+var utils = require('./lib/Utils.js');
+var extrakeyslua = require('./lib/ExtraKeysWithLuaForPsychEngine.js');
 
 debug.start();
 debug.trace('Starting version ' + require('./lib/Utils.js').getVersion() + '...');
@@ -87,7 +89,15 @@ switch (parseInt(options.getOption('Mode')))
 	case 1: // to fnf
 		var fileinput = options.getOption('FileInput') + '.osu';
 		if (file.exists(fileinput))
-			file.saveFile(options.getOption('FileOutput') + '.json', converter.convert(fileinput, parseInt(options.getOption('Mode'))));
+		{
+			var map = converter.convert(fileinput, parseInt(options.getOption('Mode')));
+			if (utils.parseBool(options.getOption('LuaSave')))
+			{
+				debug.trace('Converting to "Extra Keys with Lua For Psych Engine" format...');
+				map = extrakeyslua.convertShit(map);
+			}
+			file.saveFile(options.getOption('FileOutput') + '.json', map);
+		}
 		else
 			debug.error('Couldn\'t find ' + options.getOption('FileInput') + '.osu');
 		break;
@@ -114,7 +124,15 @@ switch (parseInt(options.getOption('Mode')))
 	default: // fnf
 		var fileinput = options.getOption('FileInput') + '.json';
 		if (file.exists(fileinput))
-			file.saveFile(options.getOption('FileOutput') + '.json', converter.convert(fileinput, parseInt(options.getOption('Mode'))));
+		{
+			var map = converter.convert(fileinput, parseInt(options.getOption('Mode')));
+			if (utils.parseBool(options.getOption('LuaSave')))
+			{
+				debug.trace('Converting to "Extra Keys with Lua For Psych Engine" format...');
+				map = extrakeyslua.convertShit(map);
+			}
+			file.saveFile(options.getOption('FileOutput') + '.json', map);
+		}
 		else
 			debug.error('Couldn\'t find ' + fileinput);
 }
