@@ -1,4 +1,4 @@
-# Mania Converter 1.4
+# Mania Converter 1.4.1
 Converter of FNF or osu!mania maps/charts, example from 4 key to 6 key. It can remove damage notes, zip packs, combine audio files, convert to osu!mania and more. Supports [Extra Keys For Psych Engine](https://gamebanana.com/mods/333373), [Extra Keys With Lua For Psych Engine](https://gamebanana.com/mods/352021), [Psych Engine](https://gamebanana.com/mods/309789), [Yoshi Engine](https://gamebanana.com/mods/352532) and [Leather Engine](https://gamebanana.com/mods/334945) (leather not fully). Works with 1-512 keys. (yeah its possible)
 
 # [VERY POG WEB VERSION](https://theleername.github.io/mania-converter/)

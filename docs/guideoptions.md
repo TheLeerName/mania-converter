@@ -1,4 +1,4 @@
-# Options v5 guide of Mania Converter (with default values)
+# Options v6 guide of Mania Converter (with default values)
 - `FileInput:beatmap` for name of chart/map before converting.
 - `FileOutput:beatmap-converted` for name of chart/map after converting.
 - `Mode:0` for switch in converter modes, 0 = FNF (converting from N key to N key), 1 = osu!mania to FNF, 2 = FNF to osu!mania, 3 = osu!mania (converting from N key to N key).
