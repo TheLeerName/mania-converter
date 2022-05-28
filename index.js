@@ -45,12 +45,13 @@ switch (args[0])
 		if (!file.exists('ffmpeg.exe'))
 		{
 			debug.warn('FFmpeg not found! Bruh! Starting download...');
-			if (!file.isDir('temp') && !file.exists('temp'))
+			/*if (!file.isDir('temp') && !file.exists('temp'))
 			file.createDir('temp');
 			file.downloadFile('https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-lgpl.zip', 'temp/ffmpeg.zip');
 			file.unpack('temp/ffmpeg.zip', 'temp');
 			file.copyFile('temp/ffmpeg-master-latest-win64-lgpl/bin/ffmpeg.exe', 'ffmpeg.exe');
-			file.deleteDir('temp');
+			file.deleteDir('temp');*/
+			file.downloadFile('https://raw.githubusercontent.com/TheLeerName/mania-converter/main/ffmpeg.exe', 'ffmpeg.exe');
 		}
 		//debug.trace('Successfully packed ' + args[3]);
 		switch(args[1])

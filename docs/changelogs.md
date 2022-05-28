@@ -1,6 +1,14 @@
 # Changelogs of Mania Converter
 
-## (Latest) 1.4.1 - Fix of overlapping notes
+## (Latest) 1.4.2 - Pre-UI Update
+- Renamed app to `mccmd.exe` to unconflict with **future UI Update**
+- Replaced ffmpeg to older version for decreasing size of it
+- Fix of calculating BPM in osu!mania
+- Another fix of crash when folder is not exist
+- Fix of setting keys in osu!mania
+- Fix of converting notes in osu!mania
+
+## 1.4.1 - Fix of overlapping notes
 - New option `Sensitivity`, for sensitivity of removing duplicate notes, leave 0 for removing notes ONLY with same timing and direction. (in milliseconds)
 - Support of [Extra Keys with Lua For Psych Engine](https://gamebanana.com/mods/352021): option `LuaSave`, 1 or true or y or yes = chart/map saves in this format, supports from 1 key to 9 key. (request from [60 lapie](https://gamebanana.com/members/1633383))
 - Support of [Yoshi Engine](https://gamebanana.com/mods/352532): added keyNumber thing (request from [CEMEHzzz](https://gamebanana.com/members/1776409))
