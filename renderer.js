@@ -4,7 +4,7 @@ var cp = require('child_process');
 var file = require('./FileAPI.js');
 
 if (!file.exists('mccmd.exe'))
-	downloadFile('https://raw.githubusercontent.com/TheLeerName/mania-converter/cmd/mccmd.exe', 'mccmd.exe');
+	file.downloadFile('https://raw.githubusercontent.com/TheLeerName/mania-converter/cmd/mccmd.exe', 'mccmd.exe');
 
 // creating options.ini
 if (!file.exists('options.ini'))
