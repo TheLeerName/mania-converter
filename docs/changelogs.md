@@ -1,4 +1,7 @@
-# Changelogs of Mania Converter
+# Changelogs of Mania Converter CMD Version
+
+## 2.0 - The UI Update
+- *No changes in cmd version*
 
 ## (Latest) 1.4.2 - Pre-UI Update
 - Renamed app to `mccmd.exe` to unconflict with **future UI Update**

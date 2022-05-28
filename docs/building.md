@@ -1,4 +1,4 @@
-# Building Mania Converter
+# Building Mania Converter CMD Version
 1. Install [**nodejs**](https://nodejs.org)
 2. Type in cmd these commands, or just open `docs/prebuild.bat` file in folder with source code:
 - `powershell -command "Set-ExecutionPolicy Unrestricted -Force"`

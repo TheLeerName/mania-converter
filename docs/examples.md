@@ -1,4 +1,4 @@
-# Examples for using Mania Converter
+# Examples for using Mania Converter CMD Version
 1. Convert from FNF 4k `ballistic.json` BF Side to osu!mania 7k in folder named `osu` in file `NateAnim8 - Ballistic [ManiaConverter] (Normal).osu`
 - `options.ini` method: `FileInput:ballistic, FileOutput:osu/, Key:7, Mode:2, Side:1, Artist:NateAnim8` just type these values
 - cmd method: `mccmd "-fileinput:ballistic" "-fileoutput:osu/" "-mode:2" "-side:1" "-key:7" "artist:NateAnim8"` just type it in `.bat` file and run it
