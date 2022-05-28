@@ -7,6 +7,11 @@
 		"build": "electron-builder --dir",
 		"buildportable": "electron-builder --win portable"
 	},
+	"build": {
+		"extraFiles": [
+			"mccmd.exe"
+		]
+	},
 	"devDependencies": {
 		"electron": "^18.2.3",
 		"electron-builder": "^23.0.3"
