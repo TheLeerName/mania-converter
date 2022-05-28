@@ -51,7 +51,7 @@ switch (args[0])
 			file.unpack('temp/ffmpeg.zip', 'temp');
 			file.copyFile('temp/ffmpeg-master-latest-win64-lgpl/bin/ffmpeg.exe', 'ffmpeg.exe');
 			file.deleteDir('temp');*/
-			file.downloadFile('https://raw.githubusercontent.com/TheLeerName/mania-converter/main/ffmpeg.exe', 'ffmpeg.exe');
+			file.downloadFile('https://raw.githubusercontent.com/TheLeerName/mania-converter/cmd/ffmpeg.exe', 'ffmpeg.exe');
 		}
 		//debug.trace('Successfully packed ' + args[3]);
 		switch(args[1])
