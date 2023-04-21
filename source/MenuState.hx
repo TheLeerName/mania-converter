@@ -1,5 +1,6 @@
 package;
 
+import converter.Converter;
 import flixel.FlxG;
 import flixel.FlxBasic;
 import flixel.FlxState;
@@ -101,6 +102,7 @@ class MenuState extends FlxUIState
 			var fd:FileDialog = new FileDialog();
 			fd.onSelect.add(function(str:String) {
 				buttonsGroup.setInputText("File path", str);
+				var converter:Converter = new Converter().load(str);
 			});
 			fd.browse(FileDialogType.OPEN, null, System.documentsDirectory);
 		});
