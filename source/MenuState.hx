@@ -29,6 +29,7 @@ import lime.app.Application;
 
 import group.OptionsGroup;
 import group.ButtonsGroup;
+import group.LogGroup;
 
 #if sys
 import sys.FileSystem;
@@ -109,6 +110,7 @@ class MenuState extends FlxUIState
 
 		initializeOptions();
 		//generateButtons();
+		trace(Main.version);
 	}
 
 	public override function destroy() {

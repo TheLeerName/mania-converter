@@ -38,6 +38,10 @@
 	<haxedef name="FLX_NO_DEBUG" />
 	<haxedef name="NAPE_RELEASE_BUILD" />
 
+	<!-- ______________________________ Haxedefines _____________________________ -->
+
+	<haxeflag name="--macro" value="macros.CompileTime.addCompileTime('Main', 'compileTime')" />
+
 	<!-- _________________________________ Custom _______________________________ -->
 
 	<!-- icons -->
