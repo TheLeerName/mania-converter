@@ -1,6 +1,5 @@
 package;
 
-import converter.Converter;
 import flixel.FlxG;
 import flixel.FlxBasic;
 import flixel.FlxState;
