@@ -1,0 +1,5 @@
+-> verdana.ttf <-
+© 2010 Microsoft Corporation. All Rights Reserved.
+
+-> arial.ttf <-
+© 2008 The Monotype Corporation. All Rights Reserved.
