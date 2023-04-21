@@ -107,6 +107,8 @@ class MenuState extends FlxUIState
 			});
 			fd.browse(FileDialogType.OPEN, null, System.documentsDirectory);
 		});
+		logGroup = new LogGroup(bg2.x + bg2.width, bg1.y + bg1.height, Std.int(bg2.height), Std.int(FlxG.width - bg2.x + bg2.width));
+		add(logGroup);
 
 		initializeOptions();
 		//generateButtons();
@@ -333,7 +335,7 @@ class MenuState extends FlxUIState
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
 
-		if (FlxG.keys.justPressed.U)
+		if (FlxG.keys.justPressed.ALT)
 			FlxG.switchState(new MenuState());
 		/*if (pathfile_input.hasFocus && FlxG.keys.justPressed.ENTER)
 			loadMap(pathfile_input.text);*/

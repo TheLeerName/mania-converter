@@ -2,7 +2,7 @@ package group;
 
 class ButtonsGroup extends Group {
 	public function new(x:Float, y:Float, ?width:Int, ?height:Int, options:INIParser) {
-		super(x, y, width, height, options);
+		super(x, y, width, height);
 
 		for (n in options.indexes)
 		{

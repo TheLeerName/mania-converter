@@ -18,7 +18,7 @@ class Group extends FlxSpriteGroup {
 
 	public var cameraObject:FlxCamera;
 
-	public function new(x:Float, y:Float, ?width:Int, ?height:Int, options:INIParser) {
+	public function new(x:Float, y:Float, ?width:Int, ?height:Int) {
 		super();
 
 		if (width == null) width = FlxG.width;
@@ -32,19 +32,19 @@ class Group extends FlxSpriteGroup {
 		cameras = [cameraObject];
 	}
 
-	function makeText(x:Float, y:Float, text:String)
+	function makeText(x:Float, y:Float, text:String):FlxText
 	{
 		var txt:FlxText = new FlxText(x, this.height + y, Std.int(width), text);
 		txt.setFormat(Paths.get.font("verdana.ttf"), 20, 0xff000000, LEFT);
 		return txt;
 	}
-	function makeNum(x:Float, y:Float, step:Float, value:Float, min:Float, max:Float, text:String)
+	function makeNum(x:Float, y:Float, step:Float, value:Float, min:Float, max:Float, text:String):FlxUINumericStepper
 	{
 		var d:FlxUINumericStepper = new FlxUINumericStepper(x, this.height + y, step, value, min, max);
 		d.name = text;
 		return d;
 	}
-	function makeDrop(x:Float, y:Float, array:Array<String>, value:String, text:String)
+	function makeDrop(x:Float, y:Float, array:Array<String>, value:String, text:String):FlxUIDropDownMenu
 	{
 		var d:FlxUIDropDownMenu = new FlxUIDropDownMenu(x, this.height + y, FlxUIDropDownMenu.makeStrIdLabelArray(array, true));
 		d.selectedLabel = array[0];
@@ -53,7 +53,7 @@ class Group extends FlxSpriteGroup {
 		d.selectedId = value;
 		return d;
 	}
-	function makeInput(x:Float, y:Float, width:Int, value:String, size:Int, text:String)
+	function makeInput(x:Float, y:Float, width:Int, value:String, size:Int, text:String):FlxUIInputText
 	{
 		var d:FlxUIInputText = new FlxUIInputText(x, this.height + y, width, "");
 		d.setFormat(Paths.get.font('verdana'), size, FlxColor.BLACK);
@@ -61,7 +61,7 @@ class Group extends FlxSpriteGroup {
 		d.name = text;
 		return d;
 	}
-	function makeCheckbox(x:Float, y:Float, value:Bool, text:String)
+	function makeCheckbox(x:Float, y:Float, value:Bool, text:String):FlxUICheckBox
 	{
 		var d:FlxUICheckBox = new FlxUICheckBox(x, this.height + y, null, null, "", 100);
 		d.box.scale.set(1.5, 1.5);
@@ -109,6 +109,7 @@ class Group extends FlxSpriteGroup {
 			if (raaah.name == name) {
 				raaah.text = text;
 				FlxUI.event(FlxUIInputText.CHANGE_EVENT, raaah, raaah.text, raaah.params);
+				trace("bruh! updated!");
 				break;
 			}
 		}

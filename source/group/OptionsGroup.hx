@@ -22,7 +22,7 @@ class OptionsGroup extends Group {
 
 	public function new(x:Float = 0, y:Float = 0, ?width:Int = null, ?height:Int = null, options:INIParser)
 	{
-		super(x, y, width, height, options);
+		super(x, y, width, height);
 
 		mouseCheck = new FlxObject(x, y, width, height);
 
