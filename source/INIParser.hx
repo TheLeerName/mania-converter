@@ -33,28 +33,41 @@ class INIParser {
 
 	public function load(file:String):INIParser {
 		#if sys
-		if (Assets.exists(file, TEXT)) file = Assets.getText(file);
-		else if (FileSystem.exists(file)) file = File.getContent(file);
-		if (!file.contains("[")) return null;
-		fileContent = file;
+		fileContent = null;
+		var content:String = "";
+		#if lime
+		if (Assets.exists(file, TEXT)) content = Assets.getText(file);
+		else #end if (FileSystem.exists(file) && !FileSystem.isDirectory(file)) content = File.getContent(file);
+		if (content != "") fileContent = content;
 		#end
 		return this;
 	}
 	public function save(path:String) {
 		#if sys
-		File.saveContent(path, fileContent);
+		File.saveContent(path, fileContent.replace("<", "[").replace(">", "]"));
 		#end
 	}
 
 	function generateStructure() {
 		if (structure != []) structure = [];
 		if (indexes != []) indexes = [];
+		if (fileContent == null) return;
+		var fc_:Array<String> = fileContent.split("\n");
+		for (i in 0...fc_.length)
+		{
+			fc_[i] = fc_[i].replace("\r", "");
+			if (fc_[i].startsWith("["))
+				fc_[i] = "<" + fc_[i].substring(1, fc_[i].length - 1) + ">";
+			else
+				fc_[i] = fc_[i].replace("<", "").replace(">", "");
+		}
+		var fc:String = fc_.join("\n");
 		//switch (version)
 		//{
 			//case 1:
-				for (cat in fileContent.split("["))
+				for (cat in fc.split("<"))
 				{
-					if (!cat.contains("]")) continue;
+					if (!cat.contains(">")) continue;
 					var stru:Map<String, Dynamic> = [];
 					for (line in cat.split("\n"))
 					{
@@ -73,8 +86,8 @@ class INIParser {
 						else
 							stru.set(line, null);
 					}
-					structure.set(cat.substring(0, cat.indexOf("]")), stru);
-					indexes.push(cat.substring(0, cat.indexOf("]")));
+					structure.set(cat.substring(0, cat.indexOf(">")), stru);
+					indexes.push(cat.substring(0, cat.indexOf(">")));
 					//trace(struc.length);
 				}
 			//default:
@@ -114,7 +127,7 @@ class INIParser {
 	public function removeCategoryByName(categoryName:String):Bool {
 		if (fileContent == null || structure == null) return false;
 		var lines:Array<String> = fileContent.split("\n");
-		for (i in 0...lines.length) if (lines[i] == "[" + categoryName + "]") {
+		for (i in 0...lines.length) if (lines[i] == "<" + categoryName + ">") {
 			while(lines[i] != "") lines.splice(i, 1);
 			lines.splice(i, 1);
 			fileContent = lines.join("\n");
@@ -125,7 +138,7 @@ class INIParser {
 	public function removeValueByName(categoryName:String, name:String):Bool {
 		if (fileContent == null || structure == null) return false;
 		var lines:Array<String> = fileContent.split("\n");
-		for (i in 0...lines.length) if (lines[i] == "[" + categoryName + "]") {
+		for (i in 0...lines.length) if (lines[i] == "<" + categoryName + ">") {
 			if (lines[i] == "") break;
 			if (lines[i].startsWith(name))
 			{

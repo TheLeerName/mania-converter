@@ -11,7 +11,7 @@
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 
-	<window background="#000000" hardware="true" vsync="false" resizable="false" orientation="landscape" width="510" height="510"/>
+	<window background="#000000" hardware="true" vsync="false" resizable="false" orientation="landscape" width="510" height="460"/>
 	<!-- window dimensions in source/Main.hx -->
 
 	<!-- _____________________________ Path Settings ____________________________ -->

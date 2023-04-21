@@ -1,6 +1,5 @@
 package;
 
-import converter.Converter;
 import flixel.FlxG;
 import flixel.FlxBasic;
 import flixel.FlxState;
@@ -31,9 +30,7 @@ import group.OptionsGroup;
 import group.ButtonsGroup;
 import group.LogGroup;
 
-#if sys
-import sys.FileSystem;
-#end
+import converter.Converter;
 
 using StringTools;
 
@@ -62,9 +59,12 @@ class MenuState extends FlxUIState
 
 	var optionsGroup:OptionsGroup;
 	var buttonsGroup:ButtonsGroup;
+	var logGroup:LogGroup;
 
 	var defaultOptions:Map<String, Dynamic> = [];
 	var options:Map<String, Dynamic> = [];
+
+	var converter:Converter;
 
 	override public function create() {
 		super.create();
@@ -83,6 +83,7 @@ class MenuState extends FlxUIState
 		//trace(ini.getValueByName("fuck you", "you"));
 		//ini.saveContent("kys.ini");
 		//ini.load("menu.ini");
+		converter = new Converter();
 
 		var bg1:FlxSprite = new FlxSprite(options["headerX"], options["headerY"]).makeGraphic(options["headerWidth"], options["headerHeight"], FlxColor.fromString('0x' + options["headerColor"]));
 		add(bg1);
@@ -100,13 +101,21 @@ class MenuState extends FlxUIState
 		buttonsGroup = new ButtonsGroup(bg3.x, bg3.y, Std.int(bg3.width), Std.int(bg3.height), new INIParser().load("assets/buttons.ini"));
 		add(buttonsGroup);
 		buttonsGroup.setCallback("Browse...", function () {
-			var fd:FileDialog = new FileDialog();
-			fd.onSelect.add(function(str:String) {
+			doFileDialog(OPEN, "*.json; *.osu", function(str:String) {
 				buttonsGroup.setInputText("File path", str);
-				var converter:Converter = new Converter().load(str);
 			});
-			fd.browse(FileDialogType.OPEN, null, System.documentsDirectory);
 		});
+		buttonsGroup.setCallback("Export as FNF...", function () {
+			if (converter.fileContent != null)
+			{
+				doFileDialog(SAVE, "*.json", function(str:String) {
+					converter.saveAsJSON(str);
+				});
+			}
+			else
+				logGroup.log("Map is not loaded!", 0xffff0000);
+		});
+
 		logGroup = new LogGroup(bg2.x + bg2.width, bg1.y + bg1.height, Std.int(bg2.height), Std.int(FlxG.width - bg2.x + bg2.width));
 		add(logGroup);
 
@@ -122,6 +131,13 @@ class MenuState extends FlxUIState
 
 	public function onClose() {
 		saveOptions();
+	}
+
+	public function doFileDialog(type:FileDialogType = OPEN, filter:String = "", onSelectCallback:String->Void) {
+		var fd:FileDialog = new FileDialog();
+		fd.onSelect.add(onSelectCallback);
+		if (filter.startsWith("*.")) filter = filter.substring(2);
+		fd.browse(type, "" + filter, System.documentsDirectory);
 	}
 
 	function getOptions():Map<String, Dynamic> {
@@ -230,6 +246,17 @@ class MenuState extends FlxUIState
 
 				options[wname] = nums.text;
 				//trace(wname + ': ' + nums.text);
+				if (wname == "File path")
+				{
+					converter.load(nums.text);
+					//trace(converter.fileName, converter.fileContent.substring(0, 10), sys.FileSystem.exists(converter.fileName));
+					if(converter.fileContent != null)
+					{
+						var thing:String = converter.fileName.replace("\\", "/");
+						//Sys.println("[Mania Converter] Successfully loaded " + thing.substring(thing.lastIndexOf("/") + 1) + "!");
+						logGroup.log("Successfully loaded " + thing.substring(thing.lastIndexOf("/") + 1) + "!", 0xff03cc03);
+					}
+				}
 			case FlxUIDropDownMenu.CLICK_EVENT:
 				var nums:FlxUIDropDownMenu = cast sender;
 				var wname = nums.name;
