@@ -67,8 +67,8 @@ class INIParser {
 
 						if (line.contains(":"))
 						{
-							var value:Any = resolveValueFromString(line.substring(line.lastIndexOf(":") + 1));
-							stru.set(line.substring(0, line.lastIndexOf(":")), value);
+							var value:Any = resolveValueFromString(line.substring(line.indexOf(":") + 1));
+							stru.set(line.substring(0, line.indexOf(":")), value);
 						}
 						else
 							stru.set(line, null);

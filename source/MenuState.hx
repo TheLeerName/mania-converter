@@ -94,7 +94,6 @@ class MenuState extends FlxUIState
 
 		optionsGroup = new OptionsGroup(bg2.x, bg2.y, Std.int(bg2.width), Std.int(bg2.height), new INIParser().load("assets/options.ini"));
 		add(optionsGroup);
-		initializeOptions();
 
 		buttonsGroup = new ButtonsGroup(bg3.x, bg3.y, Std.int(bg3.width), Std.int(bg3.height), new INIParser().load("assets/buttons.ini"));
 		add(buttonsGroup);
@@ -106,6 +105,7 @@ class MenuState extends FlxUIState
 			fd.browse(FileDialogType.OPEN, null, System.documentsDirectory);
 		});
 
+		initializeOptions();
 		//generateButtons();
 	}
 
@@ -121,17 +121,27 @@ class MenuState extends FlxUIState
 	function getOptions():Map<String, Dynamic> {
 		var ini:INIParser = new INIParser().load("assets/save.ini");
 		if (ini == null) return defaultOptions;
-		return ini.getCategoryByName("#Basic settings#");
+		var options:Map<String, Dynamic> = ini.getCategoryByName("#Basic settings#");
+		for (n => v in defaultOptions) if (options.get(n) == null) options.set(n, v);
+		return options;
 	}
 	function saveOptions() {
 		var ini:INIParser = new INIParser();
 		ini.setCategoryByName("#Basic settings#", []);
-		for (n => v in options) ini.setValueByName("#Basic settings#", n, v);
+		for (n => v in defaultOptions) ini.setValueByName("#Basic settings#", n, options.get(n));
 		ini.save("assets/save.ini");
 		trace("Options saved!");
 	}
 
 	function setOptionsValues() {
+		for (th in buttonsGroup)
+		{
+			if (th is FlxUIInputText)
+			{
+				var nums:FlxUIInputText = cast th;
+				nums.text = options[nums.name];
+			}
+		}
 		for (th in optionsGroup)
 		{
 			if (th is FlxUICheckBox)
@@ -157,6 +167,14 @@ class MenuState extends FlxUIState
 		}
 	}
 	function initializeOptions() {
+		for (th in buttonsGroup)
+		{
+			if (th is FlxUIInputText)
+			{
+				var nums:FlxUIInputText = cast th;
+				defaultOptions[nums.name] = nums.text;
+			}
+		}
 		for (th in optionsGroup)
 		{
 			if (th is FlxUICheckBox)
