@@ -40,7 +40,7 @@ class Converter {
 
 	public function new() {}
 
-	public function load(file:String, options:Map<String, Dynamic>):Converter {
+	public function load(file:String, ?options:Map<String, Dynamic>):Converter {
 		#if sys
 		fileContent = fileName = null;
 		var content:String = "";
