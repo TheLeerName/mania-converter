@@ -21,7 +21,14 @@
 	<set name="BUILD_DIR" value="export/32bit"   if="32bits" />
 
 	<classpath name="source"/>
-	<assets path="assets" embed='true'/>
+
+	<haxeflag name="--macro" if="windows" value="macros.MoveAssets.moveFolder('assets/menu')"/>
+	<assets path="assets/fonts" if="windows" embed='true'/>
+
+	<assets path="assets/menu" unless="windows"/>
+	<assets path="assets/fonts" unless="windows" embed='true'/>
+
+	<haxeflag name="--macro" value="macros.CompileTime.addCompileTime('Main', 'compileTime')"/>
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
@@ -37,10 +44,6 @@
 	<haxedef name="FLX_NO_FOCUS_LOST_SCREEN" />
 	<haxedef name="FLX_NO_DEBUG" />
 	<haxedef name="NAPE_RELEASE_BUILD" />
-
-	<!-- ______________________________ Haxedefines _____________________________ -->
-
-	<haxeflag name="--macro" value="macros.CompileTime.addCompileTime('Main', 'compileTime')" />
 
 	<!-- _________________________________ Custom _______________________________ -->
 

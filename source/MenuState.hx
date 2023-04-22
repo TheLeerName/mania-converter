@@ -74,11 +74,11 @@ class MenuState extends FlxUIState
 
 		//var json = Paths.get.parseJSON('hui.json');
 
-		//var bg:FlxSprite = new FlxSprite().loadGraphic('assets/bg.png');
+		//var bg:FlxSprite = new FlxSprite().loadGraphic('assets/menu/bg.png');
 		//add(bg);
 		//generateScrollOptions();
 
-		var options:Map<String, Dynamic> = new INIParser().load("assets/basic.ini").getCategoryByName("#Basic settings#");
+		var options:Map<String, Dynamic> = new INIParser().load("assets/menu/basic.ini").getCategoryByName("#Basic settings#");
 		//ini.setCategoryByName("fuck you", ["fuck" => 1, "you" => true]);
 		//trace(ini.getValueByName("fuck you", "you"));
 		//ini.saveContent("kys.ini");
@@ -95,10 +95,10 @@ class MenuState extends FlxUIState
 		title = makeText(40, 15, 0, "Mania Converter", 30, 'verdana', 'EDFFC9');
 		add(title);
 
-		optionsGroup = new OptionsGroup(bg2.x, bg2.y, Std.int(bg2.width), Std.int(bg2.height), new INIParser().load("assets/options.ini"));
+		optionsGroup = new OptionsGroup(bg2.x, bg2.y, Std.int(bg2.width), Std.int(bg2.height), new INIParser().load("assets/menu/options.ini"));
 		add(optionsGroup);
 
-		buttonsGroup = new ButtonsGroup(bg3.x, bg3.y, Std.int(bg3.width), Std.int(bg3.height), new INIParser().load("assets/buttons.ini"));
+		buttonsGroup = new ButtonsGroup(bg3.x, bg3.y, Std.int(bg3.width), Std.int(bg3.height), new INIParser().load("assets/menu/buttons.ini"));
 		add(buttonsGroup);
 		buttonsGroup.setCallback("Browse...", function () {
 			doFileDialog(OPEN, "*.json; *.osu", function(str:String) {
@@ -141,7 +141,7 @@ class MenuState extends FlxUIState
 	}
 
 	function getOptions():Map<String, Dynamic> {
-		var ini:INIParser = new INIParser().load("assets/save.ini");
+		var ini:INIParser = new INIParser().load("assets/menu/save.ini");
 		if (ini == null) return defaultOptions;
 		var options:Map<String, Dynamic> = ini.getCategoryByName("#Basic settings#");
 		for (n => v in defaultOptions) if (options.get(n) == null) options.set(n, v);
@@ -151,7 +151,7 @@ class MenuState extends FlxUIState
 		var ini:INIParser = new INIParser();
 		ini.setCategoryByName("#Basic settings#", []);
 		for (n => v in defaultOptions) ini.setValueByName("#Basic settings#", n, options.get(n));
-		ini.save("assets/save.ini");
+		ini.save("assets/menu/save.ini");
 		trace("Options saved!");
 	}
 
