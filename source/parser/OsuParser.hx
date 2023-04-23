@@ -118,11 +118,11 @@ class OsuParser {
 			"GeneratedBy:Mania Converter " + Main.version
 		]);
 		ini.setCategoryArrayByName("Difficulty", [
-			"HPDrainRate:" + options.get("HP Drain"),
+			"HPDrainRate:" + options.get("HP Drain Rate"),
 			"CircleSize:" + keyCount,
 		]);
 		ini.setCategoryArrayByName("TimingPoints", [
-			"0," + (60000 / json.bpm) + ",4,0,0," + options.get("Hitsound Vol") + ",1,0",
+			"0," + (60000 / json.bpm) + ",4,0,0," + options.get("Hitsound Volume") + ",1,0",
 		]);
 
 		var notes:Array<String> = [];
