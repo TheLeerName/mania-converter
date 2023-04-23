@@ -34,21 +34,6 @@ import parser.INIParser;
 
 using StringTools;
 
-typedef ThingsMenu = {
-	var textOffsets:Array<Int>;
-	var text:String;
-	var displayMode:String;
-
-	var displayOffsets:Array<Int>;
-	// num
-	@:optional var step:Float;
-	@:optional var value:Dynamic;
-	@:optional var min:Float;
-	@:optional var max:Float;
-	// drop
-	@:optional var array:Array<String>;
-}
-
 class MenuState extends FlxUIState
 {
 	var pathfile_input:FlxUIInputText;
@@ -170,7 +155,7 @@ class MenuState extends FlxUIState
 		ini.setCategoryMapByName("#Basic settings#", []);
 		for (n => v in defaultOptions) ini.setValueByName("#Basic settings#", n, options.get(n));
 		ini.save("assets/menu/save.ini");
-		trace("Options saved!");
+		logGroup.log("Options saved!");
 	}
 
 	function setOptionsValues() {
