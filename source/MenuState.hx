@@ -22,6 +22,8 @@ import group.LogGroup;
 import parser.Converter;
 import parser.INIParser;
 
+import sprite.DescriptionPrompt;
+
 using StringTools;
 
 class MenuState extends FlxUIState
@@ -40,6 +42,8 @@ class MenuState extends FlxUIState
 	var options:Map<String, Dynamic> = [];
 
 	var converter:Converter;
+
+	var descriptionPrompt:DescriptionPrompt;
 
 	override public function create() {
 		super.create();

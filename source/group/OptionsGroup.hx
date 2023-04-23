@@ -20,6 +20,8 @@ class OptionsGroup extends Group {
 
 	var scrollBar:ScrollBar;
 
+	public var descriptions:Map<String, String> = [];
+
 	public function new(x:Float = 0, y:Float = 0, ?width:Int = null, ?height:Int = null, options:INIParser)
 	{
 		super(x, y, width, height);
@@ -45,6 +47,7 @@ class OptionsGroup extends Group {
 				default:
 					// nothing
 			}
+			descriptions.set(n, v["description"]);
 		}
 
 		scrollBar = new ScrollBar(cameraObject.x + cameraObject.width - 10, cameraObject.y, 10, cameraObject.height, Std.int(actualHeight + cameraObject.y));
