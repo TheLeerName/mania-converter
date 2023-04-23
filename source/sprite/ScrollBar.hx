@@ -1,11 +1,10 @@
 package sprite;
 
-import flixel.util.FlxColor;
+import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxCamera;
-import flixel.math.FlxPoint;
-import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.util.FlxColor;
 import flixel.group.FlxSpriteGroup;
 
 /**

@@ -1,7 +1,6 @@
 package macros;
 
 #if sys
-import sys.io.File;
 import sys.io.Process;
 #end
 

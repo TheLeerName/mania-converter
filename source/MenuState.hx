@@ -1,29 +1,19 @@
 package;
 
 import flixel.FlxG;
-import flixel.FlxBasic;
-import flixel.FlxState;
 import flixel.FlxSprite;
-import flixel.FlxCamera;
-import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import flixel.input.keyboard.FlxKey;
-import flixel.ui.FlxButton;
 import flixel.addons.ui.FlxUIState;
-import flixel.addons.ui.FlxButtonPlus;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUIDropDownMenu;
 import flixel.addons.ui.FlxUISlider;
 import flixel.addons.ui.FlxUICheckBox;
 
-import openfl.events.Event;
-import openfl.events.IOErrorEvent;
-
-import lime.system.System;
+import lime.app.Application;
 import lime.ui.FileDialog;
 import lime.ui.FileDialogType;
-import lime.app.Application;
+import lime.system.System;
 
 import group.OptionsGroup;
 import group.ButtonsGroup;

@@ -1,9 +1,6 @@
 package;
 
-import flixel.text.FlxText;
-import flixel.util.FlxColor;
 import haxe.Json;
-import haxe.format.JsonParser;
 #if sys
 import sys.io.File;
 import sys.FileSystem;
@@ -22,9 +19,9 @@ class Paths
 	public function parseJSON(file:String) {
 		#if sys
 		if (file.startsWith('{'))
-			return haxe.Json.parse(file);
+			return Json.parse(file);
 		else
-			return haxe.Json.parse(File.getContent(file));
+			return Json.parse(File.getContent(file));
 		#end
 	}
 	
