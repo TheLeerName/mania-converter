@@ -11,7 +11,7 @@ class OsuParser {
 			song: 'Sus',
 			notes: [],
 			events: [],
-			bpm: 60000 / options.get("BPM"),
+			bpm: 150,
 			needsVoices: options.get("Needs voices"),
 			speed: options.get("Scroll speed"),
 			player1: options.get("Player 1"),
@@ -122,7 +122,7 @@ class OsuParser {
 			"CircleSize:" + keyCount,
 		]);
 		ini.setCategoryArrayByName("TimingPoints", [
-			"0," + (60000 / options.get("BPM")) + ",4,0,0," + options.get("Hitsound Vol") + ",1,0",
+			"0," + (60000 / json.bpm) + ",4,0,0," + options.get("Hitsound Vol") + ",1,0",
 		]);
 
 		var notes:Array<String> = [];
