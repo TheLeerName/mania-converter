@@ -56,7 +56,14 @@ class OsuParser {
 		toData.sort((a, b) -> a[0] - b[0]); // map is stupid fuck, why it sorts by alphabet or smth
 		//trace(toData.length);
 
-		// skipping bpm calculating for now...
+		var timingPoints:Map<String, Dynamic> = ini.getCategoryByName("TimingPoints");
+		if (timingPoints != null) {
+			var bpmthing:Array<Float> = [0, 1];
+			for (n => v in timingPoints) if (n.split(",")[6] == '1')
+				bpmthing = [bpmthing[0] + Std.parseFloat(n.split(",")[1]), bpmthing[1]++];
+			json.bpm = Math.floor(bpmthing[0] / bpmthing[1]);
+		}
+		trace(json.bpm);
 
 		//Sys.println("Placing notes to FNF map...");
 
