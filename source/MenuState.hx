@@ -248,7 +248,7 @@ class MenuState extends FlxUIState
 				//trace(wname + ': ' + nums.text);
 				if (wname == "File path")
 				{
-					converter.load(nums.text);
+					converter.load(nums.text, options);
 					//trace(converter.fileName, converter.fileContent.substring(0, 10), sys.FileSystem.exists(converter.fileName));
 					if(converter.fileContent != null)
 					{

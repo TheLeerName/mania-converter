@@ -48,9 +48,9 @@ class Converter {
 		if (Assets.exists(file, TEXT)) content = Assets.getText(file);
 		else #end if (FileSystem.exists(file) && !FileSystem.isDirectory(file)) content = File.getContent(file);
 		if (content != "") {
+			this.options = options;
 			fileContent = content;
 			fileName = file;
-			this.options = options;
 		}
 		#end
 		return this;
@@ -155,29 +155,6 @@ class Converter {
 		json.generatedBy = "Mania Converter " + Reflect.getProperty(Type.resolveClass("Main"), "version"); // fuck you Defined in this class
 
 		return json;
-	}
-
-	public function findLine(array:Array<String>, find:String, fromLine:Int = 0, ?toLine:Int):Int
-	{
-		if (toLine == null)
-			toLine = array.length;
-	
-		for (i in fromLine...toLine)
-			if (array[i].contains(find))
-				return i;
-	
-			//if (!silent) debug.warn('String ' + find + ' not found!');
-		return -1;
-	}
-
-	public function getMapOption(map:Array<String>, name:String)
-	{
-		for (th in map)
-			if (th.toLowerCase().startsWith(name.toLowerCase() + ':'))
-				return th.substring(th.lastIndexOf(':') + 1).trim(); 
-
-		//debug.warn('Map option ' + name + ' not found!');
-		return null;
 	}
 
 	public function convertNote(from_note:Int, keyCount:Int, fromosu:Bool = true):Int
