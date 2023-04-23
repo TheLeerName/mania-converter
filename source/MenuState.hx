@@ -113,8 +113,9 @@ class MenuState extends FlxUIState
 				logGroup.log("Map is not loaded!", 0xffff0000);
 		});
 
-		//generateButtons();
 		logGroup.log("Hello! You're running version " + Main.version, 0xffffffff);
+
+		updateConverter(options["File path"]);
 	}
 
 	public override function destroy() {
@@ -126,7 +127,7 @@ class MenuState extends FlxUIState
 		saveOptions();
 	}
 
-	public function doFileDialog(type:FileDialogType = OPEN, filter:String = "", onSelectCallback:String->Void) {
+	function doFileDialog(type:FileDialogType = OPEN, filter:String = "", onSelectCallback:String->Void) {
 		var fd:FileDialog = new FileDialog();
 		fd.onSelect.add(onSelectCallback);
 		if (filter.startsWith("*.")) filter = filter.substring(2);
@@ -240,17 +241,7 @@ class MenuState extends FlxUIState
 				options[wname] = nums.text;
 				//trace(wname + ': ' + nums.text);
 				if (wname == "File path")
-				{
-					converter.load(nums.text, options);
-					//trace(converter.fileName, converter.fileContent.substring(0, 10), sys.FileSystem.exists(converter.fileName));
-					buttonsGroup.indicator.visible = converter.fileContent != null;
-					if(converter.fileContent != null)
-					{
-						var thing:String = converter.fileName.replace("\\", "/");
-						//Sys.println("[Mania Converter] Successfully loaded " + thing.substring(thing.lastIndexOf("/") + 1) + "!");
-						logGroup.log("Successfully loaded " + thing.substring(thing.lastIndexOf("/") + 1) + "!", 0xffffffff);
-					}
-				}
+					updateConverter(nums.text);
 			case FlxUIDropDownMenu.CLICK_EVENT:
 				var nums:FlxUIDropDownMenu = cast sender;
 				var wname = nums.name;
@@ -260,7 +251,19 @@ class MenuState extends FlxUIState
 		}
 	}
 
-	public function makeText(x:Float = 0, y:Float = 0, width:Float = 0, text:String = '', size:Int = 8, font:String = 'vcr', color:String = 'FFFFFF') {
+	function updateConverter(text:String) {
+		converter.load(text, options);
+		//trace(converter.fileName, converter.fileContent.substring(0, 10), sys.FileSystem.exists(converter.fileName));
+		buttonsGroup.indicator.visible = converter.fileContent != null;
+		if(converter.fileContent != null)
+		{
+			var thing:String = converter.fileName.replace("\\", "/");
+			//Sys.println("[Mania Converter] Successfully loaded " + thing.substring(thing.lastIndexOf("/") + 1) + "!");
+			logGroup.log("Successfully loaded " + thing.substring(thing.lastIndexOf("/") + 1) + "!", 0xffffffff);
+		}
+	}
+
+	function makeText(x:Float = 0, y:Float = 0, width:Float = 0, text:String = '', size:Int = 8, font:String = 'vcr', color:String = 'FFFFFF') {
 		return new FlxText(x, y, width, text, size).setFormat(Paths.get.font(font), size, FlxColor.fromString('0xFF' + color));
 	}
 
