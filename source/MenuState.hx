@@ -150,7 +150,7 @@ class MenuState extends FlxUIState
 	}
 	function saveOptions() {
 		var ini:INIParser = new INIParser();
-		ini.setCategoryByName("#Basic settings#", []);
+		ini.setCategoryMapByName("#Basic settings#", []);
 		for (n => v in defaultOptions) ini.setValueByName("#Basic settings#", n, options.get(n));
 		ini.save("assets/menu/save.ini");
 		trace("Options saved!");

@@ -142,15 +142,30 @@ class INIParser {
 		return false;
 	}
 
-	public function setCategoryByName(categoryName:String, fields:Map<String, Dynamic>) {
+	public function setCategoryMapByName(categoryName:String, fields:Map<String, Dynamic>) {
 		if (fileContent == null || structure == null) return;
 		initializeCategory(categoryName, true);
-		for (n => v in fields) fileContent += n + ":" + v + "\n";
+		var str:String = "";
+		for (n => v in fields) str += n + (v == null ? "" : ":" + v) + "\n";
+		fileContent += str;
 	}
+	public function setCategoryArrayByName(categoryName:String, fields:Array<String>) {
+		if (fileContent == null || structure == null) return;
+		initializeCategory(categoryName, true);
+		var str:String = "";
+		for (th in fields) str += th + "\n";
+		fileContent += str;
+	}
+	public function setCategoryStringByName(categoryName:String, fields:String) {
+		if (fileContent == null || structure == null) return;
+		initializeCategory(categoryName, true);
+		fileContent += fields + "\n";
+	}
+
 	public function setValueByName(categoryName:String, name:String, value:Dynamic) {
 		if (fileContent == null || structure == null) return;
 		initializeCategory(categoryName);
-		fileContent += name + ":" + value + "\n";
+		fileContent += name + (value == null ? "" : ":" + value) + "\n";
 	}
 
 	public function getCategoryByName(categoryName:String):Map<String, Dynamic> {
