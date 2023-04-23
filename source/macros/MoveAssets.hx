@@ -1,11 +1,5 @@
 package macros;
 
-#if macro
-import haxe.macro.Expr;
-import haxe.macro.MacroStringTools;
-import haxe.macro.Context;
-import haxe.macro.Compiler;
-#end
 #if sys
 import sys.io.File;
 import sys.io.Process;

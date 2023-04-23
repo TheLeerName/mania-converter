@@ -1,12 +1,5 @@
 package macros;
 
-#if macro
-import haxe.macro.Expr;
-import haxe.macro.MacroStringTools;
-import haxe.macro.Context;
-import haxe.macro.Compiler;
-#end
-
 /**
  * This class used for creating variable with compile time of this build, ex. `2023-04-16 21:17:17 (UTC +7)`. To properly use:
  * 1. Add this line to `Project.xml`: `<haxeflag name="--macro" value="macros.CompileTime.addCompileTime('TitleState', 'compileTime')" />`

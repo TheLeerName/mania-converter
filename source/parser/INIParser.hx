@@ -1,12 +1,4 @@
-package;
-
-import lime.utils.Assets;
-#if sys
-import sys.FileSystem;
-import sys.io.File;
-#end
-
-using StringTools;
+package parser;
 
 class INIParser {
 	public var fileContent(default, set):String;

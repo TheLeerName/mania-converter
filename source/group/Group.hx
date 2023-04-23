@@ -12,8 +12,6 @@ import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUIDropDownMenu;
 import flixel.addons.ui.FlxUINumericStepper;
 
-using StringTools;
-
 class Group extends FlxSpriteGroup {
 
 	public var cameraObject:FlxCamera;

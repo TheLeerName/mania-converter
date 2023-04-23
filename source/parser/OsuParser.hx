@@ -1,70 +1,7 @@
-package converter;
+package parser;
 
-#if lime
-import lime.utils.Assets;
-#end
-#if sys
-import sys.FileSystem;
-import sys.io.File;
-#end
-import haxe.Json;
-
-using StringTools;
-
-class Converter {
-	public var fileContent(default, set):String;
-	function set_fileContent(value:String):String {
-		if (value.length == 0 || value == null) return fileContent = value;
-		if (value.replace("\r", "").split("\n")[0] == "osu file format v14")
-		{
-			structure = convertFromOsu(value);
-			//trace(value);
-		}
-		else
-		{
-			try {
-				structure = Json.parse(value);
-				//trace(structure);
-			}
-			catch (e) {
-				//trace("idiot! die! " + e);
-			}
-		}
-		return fileContent = value;
-	}
-	public var fileName:String;
-
-	public var structure:SwagSong = null;
-
-	public var options:Map<String, Dynamic> = [];
-
-	public function new() {}
-
-	public function load(file:String, ?options:Map<String, Dynamic>):Converter {
-		#if sys
-		fileContent = fileName = null;
-		var content:String = "";
-		#if lime
-		if (Assets.exists(file, TEXT)) content = Assets.getText(file);
-		else #end if (FileSystem.exists(file) && !FileSystem.isDirectory(file)) content = File.getContent(file);
-		if (content != "") {
-			this.options = options;
-			fileContent = content;
-			fileName = file;
-		}
-		#end
-		return this;
-	}
-
-	public function saveAsJSON(path:String, space:String = "\t")
-	{
-		#if sys
-		if (structure == null) return;
-		File.saveContent(path, Json.stringify({song: structure}, space));
-		#end
-	}
-
-	public function convertFromOsu(content:String):SwagSong {
+class OsuParser {
+    public static function convertFromOsu(content:String, options:Map<String, Dynamic>):SwagSong {
 		//Sys.println("[Mania Converter] Getting osu! map data...");
 		var ini:INIParser = new INIParser();
 		ini.fileContent = content;
@@ -152,12 +89,12 @@ class Converter {
 		// skipping remove duplicate notes for now...
 
 		json.keyCount = 4; // for now ofc
-		json.generatedBy = "Mania Converter " + Reflect.getProperty(Type.resolveClass("Main"), "version"); // fuck you Defined in this class
+		json.generatedBy = "Mania Converter " + Main.version;
 
 		return json;
 	}
 
-	public function convertNote(from_note:Int, keyCount:Int, fromosu:Bool = true):Int
+	public static function convertNote(from_note:Int, keyCount:Int, fromosu:Bool = true):Int
 	{
 		//console.log('da ' + from_note)
 
@@ -188,34 +125,4 @@ class Converter {
 		Sys.println('[Mania Converter] Note ' + from_note + ' not found in array!');
 		return 0;
 	}
-}
-
-typedef SwagSection =
-{
-	var sectionNotes:Array<Dynamic>;
-	var sectionBeats:Float;
-	var typeOfSection:Int;
-	var mustHitSection:Bool;
-	var gfSection:Bool;
-	var bpm:Float;
-	var changeBPM:Bool;
-	var altAnim:Bool;
-}
-
-typedef SwagSong =
-{
-	var song:String;
-	var notes:Array<SwagSection>;
-	var events:Array<Dynamic>;
-	var bpm:Float;
-	var needsVoices:Bool;
-	var speed:Float;
-	var keyCount:Int;
-
-	var player1:String;
-	var player2:String;
-	var gfVersion:String;
-	var stage:String;
-
-	var generatedBy:String;
 }

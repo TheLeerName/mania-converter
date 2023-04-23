@@ -30,7 +30,8 @@ import group.OptionsGroup;
 import group.ButtonsGroup;
 import group.LogGroup;
 
-import converter.Converter;
+import parser.Converter;
+import parser.INIParser;
 
 using StringTools;
 
