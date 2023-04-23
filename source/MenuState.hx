@@ -253,6 +253,7 @@ class MenuState extends FlxUIState
 				{
 					converter.load(nums.text, options);
 					//trace(converter.fileName, converter.fileContent.substring(0, 10), sys.FileSystem.exists(converter.fileName));
+					buttonsGroup.indicator.visible = converter.fileContent != null;
 					if(converter.fileContent != null)
 					{
 						var thing:String = converter.fileName.replace("\\", "/");
