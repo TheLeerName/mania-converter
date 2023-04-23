@@ -11,14 +11,14 @@ class OsuParser {
 			song: 'Sus',
 			notes: [],
 			events: [],
-			bpm: options.get("BPM"),
+			bpm: 60000 / options.get("BPM"),
 			needsVoices: options.get("Needs voices"),
 			speed: options.get("Scroll speed"),
 			player1: options.get("Player 1"),
 			player2: options.get("Player 2"),
 			gfVersion: options.get("Player 3 (GF)"),
 			stage: options.get("Stage"),
-			keyCount: options.get("Key count"),
+			keyCount: keyCount,
 			generatedBy: "",
 		};
 		//if (content.replace("\r", "").split("\n")[0] != "osu file format v14") return null;
@@ -63,7 +63,7 @@ class OsuParser {
 				bpmthing = [bpmthing[0] + Std.parseFloat(n.split(",")[1]), bpmthing[1]++];
 			json.bpm = Math.floor(bpmthing[0] / bpmthing[1]);
 		}
-		trace(json.bpm);
+		//trace(json.bpm);
 
 		//Sys.println("Placing notes to FNF map...");
 
@@ -86,7 +86,7 @@ class OsuParser {
 			});
 
 			for (sectionNotes in toData)
-				if (sectionNotes[0] <= ((json.notes.length) * (4 * (1000 * 60 / json.bpm))) && sectionNotes[0] > ((json.notes.length - 1) * (4 * (1000 * 60 / json.bpm))))
+				if (sectionNotes[0] <= ((json.notes.length) * (json.notes[json.notes.length - 1].sectionBeats * (1000 * 60 / json.bpm))) && sectionNotes[0] > ((json.notes.length - 1) * (json.notes[json.notes.length - 1].sectionBeats * (1000 * 60 / json.bpm))))
 					json.notes[Std.int(json.notes.length - 1)].sectionNotes.push(sectionNotes);
 
 			if (toData[toData.length - 1] == json.notes[Std.int(json.notes.length - 1)].sectionNotes[Std.int(json.notes[Std.int(json.notes.length - 1)].sectionNotes.length - 1)])
@@ -95,7 +95,6 @@ class OsuParser {
 
 		// skipping remove duplicate notes for now...
 
-		json.keyCount = 4; // for now ofc
 		json.generatedBy = "Mania Converter " + Main.version;
 
 		return json;
@@ -104,6 +103,7 @@ class OsuParser {
 	public static function convertToOsu(json:SwagSong, options:Map<String, Dynamic>):INIParser
 	{
 		var ini:INIParser = new INIParser();
+		var keyCount:Int = json.keyCount;
 		ini.fileContent = "osu file format v14\n";
 		ini.setCategoryArrayByName("General", [
 			"AudioFilename:" + options.get("Audio name"),
@@ -119,7 +119,7 @@ class OsuParser {
 		]);
 		ini.setCategoryArrayByName("Difficulty", [
 			"HPDrainRate:" + options.get("HP Drain"),
-			"CircleSize:4",
+			"CircleSize:" + keyCount,
 		]);
 		ini.setCategoryArrayByName("TimingPoints", [
 			"0," + (60000 / options.get("BPM")) + ",4,0,0," + options.get("Hitsound Vol") + ",1,0",
@@ -131,13 +131,13 @@ class OsuParser {
 				switch (options.get("Side"))
 				{
 					case 1:
-						if ((section.mustHitSection && songNotes[1] < 4) || (!section.mustHitSection && songNotes[1] >= 4))
-							notes.push(convertNote(Std.int(songNotes[1] - (songNotes[1] >= 4 ? 4 : 0)), 4, false) + ",192," + songNotes[0] + (songNotes[2] > 0 ? ",128,0," + songNotes[2] + ":0:0:0:0:" : ",1,0,0:0:0:0:"));
+						if ((section.mustHitSection && songNotes[1] < keyCount) || (!section.mustHitSection && songNotes[1] >= keyCount))
+							notes.push(convertNote(Std.int(songNotes[1] - (songNotes[1] >= keyCount ? keyCount : 0)), keyCount, false) + ",192," + songNotes[0] + (songNotes[2] > 0 ? ",128,0," + songNotes[2] + ":0:0:0:0:" : ",1,0,0:0:0:0:"));
 					case 2:
-						if ((section.mustHitSection && songNotes[1] >= 4) || (!section.mustHitSection && songNotes[1] < 4))
-							notes.push(convertNote(Std.int(songNotes[1] - (songNotes[1] >= 4 ? 4 : 0)), 4, false) + ",192," + songNotes[0] + (songNotes[2] > 0 ? ",128,0," + songNotes[2] + ":0:0:0:0:" : ",1,0,0:0:0:0:"));
+						if ((section.mustHitSection && songNotes[1] >= keyCount) || (!section.mustHitSection && songNotes[1] < keyCount))
+							notes.push(convertNote(Std.int(songNotes[1] - (songNotes[1] >= keyCount ? keyCount : 0)), keyCount, false) + ",192," + songNotes[0] + (songNotes[2] > 0 ? ",128,0," + songNotes[2] + ":0:0:0:0:" : ",1,0,0:0:0:0:"));
 					default:
-						notes.push(convertNote(Std.int(songNotes[1] - (songNotes[1] >= 4 ? 4 : 0)), 4, false) + ",192," + songNotes[0] + (songNotes[2] > 0 ? ",128,0," + songNotes[2] + ":0:0:0:0:" : ",1,0,0:0:0:0:"));
+						notes.push(convertNote(Std.int(songNotes[1] - (songNotes[1] >= keyCount ? keyCount : 0)), keyCount, false) + ",192," + songNotes[0] + (songNotes[2] > 0 ? ",128,0," + songNotes[2] + ":0:0:0:0:" : ",1,0,0:0:0:0:"));
 	
 				}
 		ini.setCategoryArrayByName("HitObjects", notes);

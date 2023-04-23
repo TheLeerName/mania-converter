@@ -48,14 +48,15 @@ class Converter {
 
 	public function saveAsOSU(path:String)
 	{
-		OsuParser.convertToOsu(structure, options).save(path);
+		if (structure == null) return;
+		OsuParser.convertToOsu(KeyCountChanger.changeKeyCount(structure, options.get("Key count")), options).save(path);
 	}
 
 	public function saveAsJSON(path:String, space:String = "\t")
 	{
 		#if sys
 		if (structure == null) return;
-		File.saveContent(path, Json.stringify({song: structure}, space));
+		File.saveContent(path, Json.stringify({song: KeyCountChanger.changeKeyCount(structure, options.get("Key count"))}, space));
 		#end
 	}
 }

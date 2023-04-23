@@ -79,18 +79,18 @@ class MenuState extends FlxUIState
 		//add(bg);
 		//generateScrollOptions();
 
-		var options:Map<String, Dynamic> = new INIParser().load("assets/menu/basic.ini").getCategoryByName("#Basic settings#");
+		var basicOptions:Map<String, Dynamic> = new INIParser().load("assets/menu/basic.ini").getCategoryByName("#Basic settings#");
 		//ini.setCategoryByName("fuck you", ["fuck" => 1, "you" => true]);
 		//trace(ini.getValueByName("fuck you", "you"));
 		//ini.saveContent("kys.ini");
 		//ini.load("menu.ini");
 		converter = new Converter();
 
-		var bg1:FlxSprite = new FlxSprite(options["headerX"], options["headerY"]).makeGraphic(options["headerWidth"], options["headerHeight"], FlxColor.fromString('0x' + options["headerColor"]));
+		var bg1:FlxSprite = new FlxSprite(basicOptions["headerX"], basicOptions["headerY"]).makeGraphic(basicOptions["headerWidth"], basicOptions["headerHeight"], FlxColor.fromString('0x' + basicOptions["headerColor"]));
 		add(bg1);
-		var bg2:FlxSprite = new FlxSprite(options["thingsX"], options["thingsY"]).makeGraphic(options["thingsWidth"], options["thingsHeight"], FlxColor.fromString('0x' + options["thingsColor"]));
+		var bg2:FlxSprite = new FlxSprite(basicOptions["thingsX"], basicOptions["thingsY"]).makeGraphic(basicOptions["thingsWidth"], basicOptions["thingsHeight"], FlxColor.fromString('0x' + basicOptions["thingsColor"]));
 		add(bg2);
-		var bg3:FlxSprite = new FlxSprite(options["buttonsX"], options["buttonsY"]).makeGraphic(options["buttonsWidth"], options["buttonsHeight"], FlxColor.fromString('0x' + options["buttonsColor"]));
+		var bg3:FlxSprite = new FlxSprite(basicOptions["buttonsX"], basicOptions["buttonsY"]).makeGraphic(basicOptions["buttonsWidth"], basicOptions["buttonsHeight"], FlxColor.fromString('0x' + basicOptions["buttonsColor"]));
 		add(bg3);
 
 		title = makeText(40, 15, 0, "Mania Converter", 30, 'verdana', 'EDFFC9');
@@ -106,35 +106,41 @@ class MenuState extends FlxUIState
 				buttonsGroup.setInputText("File path", str);
 			});
 		});
-		buttonsGroup.setCallback("Export as FNF...", function () {
-			if (converter.fileContent != null)
-			{
-				doFileDialog(SAVE, "*.json", function(str:String) {
-					converter.saveAsJSON(str);
-					logGroup.log("Successfully exported " + str.replace("\\", "/").substring(str.replace("\\", "/").lastIndexOf("/") + 1) + " as FNF!", 0xff03cc03);
-				});
-			}
-			else
-				logGroup.log("Map is not loaded!", 0xffff0000);
-		});
-		buttonsGroup.setCallback("Export as OSU...", function () {
-			if (converter.fileContent != null)
-			{
-				doFileDialog(SAVE, "*.osu", function(str:String) {
-					converter.saveAsOSU(str);
-					logGroup.log("Successfully exported " + str.replace("\\", "/").substring(str.replace("\\", "/").lastIndexOf("/") + 1) + " as OSU!", 0xff03cc03);
-				});
-			}
-			else
-				logGroup.log("Map is not loaded!", 0xffff0000);
-		});
 
 		logGroup = new LogGroup(bg2.x + bg2.width, bg1.y + bg1.height, Std.int(bg2.height), Std.int(FlxG.width - bg2.x + bg2.width));
 		add(logGroup);
 
 		initializeOptions();
+
+		buttonsGroup.setCallback("Export as FNF...", function () {
+			if (converter.fileContent != null)
+				doFileDialog(SAVE, "*.json", function(str:String) {
+					converter.options = options;
+					if (converter.structure.keyCount != options.get("Key count"))
+						logGroup.log("Changed key count from " + converter.structure.keyCount + " to " + options.get("Key count") + "!", 0xffffffff);
+					converter.saveAsJSON(str);
+
+					logGroup.log("Successfully exported " + str.replace("\\", "/").substring(str.replace("\\", "/").lastIndexOf("/") + 1) + " as FNF!", 0xff03cc03);
+				});
+			else
+				logGroup.log("Map is not loaded!", 0xffff0000);
+		});
+		buttonsGroup.setCallback("Export as OSU...", function () {
+			if (converter.fileContent != null)
+				doFileDialog(SAVE, "*.osu", function(str:String) {
+					converter.options = options;
+					if (converter.structure.keyCount != options.get("Key count"))
+						logGroup.log("Changed key count from " + converter.structure.keyCount + " to " + options.get("Key count") + "!", 0xffffffff);
+					converter.saveAsOSU(str);
+
+					logGroup.log("Successfully exported " + str.replace("\\", "/").substring(str.replace("\\", "/").lastIndexOf("/") + 1) + " as OSU!", 0xff03cc03);
+				});
+			else
+				logGroup.log("Map is not loaded!", 0xffff0000);
+		});
+
 		//generateButtons();
-		trace(Main.version);
+		logGroup.log("Hello! You're running version " + Main.version, 0xffffffff);
 	}
 
 	public override function destroy() {
@@ -267,7 +273,7 @@ class MenuState extends FlxUIState
 					{
 						var thing:String = converter.fileName.replace("\\", "/");
 						//Sys.println("[Mania Converter] Successfully loaded " + thing.substring(thing.lastIndexOf("/") + 1) + "!");
-						logGroup.log("Successfully loaded " + thing.substring(thing.lastIndexOf("/") + 1) + "!", 0xff03cc03);
+						logGroup.log("Successfully loaded " + thing.substring(thing.lastIndexOf("/") + 1) + "!", 0xffffffff);
 					}
 				}
 			case FlxUIDropDownMenu.CLICK_EVENT:
@@ -283,103 +289,10 @@ class MenuState extends FlxUIState
 		return new FlxText(x, y, width, text, size).setFormat(Paths.get.font(font), size, FlxColor.fromString('0xFF' + color));
 	}
 
-	var generatedSO:Bool = false;
-/*
-	function generateButtons()
-	{
-		
-
-		var pathfile_label:FlxText = Paths.get.text(660, -1, 0, "URL or path to map", 20, 'verdana', 'E5FD5B');
-		add(pathfile_label);
-		pathfile_input = new FlxUIInputText(650, 30, 350, "", 11);
-		pathfile_input.setFormat(Paths.get.font('arial'), 14, FlxColor.BLACK);
-		add(pathfile_input);
-
-		var browse_button:FlxButton = new FlxButton(1000, 29, "Browse...", function()
-		{
-			trace('poop');
-		});
-		browse_button = buttons(browse_button, 90, 19, 0, -1, 14);
-		add(browse_button);
-		
-		var convert_osu_button:FlxButton = new FlxButton(3, 81, "Convert to osu!mania", function()
-		{
-			trace('poop');
-		});
-		convert_osu_button = buttons(convert_osu_button, 110, 55, -2, 9, 18, 'arial', '49F6FF');
-		add(convert_osu_button);
-		convert_osu_button.color = FlxColor.PURPLE;
-		
-		//ads = Paths.get.text(10, 450, 0, "", 14, 'verdana', '000000');
-		//add(ads);
-	}
-	function buttons(button:FlxButton, width:Int, height:Int, offset_x:Float, offset_y:Float, size:Int, font:String = 'vendana', color:String = '000000'):FlxButton {
-		button.setGraphicSize(width, height);
-		button.updateHitbox();
-		button.label.setFormat(Paths.get.font(font), size, FlxColor.fromString('0xFF' + color), CENTER);
-		setAllLabelsOffset(button, offset_x, offset_y);
-		button.label.fieldWidth = width;
-		return button;
-	}
-	function setAllLabelsOffset(button:FlxButton, x:Float, y:Float) {
-		for (point in button.labelOffsets)
-			point.set(x, y);
-	}
-
-	function loadMap(path:String) {
-		if (path.startsWith('https://') && path.startsWith('http://'))
-		{
-			trace('not supported');
-		}
-		else if (Paths.get.exists(path))
-		{
-			var f:Array<Dynamic> = defineFormat(path);
-			var format = f[0];
-			var file = f[1];
-			switch(format) {
-				case 'json':
-					trace('foo');
-				case 'osu':
-					trace('foo');
-				default:
-					Application.current.window.alert("Unsupported map format, only fnf json or osu file v14", "Load Map Error");
-					return;
-			}
-		}
-		else
-		{
-			Application.current.window.alert("Map is not exist", "Load Map Error");
-			return;
-		}
-	}
-	function defineFormat(path:String):Array<Dynamic>
-	{
-		if (Paths.get.isJSON(path))
-		{
-			return ['json', Paths.get.parseJSON(path)];
-		}
-		else
-		{
-			var map:Array<String> = Paths.get.parseTXT(path);
-			if (map[0].startsWith('osu file format v14'))
-			{
-				return ['osu', map];
-			}
-			else
-			{
-				return ['unsupported', null];
-			}
-		}
-	}*/
-
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
 
-		if (FlxG.keys.justPressed.ALT)
+		if (FlxG.keys.justPressed.F5)
 			FlxG.switchState(new MenuState());
-		/*if (pathfile_input.hasFocus && FlxG.keys.justPressed.ENTER)
-			loadMap(pathfile_input.text);*/
-
-		//ads.text = 'Y: ' + scroll[0].y + ' | H: ' + (scroll[scroll.length - 1].y + scroll[scroll.length - 1].height) + ' | Wheel: ' + FlxG.mouse.wheel;
 	}
 }
