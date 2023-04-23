@@ -111,6 +111,18 @@ class MenuState extends FlxUIState
 			{
 				doFileDialog(SAVE, "*.json", function(str:String) {
 					converter.saveAsJSON(str);
+					logGroup.log("Successfully exported " + str.replace("\\", "/").substring(str.replace("\\", "/").lastIndexOf("/") + 1) + " as FNF!", 0xff03cc03);
+				});
+			}
+			else
+				logGroup.log("Map is not loaded!", 0xffff0000);
+		});
+		buttonsGroup.setCallback("Export as OSU...", function () {
+			if (converter.fileContent != null)
+			{
+				doFileDialog(SAVE, "*.osu", function(str:String) {
+					converter.saveAsOSU(str);
+					logGroup.log("Successfully exported " + str.replace("\\", "/").substring(str.replace("\\", "/").lastIndexOf("/") + 1) + " as OSU!", 0xff03cc03);
 				});
 			}
 			else

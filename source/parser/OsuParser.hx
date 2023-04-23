@@ -1,7 +1,7 @@
 package parser;
 
 class OsuParser {
-    public static function convertFromOsu(content:String, options:Map<String, Dynamic>):SwagSong {
+	public static function convertFromOsu(content:String, options:Map<String, Dynamic>):SwagSong {
 		//Sys.println("[Mania Converter] Getting osu! map data...");
 		var ini:INIParser = new INIParser();
 		ini.fileContent = content;
@@ -94,6 +94,50 @@ class OsuParser {
 		return json;
 	}
 
+	public static function convertToOsu(json:SwagSong, options:Map<String, Dynamic>):INIParser
+	{
+		var ini:INIParser = new INIParser();
+		ini.fileContent = "osu file format v14\n";
+		ini.setCategoryArrayByName("General", [
+			"AudioFilename:" + options.get("Audio name"),
+			"Mode:3"
+		]);
+		ini.setCategoryArrayByName("Metadata", [
+			"Title:" + makeSongName(json.song, "-", " "),
+			"Artist:" + options.get("Artist"),
+			"Creator:" + options.get("Creator"),
+			"Version:poopy",
+			"Source:" + options.get("Source"),
+			"GeneratedBy:Mania Converter " + Main.version
+		]);
+		ini.setCategoryArrayByName("Difficulty", [
+			"HPDrainRate:" + options.get("HP Drain"),
+			"CircleSize:4",
+		]);
+		ini.setCategoryArrayByName("TimingPoints", [
+			"0," + (60000 / options.get("BPM")) + ",4,0,0," + options.get("Hitsound Vol") + ",1,0",
+		]);
+
+		var notes:Array<String> = [];
+		for (section in json.notes)
+			for (songNotes in section.sectionNotes)
+				switch (options.get("Side"))
+				{
+					case 1:
+						if ((section.mustHitSection && songNotes[1] < 4) || (!section.mustHitSection && songNotes[1] >= 4))
+							notes.push(convertNote(Std.int(songNotes[1] - (songNotes[1] >= 4 ? 4 : 0)), 4, false) + ",192," + songNotes[0] + (songNotes[2] > 0 ? ",128,0," + songNotes[2] + ":0:0:0:0:" : ",1,0,0:0:0:0:"));
+					case 2:
+						if ((section.mustHitSection && songNotes[1] >= 4) || (!section.mustHitSection && songNotes[1] < 4))
+							notes.push(convertNote(Std.int(songNotes[1] - (songNotes[1] >= 4 ? 4 : 0)), 4, false) + ",192," + songNotes[0] + (songNotes[2] > 0 ? ",128,0," + songNotes[2] + ":0:0:0:0:" : ",1,0,0:0:0:0:"));
+					default:
+						notes.push(convertNote(Std.int(songNotes[1] - (songNotes[1] >= 4 ? 4 : 0)), 4, false) + ",192," + songNotes[0] + (songNotes[2] > 0 ? ",128,0," + songNotes[2] + ":0:0:0:0:" : ",1,0,0:0:0:0:"));
+	
+				}
+		ini.setCategoryArrayByName("HitObjects", notes);
+
+		return ini;
+	}
+
 	public static function convertNote(from_note:Int, keyCount:Int, fromosu:Bool = true):Int
 	{
 		//console.log('da ' + from_note)
@@ -124,5 +168,13 @@ class OsuParser {
 
 		Sys.println('[Mania Converter] Note ' + from_note + ' not found in array!');
 		return 0;
+	}
+
+	public static function makeSongName(string:String, toreplace:String, replacer:String):String
+	{
+		var array:Array<String> = string.replace(toreplace, replacer).split(replacer);
+		for (i in 0...array.length)
+			array[i] = array[i].substring(0, 1).toUpperCase() + array[i].substring(1);
+		return array.join(' ');
 	}
 }

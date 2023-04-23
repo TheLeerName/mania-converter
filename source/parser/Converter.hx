@@ -46,6 +46,11 @@ class Converter {
 		return this;
 	}
 
+	public function saveAsOSU(path:String)
+	{
+		OsuParser.convertToOsu(structure, options).save(path);
+	}
+
 	public function saveAsJSON(path:String, space:String = "\t")
 	{
 		#if sys
