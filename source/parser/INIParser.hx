@@ -67,7 +67,7 @@ class INIParser {
 						if (line.contains("\n")) line = line.replace("\n", "");
 
 						if (line.length == 0) break;
-						if (line.startsWith("//")) continue;
+						if (line.startsWith("//") || line.endsWith(">")) continue;
 
 						if (line.contains(":"))
 						{
