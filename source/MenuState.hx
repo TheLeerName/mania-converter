@@ -11,11 +11,10 @@ import flixel.util.FlxColor;
 import flixel.input.keyboard.FlxKey;
 import flixel.ui.FlxButton;
 import flixel.addons.ui.FlxUIState;
-import flixel.addons.ui.FlxUINumericStepper;
 import flixel.addons.ui.FlxButtonPlus;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUIDropDownMenu;
-import flixel.addons.ui.FlxUINumericStepper;
+import flixel.addons.ui.FlxUISlider;
 import flixel.addons.ui.FlxUICheckBox;
 
 import openfl.events.Event;
@@ -190,9 +189,9 @@ class MenuState extends FlxUIState
 				var nums:FlxUICheckBox = cast th;
 				nums.checked = options[nums.name];
 			}
-			else if (th is FlxUINumericStepper)
+			else if (th is FlxUISlider)
 			{
-				var nums:FlxUINumericStepper = cast th;
+				var nums:FlxUISlider = cast th;
 				nums.value = options[nums.name];
 			}
 			else if (th is FlxUIInputText)
@@ -223,9 +222,9 @@ class MenuState extends FlxUIState
 				var nums:FlxUICheckBox = cast th;
 				defaultOptions[nums.name] = nums.checked;
 			}
-			else if (th is FlxUINumericStepper)
+			else if (th is FlxUISlider)
 			{
-				var nums:FlxUINumericStepper = cast th;
+				var nums:FlxUISlider = cast th;
 				defaultOptions[nums.name] = nums.value;
 			}
 			else if (th is FlxUIInputText)
@@ -253,8 +252,8 @@ class MenuState extends FlxUIState
 
 				options[wname] = nums.checked;
 				//trace(wname + ': ' + nums.checked);
-			case FlxUINumericStepper.CHANGE_EVENT:
-				var nums:FlxUINumericStepper = cast sender;
+			case FlxUISlider.CHANGE_EVENT:
+				var nums:FlxUISlider = cast sender;
 				var wname = nums.name;
 
 				options[wname] = nums.value;

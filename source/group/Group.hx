@@ -10,7 +10,7 @@ import flixel.group.FlxSpriteGroup;
 import flixel.addons.ui.FlxUICheckBox;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUIDropDownMenu;
-import flixel.addons.ui.FlxUINumericStepper;
+import flixel.addons.ui.FlxUISlider;
 
 class Group extends FlxSpriteGroup {
 
@@ -36,9 +36,11 @@ class Group extends FlxSpriteGroup {
 		txt.setFormat(Paths.get.font("verdana.ttf"), 20, 0xff000000, LEFT);
 		return txt;
 	}
-	function makeNum(x:Float, y:Float, step:Float, value:Float, min:Float, max:Float, text:String):FlxUINumericStepper
+	function makeSlider(x:Float, y:Float, width:Int, decimals:Int, value:Float, min:Float, max:Float, text:String):FlxUISlider
 	{
-		var d:FlxUINumericStepper = new FlxUINumericStepper(x, this.height + y, step, value, min, max);
+		var d:FlxUISlider = new FlxUISlider(this, null, 0, this.height + y, min, max, width, null, 5, 0xff979797, 0xff000000);
+		d.value = value;
+		d.decimals = decimals;
 		d.name = text;
 		return d;
 	}

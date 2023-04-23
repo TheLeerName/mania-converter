@@ -35,7 +35,7 @@ class OptionsGroup extends Group {
 			add(makeText(v["x"], v["y"], n));
 			switch (v["displayMode"]) {
 				case 0:
-					add(makeNum(v["displayX"], v["displayY"], v["step"], v["value"], v["min"], v["max"], n));
+					add(makeSlider(v["displayX"], v["displayY"], v["width"], v["decimals"], v["value"], v["min"], v["max"], n));
 				case 1:
 					add(makeDrop(v["displayX"], v["displayY"], v["array"], v["value"], n));
 				case 2:
