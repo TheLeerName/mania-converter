@@ -8,12 +8,13 @@ import haxe.macro.Compiler;
 #end
 #if sys
 import sys.io.File;
+import sys.io.Process;
 #end
 
 using StringTools;
 
 /**
- * This class used for move assets to export
+ * This class used for move assets to `export` folder
  */
 class MoveAssets {
 	/**
@@ -25,7 +26,9 @@ class MoveAssets {
 	public static function moveFolder(folder:String = "assets")
 	{
 		#if (macro && windows)
-		var programPath:String = Sys.programPath().substring(0, Sys.programPath().lastIndexOf("\\export\\"));
+		var d:Process = new Process("echo %cd%");
+		var programPath:String = d.stdout.readLine();
+		d.close();
 		var assetsPath:String = programPath + "\\" + folder.replace("/", "\\");
 		var exportPath:String = programPath + "\\" + Compiler.getOutput().substring(0, Compiler.getOutput().lastIndexOf("/")).replace("/", "\\") + "\\bin\\" + folder.replace("/", "\\");
 		Sys.command("mkdir \"" + exportPath + "\" >nul 2>&1");
