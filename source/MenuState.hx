@@ -47,7 +47,7 @@ class MenuState extends FlxUIState
 
 	override public function create() {
 		super.create();
-		Application.current.window.onClose.add(onClose);
+		Application.current.window.onClose.add(destroy);
 
 		FlxG.mouse.useSystemCursor = true;
 
@@ -123,12 +123,8 @@ class MenuState extends FlxUIState
 	}
 
 	public override function destroy() {
-		super.destroy();
-		onClose();
-	}
-
-	public function onClose() {
 		saveOptions();
+		super.destroy();
 	}
 
 	function doFileDialog(type:FileDialogType = OPEN, filter:String = "", onSelectCallback:String->Void) {
