@@ -104,9 +104,9 @@ class MenuState extends FlxUIState
 			if (converter.fileContent != null)
 				doFileDialog(SAVE, "*.json", function(str:String) {
 					converter.options = options;
-					if (converter.structure.keyCount != options.get("Key count"))
-						logGroup.log("Changed key count from " + converter.structure.keyCount + " to " + options.get("Key count") + "!", 0xffffffff);
-					converter.saveAsJSON(str);
+					var output:Array<Dynamic> = converter.saveAsJSON(str);
+					if (output[0] != null) logGroup.log("Changed key count from " + output[0] + " to " + options.get("Key count") + "!", 0xffffffff);
+					if (output[1] > 0) logGroup.log("Removed " + output[1] + " duplicated notes by " + options.get("Sensitivity") + " ms sensitivity!", 0xffffffff);
 
 					logGroup.log("Successfully exported " + str.replace("\\", "/").substring(str.replace("\\", "/").lastIndexOf("/") + 1) + " as FNF!", 0xff03cc03);
 				});
@@ -117,9 +117,9 @@ class MenuState extends FlxUIState
 			if (converter.fileContent != null)
 				doFileDialog(SAVE, "*.osu", function(str:String) {
 					converter.options = options;
-					if (converter.structure.keyCount != options.get("Key count"))
-						logGroup.log("Changed key count from " + converter.structure.keyCount + " to " + options.get("Key count") + "!", 0xffffffff);
-					converter.saveAsOSU(str);
+					var output:Array<Dynamic> = converter.saveAsOSU(str);
+					if (output[0] != null) logGroup.log("Changed key count from " + output[0] + " to " + options.get("Key count") + "!", 0xffffffff);
+					if (output[1] > 0) logGroup.log("Removed " + output[1] + " duplicated notes by " + options.get("Sensitivity") + "ms sensitivity!", 0xffffffff);
 
 					logGroup.log("Successfully exported " + str.replace("\\", "/").substring(str.replace("\\", "/").lastIndexOf("/") + 1) + " as OSU!", 0xff03cc03);
 				});

@@ -2,8 +2,33 @@ package parser;
 
 import flixel.math.FlxRandom;
 
-class KeyCountChanger {
+class Utils {
     public static var currentSeed:Int = 91169;
+
+	public static function removeDuplicates(structure:SwagSong, sensitivity:Int = 0):SwagSong
+	{
+		var lastSongNotes:Array<Float> = [];
+		var removedNotes:Int = 0;
+		for (section in structure.notes) {
+			var newArray:Array<Dynamic> = [];
+			for (songNotes in section.sectionNotes) {
+				if (lastSongNotes.length == 0) {
+					lastSongNotes = songNotes;
+					continue;
+				}
+				if (lastSongNotes[0] >= (songNotes[0] - sensitivity) && songNotes[1] == lastSongNotes[1]) trace(songNotes, lastSongNotes);
+				if (lastSongNotes[0] >= (songNotes[0] - sensitivity) && songNotes[1] == lastSongNotes[1])
+					removedNotes++;
+				else
+					newArray.push(songNotes);
+				lastSongNotes = songNotes;
+			}
+			section.sectionNotes = newArray;
+		}
+		structure.events[1] = removedNotes;
+		return structure;
+	}
+
 	public static function changeKeyCount(structure:SwagSong, toKey:Int):SwagSong
 	{
 		if (structure.keyCount == toKey) return structure;
@@ -15,6 +40,7 @@ class KeyCountChanger {
 			for (songNotes in section.sectionNotes)
 				songNotes[1] = alg[songNotes[1]][random.int(1, alg[songNotes[1]].length) - 1];
 
+		structure.events[0] = structure.keyCount;
 		structure.keyCount = toKey;
 
 		return structure;

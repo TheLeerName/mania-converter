@@ -46,17 +46,25 @@ class Converter {
 		return this;
 	}
 
-	public function saveAsOSU(path:String)
+	public function saveAsOSU(path:String):Array<Dynamic>
 	{
-		if (structure == null) return;
-		OsuParser.convertToOsu(KeyCountChanger.changeKeyCount(structure, options.get("Key count")), options).save(path);
+		if (structure == null) return [];
+		var stru:SwagSong = Utils.changeKeyCount(Utils.removeDuplicates(structure, options.get("Sensitivity")), options.get("Key count"));
+		var toret:Array<Dynamic> = stru.events;
+		stru.events = [];
+		OsuParser.convertToOsu(stru, options).save(path);
+		return toret;
 	}
 
-	public function saveAsJSON(path:String, space:String = "\t")
+	public function saveAsJSON(path:String, space:String = "\t"):Array<Dynamic>
 	{
 		#if sys
-		if (structure == null) return;
-		File.saveContent(path, Json.stringify({song: KeyCountChanger.changeKeyCount(structure, options.get("Key count"))}, space));
+		if (structure == null) return [];
+		var stru:SwagSong = Utils.changeKeyCount(Utils.removeDuplicates(structure, options.get("Sensitivity")), options.get("Key count"));
+		var toret:Array<Dynamic> = stru.events;
+		stru.events = [];
+		File.saveContent(path, Json.stringify({song: stru}, space));
+		return toret;
 		#end
 	}
 }
