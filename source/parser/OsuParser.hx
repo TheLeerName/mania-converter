@@ -120,6 +120,7 @@ class OsuParser {
 		ini.setCategoryArrayByName("Difficulty", [
 			"HPDrainRate:" + options.get("HP Drain Rate"),
 			"CircleSize:" + keyCount,
+			"OverallDifficulty:7",
 		]);
 		ini.setCategoryArrayByName("TimingPoints", [
 			"0," + (60000 / json.bpm) + ",4,0,0," + options.get("Hitsound Volume") + ",1,0",
