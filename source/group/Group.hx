@@ -30,12 +30,6 @@ class Group extends FlxSpriteGroup {
 		cameras = [cameraObject];
 	}
 
-	function makeText(x:Float, y:Float, text:String):FlxText
-	{
-		var txt:FlxText = new FlxText(x, this.height + y, Std.int(width), text);
-		txt.setFormat(Paths.get.font("verdana.ttf"), 20, 0xff000000, LEFT);
-		return txt;
-	}
 	function makeSlider(x:Float, y:Float, width:Int, decimals:Int, value:Float, min:Float, max:Float, text:String):FlxUISlider
 	{
 		var d:FlxUISlider = new FlxUISlider(this, null, 0, this.height + y, min, max, width, null, 5, 0xff979797, 0xff000000);

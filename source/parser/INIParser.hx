@@ -90,7 +90,6 @@ class INIParser {
 		if (Std.string(Std.parseFloat(value)) != "nan") return Std.parseFloat(value);
 		if (Std.string(value) == "true") return true;
 		if (Std.string(value) == "false") return false;
-		if (Std.string(value).contains(",")) return value.split(",");
 		return value;
 	}
 

@@ -1,5 +1,6 @@
 package group;
 
+import flixel.text.FlxText;
 import flixel.FlxG;
 import flixel.FlxObject;
 
@@ -20,8 +21,6 @@ class OptionsGroup extends Group {
 
 	var scrollBar:ScrollBar;
 
-	public var descriptions:Map<String, String> = [];
-
 	public function new(x:Float = 0, y:Float = 0, ?width:Int = null, ?height:Int = null, options:INIParser)
 	{
 		super(x, y, width, height);
@@ -34,12 +33,12 @@ class OptionsGroup extends Group {
 			var v:Map<String, Dynamic> = options.getCategoryByName(n);
 			if (StringTools.startsWith(n, "#")) continue;
 
-			add(makeText(v["x"], v["y"], n));
+			add(new Text(v["x"], this.height + v["y"], n, v["description"]));
 			switch (v["displayMode"]) {
 				case 0:
 					add(makeSlider(v["displayX"], v["displayY"], v["width"], v["decimals"], v["value"], v["min"], v["max"], n));
 				case 1:
-					add(makeDrop(v["displayX"], v["displayY"], v["array"], v["value"], n));
+					add(makeDrop(v["displayX"], v["displayY"], Std.string(v["array"]).split(","), v["value"], n));
 				case 2:
 					add(makeInput(v["displayX"], v["displayY"], v["width"], v["value"], v["fontSize"], n));
 				case 3:
@@ -47,7 +46,6 @@ class OptionsGroup extends Group {
 				default:
 					// nothing
 			}
-			descriptions.set(n, v["description"]);
 		}
 
 		scrollBar = new ScrollBar(cameraObject.x + cameraObject.width - 10, cameraObject.y, 10, cameraObject.height, Std.int(actualHeight + cameraObject.y));
@@ -70,5 +68,18 @@ class OptionsGroup extends Group {
 		}
 		//else if (scrollBar.moving)
 		y = Std.int((cameraObject.height - height) * scrollBar.value);
+	}
+}
+
+class Text extends FlxText {
+	public var description:String;
+	public var mouseOverlaps(get, null):Bool;
+	function get_mouseOverlaps():Bool
+		return overlapsPoint(FlxG.mouse.getPositionInCameraView(cameras[0]), true, cameras[0]);
+
+	public function new(x:Float, y:Float, text:String, description:String) {
+		super(x, y, 0, text);
+		this.description = description;
+		setFormat(Paths.get.font("verdana.ttf"), 20, 0xff000000, LEFT);
 	}
 }

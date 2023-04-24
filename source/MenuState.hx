@@ -21,11 +21,11 @@ import lime.system.System;
 import group.OptionsGroup;
 import group.ButtonsGroup;
 import group.LogGroup;
+import group.DescriptionGroup;
 
 import parser.Converter;
 import parser.INIParser;
 
-import sprite.DescriptionPrompt;
 import sprite.SecretWordType;
 
 using StringTools;
@@ -41,13 +41,12 @@ class MenuState extends FlxUIState
 	var optionsGroup:OptionsGroup;
 	var buttonsGroup:ButtonsGroup;
 	var logGroup:LogGroup;
+	var descriptionGroup:DescriptionGroup;
 
 	var defaultOptions:Map<String, Dynamic> = [];
 	var options:Map<String, Dynamic> = [];
 
 	var converter:Converter;
-
-	var descriptionPrompt:DescriptionPrompt;
 
 	var cow:FlxSprite;
 	var cowSound:FlxSound;
@@ -81,7 +80,7 @@ class MenuState extends FlxUIState
 		var bg3:FlxSprite = new FlxSprite(basicOptions["buttonsX"], basicOptions["buttonsY"]).makeGraphic(basicOptions["buttonsWidth"], basicOptions["buttonsHeight"], FlxColor.fromString('0x' + basicOptions["buttonsColor"]));
 		add(bg3);
 
-		title = makeText(40, 15, 0, "Mania Converter", 30, 'verdana', 'EDFFC9');
+		title = makeText(260, 15, 0, "Mania Converter", 30, 'verdana', 'EDFFC9');
 		add(title);
 
 		optionsGroup = new OptionsGroup(bg2.x, bg2.y, Std.int(bg2.width), Std.int(bg2.height), new INIParser().load("assets/menu/options.ini"));
@@ -97,6 +96,9 @@ class MenuState extends FlxUIState
 
 		logGroup = new LogGroup(bg2.x + bg2.width, bg1.y + bg1.height, Std.int(bg2.height), Std.int(FlxG.width - bg2.x + bg2.width));
 		add(logGroup);
+
+		descriptionGroup = new DescriptionGroup(basicOptions["headerX"], basicOptions["headerY"], basicOptions["thingsWidth"], basicOptions["headerHeight"]);
+		add(descriptionGroup);
 
 		initializeOptions();
 
@@ -308,8 +310,19 @@ class MenuState extends FlxUIState
 		return new FlxText(x, y, width, text, size).setFormat(Paths.get.font(font), size, FlxColor.fromString('0xFF' + color));
 	}
 
+	function getDesc():String
+	{
+		for (th in optionsGroup) if (th is Text) {
+			var obj:Text = cast th;
+			if (obj.mouseOverlaps) return obj.description;
+		}
+		return "";
+	}
+
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
+
+		descriptionGroup.desc = getDesc();
 
 		if (FlxG.keys.justPressed.F5)
 			FlxG.switchState(new MenuState());
