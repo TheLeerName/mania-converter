@@ -23,10 +23,10 @@
 	<classpath name="source"/>
 
 	<haxeflag name="--macro" if="windows" value="macros.MoveAssets.moveFolder('assets/menu')"/>
-	<assets path="assets/fonts" if="windows" embed='true'/>
-
 	<assets path="assets/menu" unless="windows"/>
-	<assets path="assets/fonts" unless="windows" embed='true'/>
+	<assets path="assets/fonts" embed='true'/>
+	<assets path="assets/images" embed='true'/>
+	<assets path="assets/sounds" embed='true'/>
 
 	<haxeflag name="--macro" value="macros.CompileTime.addCompileTime('Main', 'compileTime')"/>
 
@@ -40,7 +40,7 @@
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
 	<haxedef name="FLX_NO_SOUND_TRAY" />
-	<haxedef name="FLX_NO_SOUND_SYSTEM" />
+	<!-- <haxedef name="FLX_NO_SOUND_SYSTEM" /> -->
 	<haxedef name="FLX_NO_FOCUS_LOST_SCREEN" />
 	<haxedef name="FLX_NO_DEBUG" />
 	<haxedef name="NAPE_RELEASE_BUILD" />

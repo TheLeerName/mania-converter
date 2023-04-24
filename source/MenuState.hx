@@ -1,9 +1,12 @@
 package;
 
 import flixel.FlxG;
+import flixel.FlxCamera;
 import flixel.FlxSprite;
 import flixel.text.FlxText;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import flixel.system.FlxSound;
 import flixel.addons.ui.FlxUIState;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUIDropDownMenu;
@@ -23,6 +26,7 @@ import parser.Converter;
 import parser.INIParser;
 
 import sprite.DescriptionPrompt;
+import sprite.SecretWordType;
 
 using StringTools;
 
@@ -45,11 +49,17 @@ class MenuState extends FlxUIState
 
 	var descriptionPrompt:DescriptionPrompt;
 
+	var cow:FlxSprite;
+	var cowSound:FlxSound;
+	var cowCamera:FlxCamera;
+	var swt:SecretWordType;
+
 	override public function create() {
 		super.create();
 		Application.current.window.onClose.add(destroy);
 
 		FlxG.mouse.useSystemCursor = true;
+		FlxG.sound.muted = false; // it muted by default idk
 
 		//var json = Paths.get.parseJSON('hui.json');
 
@@ -117,6 +127,36 @@ class MenuState extends FlxUIState
 				logGroup.log("Map is not loaded!", 0xffff0000);
 		});
 
+		cowCamera = new FlxCamera();
+		cowCamera.bgColor.alpha = 0;
+		FlxG.cameras.add(cowCamera, false);
+
+		cow = new FlxSprite(0, 0).loadGraphic(Paths.get.image("cow"));
+		cow.screenCenter();
+		cow.cameras = [cowCamera];
+		cow.alpha = 0;
+		add(cow);
+
+		cowSound = new FlxSound().loadEmbedded(Paths.get.sound("mooboom"));
+		cowSound.onComplete = function () {
+			FlxTween.tween(cow, {alpha: 0}, 0.25);
+		};
+		cowSound.volume = 0.25;
+		FlxG.sound.list.add(cowSound);
+
+		swt = new SecretWordType("cow", "Metronome_Tick", function () {
+			if (cowSound != null && cowSound.playing) return;
+			FlxTween.tween(cow, {alpha: 1}, 0.5);
+			cowSound.play(true);
+		});
+		add(swt);
+		for (th in optionsGroup) if (th is FlxUIInputText) {
+			var obj:FlxUIInputText = cast th;
+			optionsGroup.setFocusCallback(obj.name, function () {
+				swt.active = !obj.hasFocus;
+			});
+		}
+
 		logGroup.log("Hello! You're running version " + Main.version, 0xffffffff);
 
 		updateConverter(options["File path"]);
@@ -124,6 +164,7 @@ class MenuState extends FlxUIState
 
 	public override function destroy() {
 		saveOptions();
+		if (cowSound != null) cowSound.destroy();
 		super.destroy();
 	}
 

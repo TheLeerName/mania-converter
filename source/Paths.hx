@@ -1,9 +1,17 @@
 package;
 
 import haxe.Json;
+
+import flixel.graphics.FlxGraphic;
+
+import openfl.media.Sound;
+import openfl.utils.Assets;
+import openfl.utils.AssetType;
+import openfl.display.BitmapData;
+
 #if sys
-import sys.io.File;
 import sys.FileSystem;
+import sys.io.File;
 #end
 
 using StringTools;
@@ -12,11 +20,11 @@ class Paths
 {
 	public static var get:Paths;
 	
-	public function font(font:String) {
+	public function font(font:String):String {
 		return 'assets/fonts/' + font;
 	}
 	
-	public function parseJSON(file:String) {
+	public function parseJSON(file:String):Dynamic {
 		#if sys
 		if (file.startsWith('{'))
 			return Json.parse(file);
@@ -25,7 +33,7 @@ class Paths
 		#end
 	}
 	
-	public function getContent(path:String) {
+	public function getContent(path:String):String {
 		#if sys
 		return File.getContent(path);
 		#end
@@ -55,7 +63,7 @@ class Paths
 		return y;
 	}
 	
-	public function stringify(file:String, format:String = "\t") {
+	public function stringify(file:String, format:String = "\t"):String {
 		#if sys
 		return haxe.Json.stringify(file, format);
 		#end
@@ -67,9 +75,25 @@ class Paths
 		#end
 	}
 	
-	public function exists(file:String) {
-		#if sys
-		return FileSystem.exists(file);
-		#end
+	public function exists(file:String):Bool {
+		return #if sys FileSystem.exists(file) || #end Assets.exists(file);
+	}
+
+	public function sound(snd:String):Sound {
+		snd = "assets/sounds/" + snd + ".ogg";
+		if (Assets.exists(snd, AssetType.SOUND)) return Assets.getSound(snd); // gets from embed folders
+		if (FileSystem.exists(snd)) return Sound.fromFile(snd);
+
+		Sys.println("[Mania Converter] Sound " + snd + " returning null! Someone (you) fucked up!");
+		return null;
+	}
+
+	public function image(img:String):FlxGraphic {
+		img = "assets/images/" + img + ".png";
+		if (Assets.exists(img, AssetType.IMAGE)) return FlxGraphic.fromAssetKey(img); // gets from embed folders
+		if (FileSystem.exists(img)) return FlxGraphic.fromBitmapData(BitmapData.fromFile(img));
+
+		Sys.println("[Mania Converter] Image " + img + " returning null! Someone (you) fucked up!");
+		return null;
 	}
 }

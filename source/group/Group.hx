@@ -103,6 +103,16 @@ class Group extends FlxSpriteGroup {
 			}
 		}
 	}
+	public function setFocusCallback(name:String, callback:Void->Void) {
+		for (th in members) if (th is FlxUIInputText) {
+			var raaah:FlxUIInputText = cast th;
+			if (raaah.name == name) {
+				raaah.focusGained = callback;
+				raaah.focusLost = callback;
+				break;
+			}
+		}
+	}
 	public function setInputText(name:String, text:String) {
 		for (th in members) if (th is FlxUIInputText) {
 			var raaah:FlxUIInputText = cast th;
