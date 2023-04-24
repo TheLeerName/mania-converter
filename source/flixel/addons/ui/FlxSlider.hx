@@ -56,8 +56,11 @@ class FlxSlider extends FlxSpriteGroup
 	function set_value(v:Float):Float {
 		if (v < minValue) v = minValue;
 		if (v > maxValue) v = maxValue;
+		onChange(value);
 		return value = v;
 	}
+
+	public function onChange(value:Float) {}
 
 	/**
 	 * Mininum value the variable can be changed to.
@@ -369,7 +372,7 @@ class FlxSlider extends FlxSpriteGroup
 				Reflect.setProperty(_object, varString, (relativePos * (maxValue - minValue)) + minValue);
 			}
 			if (varString == null)
-				value = (relativePos * (maxValue - minValue)) + minValue;
+				value = FlxMath.roundDecimal((relativePos * (maxValue - minValue)) + minValue, decimals);
 
 			_lastPos = relativePos;
 
