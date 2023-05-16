@@ -1,4 +1,4 @@
-package parser;
+package utils.converter;
 
 class OsuParser {
 	public static function convertFromOsu(content:String, options:Map<String, Dynamic>):SwagSong {

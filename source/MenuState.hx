@@ -22,9 +22,9 @@ import group.ButtonsGroup;
 import group.LogGroup;
 import group.DescriptionGroup;
 
-import parser.Converter;
-import parser.INIParser;
+import utils.INIParser;
 import utils.NativeAPI;
+import utils.converter.Converter;
 
 import sprite.SecretWordType;
 
@@ -75,11 +75,11 @@ class MenuState extends FlxUIState
 		//ini.load("menu.ini");
 		converter = new Converter();
 
-		var bg1:FlxSprite = new FlxSprite(basicOptions["headerX"], basicOptions["headerY"]).makeGraphic(basicOptions["headerWidth"], basicOptions["headerHeight"], FlxColor.fromString('0x' + basicOptions["headerColor"]));
+		var bg1:FlxSprite = new FlxSprite(basicOptions["headerX"], basicOptions["headerY"]).makeGraphic(basicOptions["headerWidth"], basicOptions["headerHeight"], Std.parseInt("0x" + basicOptions["headerColor"]));
 		add(bg1);
-		var bg2:FlxSprite = new FlxSprite(basicOptions["thingsX"], basicOptions["thingsY"]).makeGraphic(basicOptions["thingsWidth"], basicOptions["thingsHeight"], FlxColor.fromString('0x' + basicOptions["thingsColor"]));
+		var bg2:FlxSprite = new FlxSprite(basicOptions["thingsX"], basicOptions["thingsY"]).makeGraphic(basicOptions["thingsWidth"], basicOptions["thingsHeight"], Std.parseInt("0x" + basicOptions["thingsColor"]));
 		add(bg2);
-		var bg3:FlxSprite = new FlxSprite(basicOptions["buttonsX"], basicOptions["buttonsY"]).makeGraphic(basicOptions["buttonsWidth"], basicOptions["buttonsHeight"], FlxColor.fromString('0x' + basicOptions["buttonsColor"]));
+		var bg3:FlxSprite = new FlxSprite(basicOptions["buttonsX"], basicOptions["buttonsY"]).makeGraphic(basicOptions["buttonsWidth"], basicOptions["buttonsHeight"], Std.parseInt("0x" + basicOptions["buttonsColor"]));
 		add(bg3);
 
 		title = makeText(260, 15, 0, "Mania Converter", 30, 'verdana', 'EDFFC9');
@@ -195,66 +195,42 @@ class MenuState extends FlxUIState
 	}
 
 	function setOptionsValues() {
-		for (th in buttonsGroup)
-		{
-			if (th is FlxUIInputText)
-			{
-				var nums:FlxUIInputText = cast th;
-				nums.text = options[nums.name];
-			}
+		for (th in buttonsGroup) if (th is FlxUIInputText) {
+			var nums:FlxUIInputText = cast th;
+			nums.text = options[nums.name];
 		}
-		for (th in optionsGroup)
-		{
-			if (th is FlxUICheckBox)
-			{
+		for (th in optionsGroup) {
+			if (th is FlxUICheckBox) {
 				var nums:FlxUICheckBox = cast th;
 				nums.checked = options[nums.name];
-			}
-			else if (th is FlxUISlider)
-			{
+			} else if (th is FlxUISlider) {
 				var nums:FlxUISlider = cast th;
 				nums.value = options[nums.name];
-			}
-			else if (th is FlxUIInputText)
-			{
+			} else if (th is FlxUIInputText) {
 				var nums:FlxUIInputText = cast th;
 				nums.text = options[nums.name];
-			}
-			else if (th is FlxUIDropDownMenu)
-			{
+			} else if (th is FlxUIDropDownMenu) {
 				var nums:FlxUIDropDownMenu = cast th;
 				nums.selectedId = options[nums.name];
 			}
 		}
 	}
 	function initializeOptions() {
-		for (th in buttonsGroup)
-		{
-			if (th is FlxUIInputText)
-			{
-				var nums:FlxUIInputText = cast th;
-				defaultOptions[nums.name] = nums.text;
-			}
+		for (th in buttonsGroup) if (th is FlxUIInputText) {
+			var nums:FlxUIInputText = cast th;
+			defaultOptions[nums.name] = nums.text;
 		}
-		for (th in optionsGroup)
-		{
-			if (th is FlxUICheckBox)
-			{
+		for (th in optionsGroup) {
+			if (th is FlxUICheckBox) {
 				var nums:FlxUICheckBox = cast th;
 				defaultOptions[nums.name] = nums.checked;
-			}
-			else if (th is FlxUISlider)
-			{
+			} else if (th is FlxUISlider) {
 				var nums:FlxUISlider = cast th;
 				defaultOptions[nums.name] = nums.value;
-			}
-			else if (th is FlxUIInputText)
-			{
+			} else if (th is FlxUIInputText) {
 				var nums:FlxUIInputText = cast th;
 				defaultOptions[nums.name] = nums.text;
-			}
-			else if (th is FlxUIDropDownMenu)
-			{
+			} else if (th is FlxUIDropDownMenu) {
 				var nums:FlxUIDropDownMenu = cast th;
 				defaultOptions[nums.name] = Std.parseInt(nums.selectedId);
 			}
@@ -265,34 +241,20 @@ class MenuState extends FlxUIState
 
 	override function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>)
 	{
-		switch(id)
-		{
+		switch(id) {
 			case FlxUICheckBox.CLICK_EVENT:
 				var nums:FlxUICheckBox = cast sender;
-				var wname = nums.name;
-
-				options[wname] = nums.checked;
-				//trace(wname + ': ' + nums.checked);
+				options[nums.name] = nums.checked;
 			case FlxUISlider.CHANGE_EVENT:
 				var nums:FlxUISlider = cast sender;
-				var wname = nums.name;
-
-				options[wname] = nums.value;
-				//trace(wname + ': ' + nums.value);
+				options[nums.name] = nums.value;
 			case FlxUIInputText.CHANGE_EVENT:
 				var nums:FlxUIInputText = cast sender;
-				var wname = nums.name;
-
-				options[wname] = nums.text;
-				//trace(wname + ': ' + nums.text);
-				if (wname == "File path")
-					updateConverter(nums.text);
+				options[nums.name] = nums.text;
+				if (nums.name == "File path") updateConverter(nums.text);
 			case FlxUIDropDownMenu.CLICK_EVENT:
 				var nums:FlxUIDropDownMenu = cast sender;
-				var wname = nums.name;
-
-				options[wname] = Std.parseInt(nums.selectedId);
-				//trace(wname + ': ' + Std.parseInt(nums.selectedId));
+				options[nums.name] = Std.parseInt(nums.selectedId);
 		}
 	}
 
@@ -309,7 +271,7 @@ class MenuState extends FlxUIState
 	}
 
 	function makeText(x:Float = 0, y:Float = 0, width:Float = 0, text:String = '', size:Int = 8, font:String = 'vcr', color:String = 'FFFFFF') {
-		return new FlxText(x, y, width, text, size).setFormat(Paths.get.font(font), size, FlxColor.fromString('0xFF' + color));
+		return new FlxText(x, y, width, text, size).setFormat(Paths.get.font(font), size, Std.parseInt('0xFF' + color));
 	}
 
 	function getDesc():String

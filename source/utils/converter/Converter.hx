@@ -1,4 +1,4 @@
-package parser;
+package utils.converter;
 
 import haxe.Json;
 
@@ -67,4 +67,6 @@ class Converter {
 		return toret;
 		#end
 	}
+
+	@:to public inline function toString():String return Json.stringify(structure);
 }

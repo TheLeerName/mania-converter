@@ -1,4 +1,4 @@
-package parser;
+package utils.converter;
 
 class Song {} // doing nothing
 

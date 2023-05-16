@@ -1,4 +1,4 @@
-package parser;
+package utils;
 
 class INIParser {
 	public var fileContent(default, set):String;
@@ -173,5 +173,9 @@ class INIParser {
 	public function getValueByName(categoryName:String, name:String):Dynamic {
 		if (fileContent == null || structure == null || !existsCategoryByName(categoryName)) return null;
 		return structure.get(categoryName).get(name);
+	}
+
+	@:to public inline function toString():String {
+		return structure.toString();
 	}
 }
