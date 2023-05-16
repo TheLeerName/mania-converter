@@ -5,6 +5,11 @@ import flixel.FlxGame;
 import openfl.Lib;
 import openfl.display.Sprite;
 
+import lime.app.Application;
+
+import utils.INIParser;
+import utils.converter.Converter;
+
 using StringTools;
 
 class Main extends Sprite
@@ -22,5 +27,19 @@ class Main extends Sprite
 	}
 	// public static var compileTime:String; exists too with macro hehe
 
-	public static function main() Lib.current.addChild(new FlxGame(0, 0, MenuState, 60, 60, true, false));
+	public static function main() {
+		Lib.current.addChild(new FlxGame(0, 0, MenuState, 10, 10, true, false));
+		if (Sys.args().length >= 2) {
+			var converter = new Converter();
+			converter.load(Sys.args()[0], new INIParser().load("assets/menu/save.ini").getCategoryByName("#Basic settings#"));
+			if (converter.structure == null) Application.current.window.close();
+			if (Sys.args()[1].endsWith(".osu"))
+				converter.saveAsOSU(Sys.args()[1]);
+			else
+				converter.saveAsJSON(Sys.args()[1]);
+			Application.current.window.close();
+		}
+	}
+
+
 }
