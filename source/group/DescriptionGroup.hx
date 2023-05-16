@@ -12,7 +12,7 @@ class DescriptionGroup extends Group {
 		if (desc == value) return value;
 		if (value == "")
 		{
-			txt.text = defaultDescriptions[0] + "\n" + defaultDescriptions[FlxG.random.int(1, defaultDescriptions.length - 1)];
+			txt.text = defaultDescriptions[0] /*+ "\n" + defaultDescriptions[FlxG.random.int(1, defaultDescriptions.length - 1)]*/;
 			return desc = value;
 		}
 		return txt.text = desc = value;
