@@ -24,6 +24,7 @@ import group.DescriptionGroup;
 
 import parser.Converter;
 import parser.INIParser;
+import utils.NativeAPI;
 
 import sprite.SecretWordType;
 
@@ -55,6 +56,8 @@ class MenuState extends FlxUIState
 	override public function create() {
 		super.create();
 		Application.current.window.onClose.add(destroy);
+
+		NativeAPI.setDarkMode(true);
 
 		FlxG.mouse.useSystemCursor = true;
 		FlxG.sound.muted = false; // it muted by default idk
