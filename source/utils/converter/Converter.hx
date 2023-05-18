@@ -11,15 +11,22 @@ class Converter {
 	public var fileContent(default, set):String;
 	function set_fileContent(value:String):String {
 		if (value.length == 0 || value == null) return fileContent = value;
-		if (value.replace("\r", "").split("\n")[0] == "osu file format v14")
-		{
+		if (value.replace("\r", "").split("\n")[0] == "osu file format v14") {
 			structure = OsuParser.convertFromOsu(value, options);
-			//trace(value);
-		}
-		else
-		{
+
+			var ini = new INIParser().loadFromContent(value);
+			var difficultyName = ini.getValueByName("Metadata", "Version");
+			if (difficultyName == null || difficultyName == "") difficultyName = "Normal";
+			osuFileName = ini.getValueByName("Metadata", "Artist") + " - " + ini.getValueByName("Metadata", "Title") + " (" + ini.getValueByName("Metadata", "Creator") + ") [" + difficultyName + "].osu";
+			jsonFileName = Utils.formatToSongPath(ini.getValueByName("Metadata", "Title")) + "-" + Utils.formatToSongPath(difficultyName) + ".json";
+		} else {
 			try {
 				structure = Json.parse(value).song;
+
+				var difficultyName = fileName.substring(fileName.lastIndexOf(Utils.formatToSongPath(structure.song)) + Utils.formatToSongPath(structure.song).length + 1, fileName.lastIndexOf("."));
+				if (difficultyName == null || difficultyName == "") difficultyName = "Normal";
+				osuFileName = options.get("Artist") + " - " + Utils.makeSongName(structure.song) + " (" + options.get("Creator") + ") [" + Utils.makeSongName(difficultyName) + "].osu";
+				jsonFileName = Utils.formatToSongPath(structure.song + "-" + difficultyName) + ".json";
 				//trace(structure);
 			}
 			catch (e) {
@@ -28,11 +35,12 @@ class Converter {
 		}
 		return fileContent = value;
 	}
-	public var fileName:String;
-
 	public var structure:SwagSong = null;
 
 	public var options:Map<String, Dynamic> = [];
+	public var osuFileName:String;
+	public var jsonFileName:String;
+	public var fileName:String;
 
 	public function new() {}
 
@@ -44,8 +52,8 @@ class Converter {
 		else if (FileSystem.exists(file) && !FileSystem.isDirectory(file)) content = File.getContent(file);
 		if (content != "") {
 			this.options = options;
-			fileContent = content;
 			fileName = file;
+			fileContent = content;
 		}
 		#end
 		return this;
@@ -58,7 +66,7 @@ class Converter {
 		returnUtils = Utils.changeKeyCount(returnUtils.value, options.get("Key count"));
 		var oldKeyCount:Int = returnUtils.extraValue + 0;
 
-		return {value: OsuParser.convertToOsu(returnUtils.value, options).toString(), extraValue: [oldKeyCount, removedNotes]};
+		return {value: OsuParser.convertToOsu(returnUtils.value, options).toString(), extraValue: [oldKeyCount, removedNotes, osuFileName]};
 	}
 	public function saveAsOSU(path:String):Array<Dynamic> {
 		#if sys
@@ -75,7 +83,7 @@ class Converter {
 		returnUtils = Utils.changeKeyCount(returnUtils.value, options.get("Key count"));
 		var oldKeyCount:Int = returnUtils.extraValue + 0;
 
-		return {value: Json.stringify({song: returnUtils.value}, space), extraValue: [oldKeyCount, removedNotes]};
+		return {value: Json.stringify({song: returnUtils.value}, space), extraValue: [oldKeyCount, removedNotes, jsonFileName]};
 	}
 	public function saveAsJSON(path:String, space:String = "\t"):Array<Dynamic> {
 		#if sys

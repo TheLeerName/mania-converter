@@ -50,6 +50,23 @@ class Utils {
 		return {value: structure, extraValue: wasKC};
 	}
 
+	public static function makeSongName(string:String, toreplace:String = "-", replacer:String = " "):String
+	{
+		var array:Array<String> = string.replace(toreplace, replacer).split(replacer);
+		if (array.length != 1) array.splice(0, 1);
+		for (i in 0...array.length)
+			array[i] = array[i].substring(0, 1).toUpperCase() + array[i].substring(1);
+		return array.join(' ');
+	}
+
+	static public function formatToSongPath(path:String) {
+		var invalidChars = ~/[~&\\;:<>#]/;
+		var hideChars = ~/[.,'"%?!]/;
+
+		var path = invalidChars.split(path.replace(' ', '-')).join("-");
+		return hideChars.split(path).join("").toLowerCase();
+	}
+
 	public static function getAlg(from_key:Int, to_key:Int):Array<Array<Int>>
 	{
 		var res:Array<Array<Int>> = [];

@@ -23,6 +23,11 @@ class INIParser {
 		fileContent = name + " v" + defaultVersion + "\n";
 	}
 
+	public function loadFromContent(content:String):INIParser {
+		fileContent = null;
+		if (content != "") fileContent = content;
+		return this;
+	}
 	public function load(file:String):INIParser {
 		#if sys
 		fileContent = null;

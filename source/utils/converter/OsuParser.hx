@@ -3,8 +3,7 @@ package utils.converter;
 class OsuParser {
 	public static function convertFromOsu(content:String, options:Map<String, Dynamic>):SwagSong {
 		//Sys.println("[Mania Converter] Getting osu! map data...");
-		var ini:INIParser = new INIParser();
-		ini.fileContent = content;
+		var ini:INIParser = new INIParser().loadFromContent(content);
 
 		var keyCount:Int = ini.getValueByName("Difficulty", "CircleSize");
 		var json:SwagSong = { // copied from psych engine charting state
@@ -110,7 +109,7 @@ class OsuParser {
 			"Mode:3"
 		]);
 		ini.setCategoryArrayByName("Metadata", [
-			"Title:" + makeSongName(json.song, "-", " "),
+			"Title:" + Utils.makeSongName(json.song),
 			"Artist:" + options.get("Artist"),
 			"Creator:" + options.get("Creator"),
 			"Version:poopy",
@@ -176,13 +175,5 @@ class OsuParser {
 
 		Sys.println('[Mania Converter] Note ' + from_note + ' not found in array!');
 		return 0;
-	}
-
-	public static function makeSongName(string:String, toreplace:String, replacer:String):String
-	{
-		var array:Array<String> = string.replace(toreplace, replacer).split(replacer);
-		for (i in 0...array.length)
-			array[i] = array[i].substring(0, 1).toUpperCase() + array[i].substring(1);
-		return array.join(' ');
 	}
 }
