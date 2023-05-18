@@ -15,6 +15,7 @@ class Converter {
 		{
 			try {
 				structure = Json.parse(value);
+				structure = Json.parse(value).song;
 				//trace(structure);
 			}
 			catch (e) {

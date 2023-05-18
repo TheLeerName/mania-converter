@@ -176,6 +176,6 @@ class INIParser {
 	}
 
 	@:to public inline function toString():String {
-		return structure.toString();
+		return fileContent.replace("<", "[").replace(">", "]");
 	}
 }
