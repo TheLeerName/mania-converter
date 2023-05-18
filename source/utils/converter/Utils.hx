@@ -2,10 +2,15 @@ package utils.converter;
 
 import flixel.math.FlxRandom;
 
+typedef UtilsReturn = {
+	var value:SwagSong;
+	var ?extraValue:Dynamic;
+}
+
 class Utils {
     public static var currentSeed:Int = 91169;
 
-	public static function removeDuplicates(structure:SwagSong, sensitivity:Int = 0):SwagSong
+	public static function removeDuplicates(structure:SwagSong, sensitivity:Int = 0):UtilsReturn
 	{
 		var lastSongNotes:Array<Float> = [];
 		var removedNotes:Int = 0;
@@ -25,13 +30,13 @@ class Utils {
 			}
 			section.sectionNotes = newArray;
 		}
-		structure.events[1] = removedNotes;
-		return structure;
+		return {value: structure, extraValue: removedNotes};
 	}
 
-	public static function changeKeyCount(structure:SwagSong, toKey:Int):SwagSong
+	public static function changeKeyCount(structure:SwagSong, toKey:Int):UtilsReturn
 	{
-		if (structure.keyCount == toKey) return structure;
+		if (structure.keyCount == null) structure.keyCount = 4;
+		if (structure.keyCount == toKey) return {value: structure, extraValue: structure.keyCount};
 
 		var alg:Array<Array<Int>> = getAlg(structure.keyCount, toKey);
 		var random:FlxRandom = new FlxRandom(currentSeed);
@@ -40,10 +45,9 @@ class Utils {
 			for (songNotes in section.sectionNotes)
 				songNotes[1] = alg[songNotes[1]][random.int(1, alg[songNotes[1]].length) - 1];
 
-		structure.events[0] = structure.keyCount;
+		var wasKC:Int = structure.keyCount;
 		structure.keyCount = toKey;
-
-		return structure;
+		return {value: structure, extraValue: wasKC};
 	}
 
 	public static function getAlg(from_key:Int, to_key:Int):Array<Array<Int>>

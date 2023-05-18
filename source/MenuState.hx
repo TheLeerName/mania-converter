@@ -17,6 +17,10 @@ import lime.ui.FileDialog;
 import lime.ui.FileDialogType;
 import lime.system.System;
 
+import openfl.events.Event;
+import openfl.net.FileFilter;
+import openfl.net.FileReference;
+
 import group.OptionsGroup;
 import group.ButtonsGroup;
 import group.LogGroup;
@@ -105,28 +109,30 @@ class MenuState extends FlxUIState
 		initializeOptions();
 
 		buttonsGroup.setCallback("Export as FNF...", function () {
-			if (converter.fileContent != null)
-				doFileDialog(SAVE, "*.json", function(str:String) {
-					converter.options = options;
-					var output:Array<Dynamic> = converter.saveAsJSON(str);
-					if (output[0] != null) logGroup.log("Changed key count from " + output[0] + " to " + options.get("Key count") + "!", 0xffffffff);
-					if (output[1] > 0) logGroup.log("Removed " + output[1] + " duplicated notes by " + options.get("Sensitivity") + " ms sensitivity!", 0xffffffff);
+			if (converter.fileContent != null) {
+				converter.options = options;
+				var returnConv = converter.getAsJSON();
+				doSaveDialog(returnConv.value, "bopeebo.json", fr -> {
+					if (returnConv.extraValue[0] != options.get("Key count")) logGroup.log("Changed key count from " + returnConv.extraValue[0] + " to " + options.get("Key count") + "!", 0xffffffff);
+					if (returnConv.extraValue[1] > 0) logGroup.log("Removed " + returnConv.extraValue[1] + " duplicated notes by " + options.get("Sensitivity") + " ms sensitivity!", 0xffffffff);
 
-					logGroup.log("Successfully exported " + str.replace("\\", "/").substring(str.replace("\\", "/").lastIndexOf("/") + 1) + " as FNF!", 0xff03cc03);
+					logGroup.log("Successfully exported " + fr.name + " as FNF!", 0xff03cc03);
 				});
+			}
 			else
 				logGroup.log("Map is not loaded!", 0xffff0000);
 		});
 		buttonsGroup.setCallback("Export as OSU...", function () {
-			if (converter.fileContent != null)
-				doFileDialog(SAVE, "*.osu", function(str:String) {
-					converter.options = options;
-					var output:Array<Dynamic> = converter.saveAsOSU(str);
-					if (output[0] != null) logGroup.log("Changed key count from " + output[0] + " to " + options.get("Key count") + "!", 0xffffffff);
-					if (output[1] > 0) logGroup.log("Removed " + output[1] + " duplicated notes by " + options.get("Sensitivity") + "ms sensitivity!", 0xffffffff);
+			if (converter.fileContent != null) {
+				converter.options = options;
+				var returnConv = converter.getAsOSU();
+				doSaveDialog(returnConv.value, "beatmap.osu", fr -> {
+					if (returnConv.extraValue[0] != options.get("Key count")) logGroup.log("Changed key count from " + returnConv.extraValue[0] + " to " + options.get("Key count") + "!", 0xffffffff);
+					if (returnConv.extraValue[1] > 0) logGroup.log("Removed " + returnConv.extraValue[1] + " duplicated notes by " + options.get("Sensitivity") + " ms sensitivity!", 0xffffffff);
 
-					logGroup.log("Successfully exported " + str.replace("\\", "/").substring(str.replace("\\", "/").lastIndexOf("/") + 1) + " as OSU!", 0xff03cc03);
+					logGroup.log("Successfully exported " + fr.name + " as OSU!", 0xff03cc03);
 				});
+			}
 			else
 				logGroup.log("Map is not loaded!", 0xffff0000);
 		});
@@ -172,11 +178,46 @@ class MenuState extends FlxUIState
 		super.destroy();
 	}
 
+	/**
+	 * Lime method of calling browse/save dialog. Not supports setting default file name on save type!
+	 * @param type FileDialogType enum value
+	 * @param filter Filter of file extensions
+	 * @param onSelectCallback Calls on select file
+	 */
 	function doFileDialog(type:FileDialogType = OPEN, filter:String = "", onSelectCallback:String->Void) {
 		var fd:FileDialog = new FileDialog();
 		fd.onSelect.add(onSelectCallback);
 		if (filter.startsWith("*.")) filter = filter.substring(2);
 		fd.browse(type, "" + filter, System.documentsDirectory);
+	}
+
+	/**
+	 * Flash method of calling save dialog.
+	 * @param data Data to save
+	 * @param defaultFileName Default file name to save
+	 */
+	function doSaveDialog(data:Dynamic, ?defaultFileName:String, ?onSelectCallback:FileReference->Void) {
+		var fr = new FileReference();
+		fr.addEventListener(Event.SELECT, function (_) {
+			fr.load();
+			onSelectCallback(fr);
+		});
+		fr.save(data, defaultFileName);
+	}
+
+	/**
+	 * Flash method of calling browse dialog.
+	 * @param filter Array with FileFilter class, ex. `new FileFilter("Images", "*.jpg;*.gif;*.png")`
+	 * @param onSelectCallback Calls on select file
+	 */
+	// lol idk works it or no, i not checked it
+	function doBrowseDialog(?filter:Array<FileFilter>, onSelectCallback:FileReference->Void) {
+		var fr = new FileReference();
+		fr.addEventListener(Event.SELECT, function (_) {
+			fr.load();
+			onSelectCallback(fr);
+		});
+		fr.browse(filter);
 	}
 
 	function getOptions():Map<String, Dynamic> {

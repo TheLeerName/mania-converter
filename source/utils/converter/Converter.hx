@@ -2,6 +2,11 @@ package utils.converter;
 
 import haxe.Json;
 
+typedef ReturnString = {
+	var value:String;
+	var ?extraValue:Dynamic;
+}
+
 class Converter {
 	public var fileContent(default, set):String;
 	function set_fileContent(value:String):String {
@@ -14,7 +19,6 @@ class Converter {
 		else
 		{
 			try {
-				structure = Json.parse(value);
 				structure = Json.parse(value).song;
 				//trace(structure);
 			}
@@ -47,25 +51,37 @@ class Converter {
 		return this;
 	}
 
-	public function saveAsOSU(path:String):Array<Dynamic>
-	{
-		if (structure == null) return [];
-		var stru:SwagSong = Utils.changeKeyCount(Utils.removeDuplicates(structure, options.get("Sensitivity")), options.get("Key count"));
-		var toret:Array<Dynamic> = stru.events;
-		stru.events = [];
-		OsuParser.convertToOsu(stru, options).save(path);
-		return toret;
+	public function getAsOSU():ReturnString {
+		if (structure == null) return {value: ""};
+		var returnUtils = Utils.removeDuplicates(structure, options.get("Sensitivity"));
+		var removedNotes:Int = returnUtils.extraValue + 0;
+		returnUtils = Utils.changeKeyCount(returnUtils.value, options.get("Key count"));
+		var oldKeyCount:Int = returnUtils.extraValue + 0;
+
+		return {value: OsuParser.convertToOsu(returnUtils.value, options).toString(), extraValue: [oldKeyCount, removedNotes]};
+	}
+	public function saveAsOSU(path:String):Array<Dynamic> {
+		#if sys
+		var poof = getAsOSU();
+		File.saveContent(path, poof.value);
+		return poof.extraValue;
+		#end
 	}
 
-	public function saveAsJSON(path:String, space:String = "\t"):Array<Dynamic>
-	{
+	public function getAsJSON(space:String = "\t"):ReturnString {
+		if (structure == null) return {value: ""};
+		var returnUtils = Utils.removeDuplicates(structure, options.get("Sensitivity"));
+		var removedNotes:Int = returnUtils.extraValue + 0;
+		returnUtils = Utils.changeKeyCount(returnUtils.value, options.get("Key count"));
+		var oldKeyCount:Int = returnUtils.extraValue + 0;
+
+		return {value: Json.stringify({song: returnUtils.value}, space), extraValue: [oldKeyCount, removedNotes]};
+	}
+	public function saveAsJSON(path:String, space:String = "\t"):Array<Dynamic> {
 		#if sys
-		if (structure == null) return [];
-		var stru:SwagSong = Utils.changeKeyCount(Utils.removeDuplicates(structure, options.get("Sensitivity")), options.get("Key count"));
-		var toret:Array<Dynamic> = stru.events;
-		stru.events = [];
-		File.saveContent(path, Json.stringify({song: stru}, space));
-		return toret;
+		var poof = getAsJSON(space);
+		File.saveContent(path, poof.value);
+		return poof.extraValue;
 		#end
 	}
 
