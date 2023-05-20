@@ -1,5 +1,6 @@
 package macros;
 
+#if macro
 /**
  * This class used for creating variable with compile time of this build, ex. `2023-04-16 21:17:17 (UTC +7)`. To properly use:
  * 1. Add this line to `Project.xml`: `<haxeflag name="--macro" value="macros.CompileTime.addCompileTime('TitleState', 'compileTime')" />`
@@ -19,8 +20,9 @@ class CompileTime {
 		#if macro
 		// 2023-04-16 21:17:17 (UTC +7)
 		var timeStr:String = DateTools.format(Date.now(), "%Y-%m-%d %H:%M:%S") + " (UTC " + Std.string((Date.now().getTimezoneOffset() / 60 * -1) > 0 ? ("+" + (Date.now().getTimezoneOffset() / 60 * -1)) : (Date.now().getTimezoneOffset() / 60 * -1)) + ")";
-		MacroUtils.addStringFromCompiler(Class, variableName, timeStr);
+		MacroUtils.addStringFromCompiler(Class, variableName, timeStr, 'public static');
 		trace("CompileTime: " + timeStr);
 		#end
 	}
 }
+#end

@@ -1,9 +1,6 @@
 package macros;
 
-#if sys
-import sys.io.Process;
-#end
-
+#if macro
 using StringTools;
 
 /**
@@ -19,7 +16,7 @@ class MoveAssets {
 	public static function moveFolder(folder:String = "assets")
 	{
 		#if (macro && windows)
-		var d:Process = new Process("echo %cd%");
+		var d = new sys.io.Process("echo %cd%");
 		var programPath:String = d.stdout.readLine();
 		d.close();
 		var assetsPath:String = programPath + "\\" + folder.replace("/", "\\");
@@ -29,3 +26,4 @@ class MoveAssets {
 		#end
 	}
 }
+#end
