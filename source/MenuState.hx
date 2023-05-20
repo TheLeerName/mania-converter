@@ -1,5 +1,6 @@
 package;
 
+import group.Group;
 import flixel.FlxG;
 import flixel.FlxCamera;
 import flixel.FlxSprite;
@@ -36,10 +37,6 @@ using StringTools;
 
 class MenuState extends FlxUIState
 {
-	var pathfile_input:FlxUIInputText;
-	var format:String = 'osu';
-	
-	var ads:FlxText;
 	var title:FlxText;
 
 	var optionsGroup:OptionsGroup;
@@ -235,67 +232,49 @@ class MenuState extends FlxUIState
 		logGroup.log("Options saved!");
 	}
 
-	function setOptionsValues() {
-		for (th in buttonsGroup) if (th is FlxUIInputText) {
-			var nums:FlxUIInputText = cast th;
-			nums.text = options[nums.name];
-		}
-		for (th in optionsGroup) {
-			if (th is FlxUICheckBox) {
-				var nums:FlxUICheckBox = cast th;
-				nums.checked = options[nums.name];
-			} else if (th is FlxUISlider) {
-				var nums:FlxUISlider = cast th;
-				nums.value = options[nums.name];
-			} else if (th is FlxUIInputText) {
-				var nums:FlxUIInputText = cast th;
-				nums.text = options[nums.name];
-			} else if (th is FlxUIDropDownMenu) {
-				var nums:FlxUIDropDownMenu = cast th;
-				nums.selectedId = options[nums.name];
-			}
+	function setValuesToGroup(group:Group, ?optionsMap:Map<String, Dynamic>) {
+		if (optionsMap == null) optionsMap = options;
+		for (th in group) {
+			if (th is FlxUICheckBox) cast(th, FlxUICheckBox).checked = optionsMap[cast(th, FlxUICheckBox).name];
+			else if (th is FlxUISlider) cast(th, FlxUISlider).value = optionsMap[cast(th, FlxUISlider).name];
+			else if (th is FlxUIInputText) cast(th, FlxUIInputText).text = optionsMap[cast(th, FlxUIInputText).name];
+			else if (th is FlxUIDropDownMenu) cast(th, FlxUIDropDownMenu).selectedId = optionsMap[cast(th, FlxUIDropDownMenu).name];
 		}
 	}
+	function setValuesFromGroup(group:Group, ?optionsMap:Map<String, Dynamic>) {
+		if (optionsMap == null) optionsMap = options;
+		for (th in group) {
+			if (th is FlxUICheckBox) optionsMap[cast(th, FlxUICheckBox).name] = cast(th, FlxUICheckBox).checked;
+			else if (th is FlxUISlider) optionsMap[cast(th, FlxUISlider).name] = cast(th, FlxUISlider).value;
+			else if (th is FlxUIInputText) optionsMap[cast(th, FlxUIInputText).name] = cast(th, FlxUIInputText).text;
+			else if (th is FlxUIDropDownMenu) optionsMap[cast(th, FlxUIDropDownMenu).name] = Std.parseInt(cast(th, FlxUIDropDownMenu).selectedId);
+		}
+	}
+
+	function setOptionsValues() {
+		setValuesToGroup(buttonsGroup, options);
+		setValuesToGroup(optionsGroup, options);
+	}
 	function initializeOptions() {
-		for (th in buttonsGroup) if (th is FlxUIInputText) {
-			var nums:FlxUIInputText = cast th;
-			defaultOptions[nums.name] = nums.text;
-		}
-		for (th in optionsGroup) {
-			if (th is FlxUICheckBox) {
-				var nums:FlxUICheckBox = cast th;
-				defaultOptions[nums.name] = nums.checked;
-			} else if (th is FlxUISlider) {
-				var nums:FlxUISlider = cast th;
-				defaultOptions[nums.name] = nums.value;
-			} else if (th is FlxUIInputText) {
-				var nums:FlxUIInputText = cast th;
-				defaultOptions[nums.name] = nums.text;
-			} else if (th is FlxUIDropDownMenu) {
-				var nums:FlxUIDropDownMenu = cast th;
-				defaultOptions[nums.name] = Std.parseInt(nums.selectedId);
-			}
-		}
+		setValuesFromGroup(buttonsGroup, defaultOptions);
+		setValuesFromGroup(optionsGroup, defaultOptions);
+
 		options = getOptions();
 		setOptionsValues();
 	}
 
-	override function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>)
-	{
+	override function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>) {
 		switch(id) {
 			case FlxUICheckBox.CLICK_EVENT:
-				var nums:FlxUICheckBox = cast sender;
-				options[nums.name] = nums.checked;
+				options[cast(sender, FlxUICheckBox).name] = cast(sender, FlxUICheckBox).checked;
 			case FlxUISlider.CHANGE_EVENT:
-				var nums:FlxUISlider = cast sender;
-				options[nums.name] = nums.value;
+				options[cast(sender, FlxUISlider).name] = cast(sender, FlxUISlider).value;
 			case FlxUIInputText.CHANGE_EVENT:
 				var nums:FlxUIInputText = cast sender;
 				options[nums.name] = nums.text;
 				if (nums.name == "File path") updateConverter(nums.text);
 			case FlxUIDropDownMenu.CLICK_EVENT:
-				var nums:FlxUIDropDownMenu = cast sender;
-				options[nums.name] = Std.parseInt(nums.selectedId);
+				options[cast(sender, FlxUIDropDownMenu).name] = Std.parseInt(cast(sender, FlxUIDropDownMenu).selectedId);
 		}
 	}
 
@@ -311,7 +290,7 @@ class MenuState extends FlxUIState
 		}
 	}
 
-	function makeText(x:Float = 0, y:Float = 0, width:Float = 0, text:String = '', size:Int = 8, font:String = 'vcr', color:String = 'FFFFFF') {
+	inline function makeText(x:Float = 0, y:Float = 0, width:Float = 0, text:String = '', size:Int = 8, font:String = 'vcr', color:String = 'FFFFFF') {
 		return new FlxText(x, y, width, text, size).setFormat(Paths.get.font(font), size, Std.parseInt('0xFF' + color));
 	}
 

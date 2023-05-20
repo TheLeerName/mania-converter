@@ -39,7 +39,7 @@ class INIParser {
 		#end
 		return this;
 	}
-	public function save(path:String) {
+	inline public function save(path:String) {
 		#if sys
 		File.saveContent(path, fileContent.replace("<", "[").replace(">", "]"));
 		#end

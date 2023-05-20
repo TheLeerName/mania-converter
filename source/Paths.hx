@@ -20,20 +20,17 @@ class Paths
 {
 	public static var get:Paths;
 	
-	public function font(font:String):String {
+	inline public function font(font:String):String {
 		return 'assets/fonts/' + font;
 	}
 	
-	public function parseJSON(file:String):Dynamic {
+	inline public function parseJSON(file:String):Dynamic {
 		#if sys
-		if (file.startsWith('{'))
-			return Json.parse(file);
-		else
-			return Json.parse(File.getContent(file));
+		return Json.parse(isJSON(file) ? file : File.getContent(file));
 		#end
 	}
 	
-	public function getContent(path:String):String {
+	inline public function getContent(path:String):String {
 		#if sys
 		return File.getContent(path);
 		#end
@@ -52,30 +49,26 @@ class Paths
 		return daList;
 	}
 	
-	public function isJSON(file:String):Bool {
+	inline public function isJSON(file:String):Bool {
 		var y = true;
-		try {
-			var d = parseJSON(file);
-		}
-		catch (e) {
-			y = false;
-		}
+		try { parseJSON(file); }
+		catch (e) { y = false; }
 		return y;
 	}
 	
-	public function stringify(file:String, format:String = "\t"):String {
+	inline public function stringify(file:String, format:String = "\t"):String {
 		#if sys
 		return haxe.Json.stringify(file, format);
 		#end
 	}
 	
-	public function saveFile(to_file:String, from_file:String = '') {
+	inline public function saveFile(to_file:String, from_file:String = '') {
 		#if sys
 		File.saveContent(to_file, from_file);
 		#end
 	}
 	
-	public function exists(file:String):Bool {
+	inline public function exists(file:String):Bool {
 		return #if sys FileSystem.exists(file) || #end Assets.exists(file);
 	}
 

@@ -24,24 +24,24 @@ class NativeAPI {
 	 * Sets dark mode of window. Works only in Windows 11 Build 22000 and higher!
 	 * @param value If false, disables dark mode
 	 */
-	public static function setDarkMode(value:Bool) {
+	inline public static function setDarkMode(value:Bool) {
 		#if (sys && windows)
 		Windows.setDarkMode(value);
 		#end
 	}
 
-	public static function showWindow() {
+	inline public static function showWindow() {
 		#if (sys && windows)
 		Windows.showWindow(1);
 		#end
 	}
-	public static function hideWindow() {
+	inline public static function hideWindow() {
 		#if (sys && windows)
 		Windows.showWindow(0);
 		#end
 	}
 
-	public static function clearConsole() {
+	inline public static function clearConsole() {
 		#if (sys && windows)
 		Windows.clearScreen();
 		#end
