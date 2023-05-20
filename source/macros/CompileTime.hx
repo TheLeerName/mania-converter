@@ -19,28 +19,8 @@ class CompileTime {
 		#if macro
 		// 2023-04-16 21:17:17 (UTC +7)
 		var timeStr:String = DateTools.format(Date.now(), "%Y-%m-%d %H:%M:%S") + " (UTC " + Std.string((Date.now().getTimezoneOffset() / 60 * -1) > 0 ? ("+" + (Date.now().getTimezoneOffset() / 60 * -1)) : (Date.now().getTimezoneOffset() / 60 * -1)) + ")";
-		Compiler.addGlobalMetadata(Class, "@:build(macros.CompileTime.addVariable('" + variableName + "', '" + timeStr + "'))");
+		MacroUtils.addStringFromCompiler(Class, variableName, timeStr);
 		trace("CompileTime: " + timeStr);
-		#end
-	}
-
-	/**
-	 * Adds public static string variable `variableName` with value `value`
-	 * @param callbackName Name of variable
-	 * @param value Value of variable
-	 */
-	public static function addVariable(variableName:String, value:String) #if macro :Array<Field> #end {
-		#if macro
-		var fields:Array<Field> = [];
-		fields = Context.getBuildFields();
-
-		fields.push({
-			pos: Context.currentPos(),
-			name: variableName,
-			kind: FVar(macro:String, MacroStringTools.formatString(value, Context.currentPos())),
-			access: [APublic, AStatic]
-		});
-		return fields;
 		#end
 	}
 }
