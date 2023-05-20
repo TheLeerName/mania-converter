@@ -28,7 +28,7 @@ class Main extends Sprite
 	// public static var compileTime:String; exists too with macro hehe
 
 	public static function main() {
-		Lib.current.addChild(new FlxGame(0, 0, MenuState, 10, 10, true, false));
+		Lib.current.addChild(new FlxGame(0, 0, MenuState, 60, 60, true, false));
 		if (Sys.args().length >= 2) {
 			var converter = new Converter();
 			converter.load(Sys.args()[0], new INIParser().load("assets/menu/save.ini").getCategoryByName("#Basic settings#"));

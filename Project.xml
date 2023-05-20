@@ -2,17 +2,15 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app packageName="com.theleername.maniaconverter" main="Main" company="ManiaConverter"/>
-	<app title="Mania Converter" package="com.theleername.maniaconverter" version="2.1" file="ManiaConverter"/>
+	<app packageName="com.theleername.maniaconverter" main="Main" company="ManiaConverter" preloader="flixel.system.FlxPreloader"/>
+	<app title="Mania Converter" package="com.theleername.maniaconverter" file="ManiaConverter"/>
 
 	<set name="APP_ID"      value="0x0100f6c013bbc000" />
 	<set name="SWF_VERSION" value="11.8" />
-	<app preloader="flixel.system.FlxPreloader" />
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 
 	<window background="#000000" hardware="true" vsync="false" resizable="false" orientation="landscape" width="510" height="460"/>
-	<!-- window dimensions in source/Main.hx -->
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 

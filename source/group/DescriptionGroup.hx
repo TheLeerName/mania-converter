@@ -5,7 +5,6 @@ import flixel.FlxSprite;
 import flixel.text.FlxText;
 
 class DescriptionGroup extends Group {
-	public var bg:FlxSprite;
 	public var txt:FlxText;
 	public var desc(default, set):String;
 	function set_desc(value:String):String {
@@ -45,9 +44,6 @@ class DescriptionGroup extends Group {
 
 	public function new(x:Float, y:Float, ?width:Int, ?height:Int) {
 		super(x, y, width, height);
-
-		bg = new FlxSprite(0, 0).makeGraphic(width, height, 0xffffffff);
-		add(bg);
 
 		txt = new FlxText(0, 0, width, "");
 		txt.setFormat(Paths.get.font("verdana.ttf"), 12, 0xff000000, LEFT);

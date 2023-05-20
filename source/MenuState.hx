@@ -1,11 +1,19 @@
 package;
 
-import group.Group;
+/*
+   |||||  |||||  ||  |   |||   |||||         |||||  |||||  ||  |  |   |  |||||  |||||  |||||  |||||  |||||         |||||         |||||
+   | | |  |   |  ||| |    |    |   |         |      |   |  ||| |  |   |  |      |   |    |    |      |   |             |         |   |
+   | | |  |||||  | | |    |    |||||         |      |   |  | | |  |   |  |||||  |||      |    |||||  |||           |||||         |   |
+   | | |  |   |  | |||    |    |   |         |      |   |  | |||   | |   |      |  |     |    |      |  |              |         |   |
+   | | |  |   |  |  ||   |||   |   |         |||||  |||||  |  ||    |    |||||  |   |    |    |||||  |   |         |||||   |||   |||||
+*/
+
 import flixel.FlxG;
 import flixel.FlxCamera;
 import flixel.FlxSprite;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
 import flixel.#if (flixel >= "5.3.0") sound #else system #end.FlxSound;
 import flixel.addons.ui.FlxUIState;
 import flixel.addons.ui.FlxUIInputText;
@@ -22,9 +30,10 @@ import openfl.events.Event;
 import openfl.net.FileFilter;
 import openfl.net.FileReference;
 
+import group.Group;
+import group.LogGroup;
 import group.OptionsGroup;
 import group.ButtonsGroup;
-import group.LogGroup;
 import group.DescriptionGroup;
 
 import utils.INIParser;
@@ -37,7 +46,8 @@ using StringTools;
 
 class MenuState extends FlxUIState
 {
-	var title:FlxText;
+	var bgs:Map<String, FlxSprite> = [];
+	var titleText:FlxText;
 
 	var optionsGroup:OptionsGroup;
 	var buttonsGroup:ButtonsGroup;
@@ -54,8 +64,16 @@ class MenuState extends FlxUIState
 	var cowCamera:FlxCamera;
 	var swt:SecretWordType;
 
+	function addBG(name:String, bg:FlxSprite) {
+		bgs.set(name, bg);
+		add(bg);
+		return bg;
+	}
+
 	override public function create() {
 		super.create();
+		var basicOptions:Map<String, Dynamic> = new INIParser().load("assets/menu/basic.ini").getCategoryByName("#Basic settings#");
+		FlxG.drawFramerate = FlxG.updateFramerate = basicOptions["windowFPS"];
 		Application.current.window.onClose.add(destroy);
 
 		NativeAPI.setDarkMode(true);
@@ -69,70 +87,70 @@ class MenuState extends FlxUIState
 		//add(bg);
 		//generateScrollOptions();
 
-		var basicOptions:Map<String, Dynamic> = new INIParser().load("assets/menu/basic.ini").getCategoryByName("#Basic settings#");
 		//ini.setCategoryByName("fuck you", ["fuck" => 1, "you" => true]);
 		//trace(ini.getValueByName("fuck you", "you"));
 		//ini.saveContent("kys.ini");
 		//ini.load("menu.ini");
 		converter = new Converter();
 
-		var bg1:FlxSprite = new FlxSprite(basicOptions["headerX"], basicOptions["headerY"]).makeGraphic(basicOptions["headerWidth"], basicOptions["headerHeight"], Std.parseInt("0x" + basicOptions["headerColor"]));
-		add(bg1);
-		var bg2:FlxSprite = new FlxSprite(basicOptions["thingsX"], basicOptions["thingsY"]).makeGraphic(basicOptions["thingsWidth"], basicOptions["thingsHeight"], Std.parseInt("0x" + basicOptions["thingsColor"]));
-		add(bg2);
-		var bg3:FlxSprite = new FlxSprite(basicOptions["buttonsX"], basicOptions["buttonsY"]).makeGraphic(basicOptions["buttonsWidth"], basicOptions["buttonsHeight"], Std.parseInt("0x" + basicOptions["buttonsColor"]));
-		add(bg3);
+		for (name in ["description", "title", "options", "log", "buttons"])
+		{
+			addBG(name, new FlxSprite(basicOptions['${name}X'], basicOptions['${name}Y']).makeGraphic(basicOptions['${name}Width'], basicOptions['${name}Height'], Std.parseInt("0x" + basicOptions['${name}Color'])));
 
-		title = makeText(260, 15, 0, "Mania Converter", 30, 'verdana', 'EDFFC9');
-		add(title);
+			switch(name) {
+				case "description":
+					descriptionGroup = new DescriptionGroup(bgs.get("description").x, bgs.get("description").y, Std.int(bgs.get("description").width), Std.int(bgs.get("description").height));
+					add(descriptionGroup);
+				case "title":
+					titleText = makeText(bgs.get("title").x, basicOptions["titleTextY"], bgs.get("title").width, basicOptions["titleText"], basicOptions["titleTextSize"], 'verdana', Std.parseInt("0x" + basicOptions["titleTextColor"]));
+					add(titleText);
+				case "options":
+					optionsGroup = new OptionsGroup(bgs.get("options").x, bgs.get("options").y, Std.int(bgs.get("options").width), Std.int(bgs.get("options").height), new INIParser().load("assets/menu/options.ini"));
+					add(optionsGroup);
+				case "log":
+					logGroup = new LogGroup(bgs.get("log").x, bgs.get("log").y, Std.int(bgs.get("log").width), Std.int(bgs.get("log").height));
+					add(logGroup);
+				case "buttons":
+					buttonsGroup = new ButtonsGroup(bgs.get("buttons").x, bgs.get("buttons").y, Std.int(bgs.get("buttons").width), Std.int(bgs.get("buttons").height), new INIParser().load("assets/menu/buttons.ini"));
+					add(buttonsGroup);
 
-		optionsGroup = new OptionsGroup(bg2.x, bg2.y, Std.int(bg2.width), Std.int(bg2.height), new INIParser().load("assets/menu/options.ini"));
-		add(optionsGroup);
-
-		buttonsGroup = new ButtonsGroup(bg3.x, bg3.y, Std.int(bg3.width), Std.int(bg3.height), new INIParser().load("assets/menu/buttons.ini"));
-		add(buttonsGroup);
-		buttonsGroup.setCallback("Browse...", function () {
-			doFileDialog(OPEN, "*.json; *.osu", function(str:String) {
-				buttonsGroup.setInputText("File path", str);
-			});
-		});
-
-		logGroup = new LogGroup(bg2.x + bg2.width, bg1.y + bg1.height, Std.int(bg2.height), Std.int(FlxG.width - bg2.x + bg2.width));
-		add(logGroup);
-
-		descriptionGroup = new DescriptionGroup(basicOptions["headerX"], basicOptions["headerY"], basicOptions["thingsWidth"], basicOptions["headerHeight"]);
-		add(descriptionGroup);
+					buttonsGroup.setCallback("Browse...", function () {
+						doFileDialog(OPEN, "*.json; *.osu", function(str:String) {
+							buttonsGroup.setInputText("File path", str);
+						});
+					});
+					buttonsGroup.setCallback("Export as FNF...", () -> {
+						if (converter.fileContent != null) {
+							converter.options = options;
+							var returnConv = converter.getAsJSON();
+							doSaveDialog(returnConv.value, returnConv.extraValue[2], fr -> {
+								if (returnConv.extraValue[0] != options.get("Key count")) logGroup.log("Changed key count from " + returnConv.extraValue[0] + " to " + options.get("Key count") + "!", 0xffffffff);
+								if (returnConv.extraValue[1] > 0) logGroup.log("Removed " + returnConv.extraValue[1] + " duplicated notes by " + options.get("Sensitivity") + " ms sensitivity!", 0xffffffff);
+			
+								logGroup.log("Successfully exported " + fr.name + " as FNF!", 0xff03cc03);
+							});
+						}
+						else
+							logGroup.log("Map is not loaded!", 0xffff0000);
+					});
+					buttonsGroup.setCallback("Export as OSU...", () -> {
+						if (converter.fileContent != null) {
+							converter.options = options;
+							var returnConv = converter.getAsOSU();
+							doSaveDialog(returnConv.value, returnConv.extraValue[2], fr -> {
+								if (returnConv.extraValue[0] != options.get("Key count")) logGroup.log("Changed key count from " + returnConv.extraValue[0] + " to " + options.get("Key count") + "!", 0xffffffff);
+								if (returnConv.extraValue[1] > 0) logGroup.log("Removed " + returnConv.extraValue[1] + " duplicated notes by " + options.get("Sensitivity") + " ms sensitivity!", 0xffffffff);
+			
+								logGroup.log("Successfully exported " + fr.name + " as OSU!", 0xff03cc03);
+							});
+						}
+						else
+							logGroup.log("Map is not loaded!", 0xffff0000);
+					});
+			}
+		}
 
 		initializeOptions();
-
-		buttonsGroup.setCallback("Export as FNF...", () -> {
-			if (converter.fileContent != null) {
-				converter.options = options;
-				var returnConv = converter.getAsJSON();
-				doSaveDialog(returnConv.value, returnConv.extraValue[2], fr -> {
-					if (returnConv.extraValue[0] != options.get("Key count")) logGroup.log("Changed key count from " + returnConv.extraValue[0] + " to " + options.get("Key count") + "!", 0xffffffff);
-					if (returnConv.extraValue[1] > 0) logGroup.log("Removed " + returnConv.extraValue[1] + " duplicated notes by " + options.get("Sensitivity") + " ms sensitivity!", 0xffffffff);
-
-					logGroup.log("Successfully exported " + fr.name + " as FNF!", 0xff03cc03);
-				});
-			}
-			else
-				logGroup.log("Map is not loaded!", 0xffff0000);
-		});
-		buttonsGroup.setCallback("Export as OSU...", () -> {
-			if (converter.fileContent != null) {
-				converter.options = options;
-				var returnConv = converter.getAsOSU();
-				doSaveDialog(returnConv.value, returnConv.extraValue[2], fr -> {
-					if (returnConv.extraValue[0] != options.get("Key count")) logGroup.log("Changed key count from " + returnConv.extraValue[0] + " to " + options.get("Key count") + "!", 0xffffffff);
-					if (returnConv.extraValue[1] > 0) logGroup.log("Removed " + returnConv.extraValue[1] + " duplicated notes by " + options.get("Sensitivity") + " ms sensitivity!", 0xffffffff);
-
-					logGroup.log("Successfully exported " + fr.name + " as OSU!", 0xff03cc03);
-				});
-			}
-			else
-				logGroup.log("Map is not loaded!", 0xffff0000);
-		});
 
 		cowCamera = new FlxCamera();
 		cowCamera.bgColor.alpha = 0;
@@ -290,8 +308,8 @@ class MenuState extends FlxUIState
 		}
 	}
 
-	inline function makeText(x:Float = 0, y:Float = 0, width:Float = 0, text:String = '', size:Int = 8, font:String = 'vcr', color:String = 'FFFFFF') {
-		return new FlxText(x, y, width, text, size).setFormat(Paths.get.font(font), size, Std.parseInt('0xFF' + color));
+	inline function makeText(x:Float = 0, y:Float = 0, width:Float = 0, text:String = '', size:Int = 8, font:String = 'vcr', color:FlxColor = 0xff000000) {
+		return new FlxText(x, y, width, text, size).setFormat(Paths.get.font(font), size, color, CENTER);
 	}
 
 	function getDesc():String

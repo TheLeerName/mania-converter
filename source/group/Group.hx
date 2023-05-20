@@ -30,7 +30,7 @@ class Group extends FlxSpriteGroup {
 		cameras = [cameraObject];
 	}
 
-	function makeSlider(x:Float, y:Float, width:Int, decimals:Int, value:Float, min:Float, max:Float, text:String):FlxUISlider
+	public inline function makeSlider(x:Float, y:Float, width:Int, decimals:Int, value:Float, min:Float, max:Float, text:String):FlxUISlider
 	{
 		var d:FlxUISlider = new FlxUISlider(this, null, 0, this.height + y, min, max, width, null, 5, 0xff979797, 0xff000000);
 		d.value = value;
@@ -38,7 +38,7 @@ class Group extends FlxSpriteGroup {
 		d.name = text;
 		return d;
 	}
-	function makeDrop(x:Float, y:Float, array:Array<String>, value:String, text:String):FlxUIDropDownMenu
+	public inline function makeDrop(x:Float, y:Float, array:Array<String>, value:String, text:String):FlxUIDropDownMenu
 	{
 		var d:FlxUIDropDownMenu = new FlxUIDropDownMenu(x, this.height + y, FlxUIDropDownMenu.makeStrIdLabelArray(array, true));
 		d.selectedLabel = array[0];
@@ -47,7 +47,7 @@ class Group extends FlxSpriteGroup {
 		d.selectedId = value;
 		return d;
 	}
-	function makeInput(x:Float, y:Float, width:Int, value:String, size:Int, text:String):FlxUIInputText
+	public inline function makeInput(x:Float, y:Float, width:Int, value:String, size:Int, text:String):FlxUIInputText
 	{
 		var d:FlxUIInputText = new FlxUIInputText(x, this.height + y, width, "");
 		d.setFormat(Paths.get.font('verdana'), size, FlxColor.BLACK);
@@ -55,7 +55,7 @@ class Group extends FlxSpriteGroup {
 		d.name = text;
 		return d;
 	}
-	function makeCheckbox(x:Float, y:Float, value:Bool, text:String):FlxUICheckBox
+	public inline function makeCheckbox(x:Float, y:Float, value:Bool, text:String):FlxUICheckBox
 	{
 		var d:FlxUICheckBox = new FlxUICheckBox(x, this.height + y, null, null, "", 100);
 		d.box.scale.set(1.5, 1.5);
@@ -65,7 +65,7 @@ class Group extends FlxSpriteGroup {
 		return d;
 	}
 
-	public function makeButton(x:Float, y:Float, width:Int, height:Int, offset_x:Float, offset_y:Float, size:Int, color:String, name:String):FlxButton {
+	public inline function makeButton(x:Float, y:Float, width:Int, height:Int, offset_x:Float, offset_y:Float, size:Int, color:String, name:String):FlxButton {
 		var button:FlxButton = new FlxButton(x, y, name);
 		button.setGraphicSize(width, height);
 		button.updateHitbox();
