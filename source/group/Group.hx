@@ -1,16 +1,12 @@
 package group;
 
-import flixel.addons.ui.FlxUI;
 import flixel.FlxG;
 import flixel.FlxCamera;
-import flixel.text.FlxText;
 import flixel.ui.FlxButton;
-import flixel.util.FlxColor;
 import flixel.group.FlxSpriteGroup;
-import flixel.addons.ui.FlxUICheckBox;
+import flixel.addons.ui.FlxUI;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUIDropDownMenu;
-import flixel.addons.ui.FlxUISlider;
 
 class Group extends FlxSpriteGroup {
 
@@ -28,56 +24,6 @@ class Group extends FlxSpriteGroup {
 		cameraObject.bgColor.alpha = 0;
 		FlxG.cameras.add(cameraObject, false);
 		cameras = [cameraObject];
-	}
-
-	public inline function makeSlider(x:Float, y:Float, width:Int, decimals:Int, value:Float, min:Float, max:Float, text:String):FlxUISlider
-	{
-		var d:FlxUISlider = new FlxUISlider(this, null, 0, this.height + y, min, max, width, null, 5, 0xff979797, 0xff000000);
-		d.value = value;
-		d.decimals = decimals;
-		d.name = text;
-		return d;
-	}
-	public inline function makeDrop(x:Float, y:Float, array:Array<String>, value:String, text:String):FlxUIDropDownMenu
-	{
-		var d:FlxUIDropDownMenu = new FlxUIDropDownMenu(x, this.height + y, FlxUIDropDownMenu.makeStrIdLabelArray(array, true));
-		d.selectedLabel = array[0];
-		d.dropDirection = Up;
-		d.name = text;
-		d.selectedId = value;
-		return d;
-	}
-	public inline function makeInput(x:Float, y:Float, width:Int, value:String, size:Int, text:String):FlxUIInputText
-	{
-		var d:FlxUIInputText = new FlxUIInputText(x, this.height + y, width, "");
-		d.setFormat(Paths.get.font('verdana'), size, FlxColor.BLACK);
-		d.text = value;
-		d.name = text;
-		return d;
-	}
-	public inline function makeCheckbox(x:Float, y:Float, value:Bool, text:String):FlxUICheckBox
-	{
-		var d:FlxUICheckBox = new FlxUICheckBox(x, this.height + y, null, null, "", 100);
-		d.box.scale.set(1.5, 1.5);
-		d.mark.scale.set(1.5, 1.5);
-		d.name = text;
-		d.checked = value;
-		return d;
-	}
-
-	public inline function makeButton(x:Float, y:Float, width:Int, height:Int, offset_x:Float, offset_y:Float, size:Int, color:String, name:String):FlxButton {
-		var button:FlxButton = new FlxButton(x, y, name);
-		button.setGraphicSize(width, height);
-		button.updateHitbox();
-		button.color = FlxColor.fromString("0x" + color);
-		button.label.setFormat(Paths.get.font("vendana"), size, FlxColor.fromString('0xFF000000'), CENTER);
-		setAllLabelsOffset(button, offset_x, offset_y);
-		button.label.fieldWidth = width;
-		return button;
-	}
-	public function setAllLabelsOffset(button:FlxButton, x:Float, y:Float) {
-		for (point in button.labelOffsets)
-			point.set(x, y);
 	}
 
 	public function hideAllDropDowns()

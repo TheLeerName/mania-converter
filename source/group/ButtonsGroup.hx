@@ -1,7 +1,7 @@
 package group;
 
-import flixel.util.FlxColor;
 import flixel.FlxSprite;
+import flixel.util.FlxColor;
 
 class ButtonsGroup extends Group {
 	public var indicator:FlxSprite;
@@ -15,9 +15,9 @@ class ButtonsGroup extends Group {
 			if (StringTools.startsWith(n, "#")) continue;
 			switch(v["displayMode"]) {
 				case 0:
-					add(makeButton(v["x"], v["y"], v["width"], v["height"], v["labelOffsetX"], v["labelOffsetY"], v["fontSize"], v["color"], n));
+					add(ClassShortcuts.makeButton(v["x"], v["y"], v["width"], v["height"], v["labelOffsetX"], v["labelOffsetY"], v["fontSize"], v["color"], n));
 				case 1:
-					add(makeInput(v["x"], v["y"], v["width"], v["value"], v["fontSize"], n));
+					add(ClassShortcuts.makeInput(v["x"], v["y"], v["width"], v["value"], v["fontSize"], n));
 			}
 			if (n == "Indicator")
 			{

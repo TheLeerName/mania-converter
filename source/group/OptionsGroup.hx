@@ -36,13 +36,13 @@ class OptionsGroup extends Group {
 			add(new Text(v["x"], this.height + v["y"], n, v["description"]));
 			switch (v["displayMode"]) {
 				case 0:
-					add(makeSlider(v["displayX"], v["displayY"], v["width"], v["decimals"], v["value"], v["min"], v["max"], n));
+					add(ClassShortcuts.makeSlider(v["displayX"], this.height + v["displayY"], v["width"], v["decimals"], v["value"], v["min"], v["max"], n));
 				case 1:
-					add(makeDrop(v["displayX"], v["displayY"], Std.string(v["array"]).split(","), v["value"], n));
+					add(ClassShortcuts.makeDrop(v["displayX"], this.height + v["displayY"], Std.string(v["array"]).split(","), v["value"], n));
 				case 2:
-					add(makeInput(v["displayX"], v["displayY"], v["width"], v["value"], v["fontSize"], n));
+					add(ClassShortcuts.makeInput(v["displayX"], this.height + v["displayY"], v["width"], v["value"], v["fontSize"], n));
 				case 3:
-					add(makeCheckbox(v["displayX"], v["displayY"], v["value"], n));
+					add(ClassShortcuts.makeCheckbox(v["displayX"], this.height + v["displayY"], v["value"], n));
 				default:
 					// nothing
 			}
