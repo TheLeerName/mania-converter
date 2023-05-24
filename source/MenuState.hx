@@ -81,7 +81,7 @@ class MenuState extends FlxUIState
 		FlxG.mouse.useSystemCursor = true;
 		FlxG.sound.muted = false; // it muted by default idk
 
-		//var json = Paths.get.parseJSON('hui.json');
+		//var json = Paths.parseJSON('hui.json');
 
 		//var bg:FlxSprite = new FlxSprite().loadGraphic('assets/menu/bg.png');
 		//add(bg);
@@ -115,9 +115,16 @@ class MenuState extends FlxUIState
 					add(buttonsGroup);
 
 					buttonsGroup.setCallback("Browse...", function () {
+						#if sys
 						doFileDialog(OPEN, "*.json; *.osu", function(str:String) {
 							buttonsGroup.setInputText("File path", str);
 						});
+						#else
+						doBrowseDialog([new FileFilter("Song files", "*.json;*.osu")], fr -> {
+							//race(fr.data);
+							updateConverter(fr.data.toString(), fr.name);
+						});
+						#end
 					});
 					buttonsGroup.setCallback("Export as FNF...", () -> {
 						if (converter.fileContent != null) {
@@ -156,13 +163,13 @@ class MenuState extends FlxUIState
 		cowCamera.bgColor.alpha = 0;
 		FlxG.cameras.add(cowCamera, false);
 
-		cow = new FlxSprite(0, 0).loadGraphic(Paths.get.image("cow"));
+		cow = new FlxSprite(0, 0).loadGraphic(Paths.image("cow"));
 		cow.screenCenter();
 		cow.cameras = [cowCamera];
 		cow.alpha = 0;
 		add(cow);
 
-		cowSound = new FlxSound().loadEmbedded(Paths.get.sound("mooboom"));
+		cowSound = new FlxSound().loadEmbedded(Paths.sound("mooboom"));
 		cowSound.onComplete = function () {
 			FlxTween.tween(cow, {alpha: 0}, 0.25);
 		};
@@ -184,7 +191,8 @@ class MenuState extends FlxUIState
 
 		logGroup.log("Hello! You're running version " + Main.version, 0xffffffff);
 
-		updateConverter(options["File path"]);
+		#if !sys for (th in buttonsGroup) if (th is FlxUIInputText && cast(th, FlxUIInputText).name == "File path") th.visible = false; #end
+		#if sys updateConverter(options["File path"]); #end
 	}
 
 	public override function destroy() {
@@ -200,10 +208,12 @@ class MenuState extends FlxUIState
 	 * @param onSelectCallback Calls on select file
 	 */
 	function doFileDialog(type:FileDialogType = OPEN, filter:String = "", onSelectCallback:String->Void) {
+		#if sys
 		var fd:FileDialog = new FileDialog();
 		fd.onSelect.add(onSelectCallback);
 		if (filter.startsWith("*.")) filter = filter.substring(2);
 		fd.browse(type, "" + filter, System.documentsDirectory);
+		#end
 	}
 
 	/**
@@ -213,9 +223,9 @@ class MenuState extends FlxUIState
 	 */
 	function doSaveDialog(data:Dynamic, ?defaultFileName:String, ?onSelectCallback:FileReference->Void) {
 		var fr = new FileReference();
-		fr.addEventListener(Event.SELECT, function (_) {
+		fr.addEventListener(Event.SELECT, function (e:Event) {
 			fr.load();
-			onSelectCallback(fr);
+			onSelectCallback(cast(e.target, FileReference));
 		});
 		fr.save(data, defaultFileName);
 	}
@@ -225,13 +235,15 @@ class MenuState extends FlxUIState
 	 * @param filter Array with FileFilter class, ex. `new FileFilter("Images", "*.jpg;*.gif;*.png")`
 	 * @param onSelectCallback Calls on select file
 	 */
-	// lol idk works it or no, i not checked it
+	// thx to flixel tutorial
 	function doBrowseDialog(?filter:Array<FileFilter>, onSelectCallback:FileReference->Void) {
 		var fr = new FileReference();
-		fr.addEventListener(Event.SELECT, function (_) {
+		fr.addEventListener(Event.SELECT, function (e:Event) {
+			cast(e.target, FileReference).addEventListener(Event.COMPLETE, e_ -> {
+				onSelectCallback(cast(e_.target, FileReference));
+			}, false, 0, true);
 			fr.load();
-			onSelectCallback(fr);
-		});
+		}, false, 0, true);
 		fr.browse(filter);
 	}
 
@@ -290,23 +302,33 @@ class MenuState extends FlxUIState
 			case FlxUIInputText.CHANGE_EVENT:
 				var nums:FlxUIInputText = cast sender;
 				options[nums.name] = nums.text;
-				if (nums.name == "File path") updateConverter(nums.text);
+				#if sys if (nums.name == "File path") updateConverter(nums.text); #end
 			case FlxUIDropDownMenu.CLICK_EVENT:
 				options[cast(sender, FlxUIDropDownMenu).name] = Std.parseInt(cast(sender, FlxUIDropDownMenu).selectedId);
 		}
 	}
 
-	function updateConverter(text:String) {
+	function updateConverter(text:String, ?fileName:String) {
+		#if sys
 		converter.load(text, options);
 		buttonsGroup.indicatorEnabled = converter.fileContent != null;
 		if(converter.fileContent != null) {
 			var thing:String = converter.fileName.replace("\\", "/");
 			logGroup.log("Successfully loaded " + thing.substring(thing.lastIndexOf("/") + 1) + "!", 0xff03cc03);
 		}
+		#else
+		converter.loadFromContent(text, options);
+		converter.fileName = fileName;
+		buttonsGroup.indicatorEnabled = converter.fileContent != null;
+		if(converter.fileContent != null) {
+			var thing:String = converter.fileName.replace("\\", "/");
+			logGroup.log("Successfully loaded " + thing.substring(thing.lastIndexOf("/") + 1) + "!", 0xff03cc03);
+		}
+		#end
 	}
 
 	inline function makeText(x:Float = 0, y:Float = 0, width:Float = 0, text:String = '', size:Int = 8, font:String = 'vcr', color:FlxColor = 0xff000000) {
-		return new FlxText(x, y, width, text, size).setFormat(Paths.get.font(font), size, color, CENTER);
+		return new FlxText(x, y, width, text, size).setFormat(Paths.font(font), size, color, CENTER);
 	}
 
 	function getDesc():String
@@ -323,7 +345,6 @@ class MenuState extends FlxUIState
 
 		descriptionGroup.desc = getDesc();
 
-		if (FlxG.keys.justPressed.F5)
-			FlxG.switchState(new MenuState());
+		#if sys if (FlxG.keys.justPressed.F5) FlxG.switchState(new MenuState()); #end
 	}
 }

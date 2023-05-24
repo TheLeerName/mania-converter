@@ -10,10 +10,10 @@ class LogGroup extends Group {
 
 	public function log(text:String, color:FlxColor = 0xffffffff) {
 		var txt:FlxText = new FlxText(0, 0, Std.int(cameraObject.width), text);
-		txt.setFormat(Paths.get.font("verdana.ttf"), 10, color, LEFT);
+		txt.setFormat(Paths.font("verdana.ttf"), 10, color, LEFT);
 		txt.y = cameraObject.width - txt.height;
 		for (th in members) if (th is FlxText) th.y -= txt.height;
 		add(txt);
-		Sys.println("[Mania Converter] " + text);
+		Paths.log("[Mania Converter] " + text);
 	}
 }

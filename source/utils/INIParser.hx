@@ -29,14 +29,11 @@ class INIParser {
 		return this;
 	}
 	public function load(file:String):INIParser {
-		#if sys
 		fileContent = null;
 		var content:String = "";
-		#if lime
-		if (Assets.exists(file, TEXT)) content = Assets.getText(file);
-		else #end if (FileSystem.exists(file) && !FileSystem.isDirectory(file)) content = File.getContent(file);
+		#if lime if (Assets.exists(file, TEXT)) content = Assets.getText(file); #end
+		#if sys if (FileSystem.exists(file) && !FileSystem.isDirectory(file)) content = File.getContent(file); #end
 		if (content != "") fileContent = content;
-		#end
 		return this;
 	}
 	inline public function save(path:String) {
@@ -92,7 +89,7 @@ class INIParser {
 	}
 
 	function resolveValueFromString(value:String):Any {
-		if (Std.string(Std.parseFloat(value)) != "nan") return Std.parseFloat(value);
+		if (Std.string(Std.parseFloat(value)).toLowerCase() != "nan") return Std.parseFloat(value);
 		if (Std.string(value) == "true") return true;
 		if (Std.string(value) == "false") return false;
 		return value;

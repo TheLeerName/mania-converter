@@ -10,7 +10,10 @@
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 
-	<window background="#000000" hardware="true" vsync="false" resizable="false" orientation="landscape" width="510" height="460"/>
+	<window width="510" height="460" fps="" background="#000000" hardware="true" vsync="false" />
+
+	<window if="html5" resizable="true" />
+	<window if="desktop" orientation="landscape" fullscreen="false" resizable="false" />
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
@@ -21,11 +24,15 @@
 	<classpath name="source"/>
 
 	<haxeflag name="--macro" if="windows" value="macros.MoveAssets.moveFolder('assets/menu')"/>
-	<assets path="assets/menu" unless="windows"/>
-	<assets path="assets/fonts" embed='true'/>
-	<assets path="assets/images" embed='true'/>
-	<assets path="assets/sounds" embed='true'/>
+	<section if="desktop">
+		<assets path="assets/fonts" embed='true'/>
+		<assets path="assets/images" embed='true'/>
+		<assets path="assets/sounds" embed='true'/>
+	</section>
 
+	<section unless="desktop">
+		<assets path="assets" embed="true"/>
+	</section>
 	<haxeflag name="--macro" value="macros.CompileTime.addCompileTime('Main', 'compileTime')"/>
 	<haxeflag name="--macro" value="sprite.ClassFieldsMenu.ClassFieldsMacro.addClassFieldsVar()"/>
 

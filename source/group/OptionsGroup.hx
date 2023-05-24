@@ -80,6 +80,6 @@ class Text extends FlxText {
 	public function new(x:Float, y:Float, text:String, description:String) {
 		super(x, y, 0, text);
 		this.description = description;
-		setFormat(Paths.get.font("verdana.ttf"), 20, 0xff000000, LEFT);
+		setFormat(Paths.font("verdana.ttf"), 20, 0xff000000, LEFT);
 	}
 }

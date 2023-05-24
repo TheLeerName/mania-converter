@@ -33,7 +33,7 @@ class ClassShortcuts {
     public static function makeInput(x:Float, y:Float, width:Int, value:String, size:Int, text:String):FlxUIInputText
 	{
 		var d:FlxUIInputText = new FlxUIInputText(x, y, width, "");
-		d.setFormat(Paths.get.font('verdana'), size, FlxColor.BLACK);
+		d.setFormat(Paths.font('verdana'), size, FlxColor.BLACK);
 		d.text = value;
 		d.name = text;
 		return d;
@@ -54,7 +54,7 @@ class ClassShortcuts {
 		button.setGraphicSize(width, height);
 		button.updateHitbox();
 		button.color = FlxColor.fromString("0x" + color);
-		button.label.setFormat(Paths.get.font("vendana"), size, FlxColor.fromString('0xFF000000'), CENTER);
+		button.label.setFormat(Paths.font("vendana"), size, FlxColor.fromString('0xFF000000'), CENTER);
 		setAllLabelsOffset(button, offset_x, offset_y);
 		button.label.fieldWidth = width;
 		return button;

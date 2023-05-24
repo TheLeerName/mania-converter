@@ -46,7 +46,7 @@ class DescriptionGroup extends Group {
 		super(x, y, width, height);
 
 		txt = new FlxText(0, 0, width, "");
-		txt.setFormat(Paths.get.font("verdana.ttf"), 12, 0xff000000, LEFT);
+		txt.setFormat(Paths.font("verdana.ttf"), 12, 0xff000000, LEFT);
 		add(txt);
 	}
 }

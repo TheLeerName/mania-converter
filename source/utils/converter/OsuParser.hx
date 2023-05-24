@@ -45,7 +45,7 @@ class OsuParser {
 				'osu!catch',
 				'osu!mania'
 			];
-			Sys.println('[Mania Converter] Converter supports only osu!mania mode! You have a ' + osuModes[curMode] + ' beatmap.');
+			Paths.log('[Mania Converter] Converter supports only osu!mania mode! You have a ' + osuModes[curMode] + ' beatmap.');
 			return null;
 		}
 
@@ -181,7 +181,7 @@ class OsuParser {
 			return Std.int(((num * from_note) + ((num * (from_note + 1)) - 1)) / 2) + 1;
 		}
 
-		Sys.println('[Mania Converter] Note ' + from_note + ' not found in array!');
+		Paths.log('[Mania Converter] Note ' + from_note + ' not found in array!');
 		return 0;
 	}
 }

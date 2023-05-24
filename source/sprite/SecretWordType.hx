@@ -25,7 +25,7 @@ class SecretWordType extends FlxBasic {
 		if (FlxG.sound.list.members.contains(sound)) FlxG.sound.list.remove(sound, true);
 
 		sound = new FlxSound();
-		if (value != null) sound.loadEmbedded(Paths.get.sound(value));
+		if (value != null) sound.loadEmbedded(Paths.sound(value));
 		sound.volume = 0.25;
 		FlxG.sound.list.add(sound);
 

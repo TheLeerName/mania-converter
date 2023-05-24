@@ -53,17 +53,21 @@ class Converter {
 	public function new() {}
 
 	public function load(file:String, ?options:Map<String, Dynamic>):Converter {
-		#if sys
+		
 		fileContent = fileName = null;
 		var content:String = "";
-		if (Assets.exists(file, TEXT)) content = Assets.getText(file);
-		else if (FileSystem.exists(file) && !FileSystem.isDirectory(file)) content = File.getContent(file);
+		#if lime if (Assets.exists(file, TEXT)) content = Assets.getText(file); #end
+		#if sys if (FileSystem.exists(file) && !FileSystem.isDirectory(file)) content = File.getContent(file); #end
 		if (content != "") {
 			this.options = options;
 			fileName = file;
 			fileContent = content;
 		}
-		#end
+		return this;
+	}
+	public function loadFromContent(content:String, ?options:Map<String, Dynamic>):Converter {
+		this.options = options;
+		fileContent = content;
 		return this;
 	}
 
@@ -82,6 +86,7 @@ class Converter {
 		File.saveContent(path, poof.value);
 		return poof.extraValue;
 		#end
+		return [];
 	}
 
 	public function getAsJSON(space:String = "\t"):ReturnString {
@@ -99,6 +104,7 @@ class Converter {
 		File.saveContent(path, poof.value);
 		return poof.extraValue;
 		#end
+		return [];
 	}
 
 	@:to public inline function toString():String return Json.stringify(structure);
