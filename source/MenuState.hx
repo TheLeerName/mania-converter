@@ -303,8 +303,7 @@ class MenuState extends FlxUIState
 		if(converter.fileContent != null)
 		{
 			var thing:String = converter.fileName.replace("\\", "/");
-			//Sys.println("[Mania Converter] Successfully loaded " + thing.substring(thing.lastIndexOf("/") + 1) + "!");
-			logGroup.log("Successfully loaded " + thing.substring(thing.lastIndexOf("/") + 1) + "!", 0xffffffff);
+			logGroup.log("Successfully loaded " + thing.substring(thing.lastIndexOf("/") + 1) + "!", 0xff03cc03);
 		}
 	}
 
