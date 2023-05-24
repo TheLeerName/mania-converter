@@ -258,13 +258,12 @@ class FlxSlider extends FlxSpriteGroup
 		valueLabel.color = _handleColor;
 		valueLabel.scrollFactor.set();
 
-		minLabel = new FlxText(-50 + offset.x, textOffset, 100, Std.string(minValue));
-		minLabel.alignment = "center";
+		minLabel = new FlxText(-2 + offset.x, textOffset, 0, Std.string(minValue));
 		minLabel.color = _color;
 		minLabel.scrollFactor.set();
 
-		maxLabel = new FlxText(_width - 50 + offset.x, textOffset, 100, Std.string(maxValue));
-		maxLabel.alignment = "center";
+		maxLabel = new FlxText(_width + 3 + offset.x, textOffset, 0, Std.string(maxValue));
+		maxLabel.x -= maxLabel.width;
 		maxLabel.color = _color;
 		maxLabel.scrollFactor.set();
 
