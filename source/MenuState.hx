@@ -298,10 +298,8 @@ class MenuState extends FlxUIState
 
 	function updateConverter(text:String) {
 		converter.load(text, options);
-		//trace(converter.fileName, converter.fileContent.substring(0, 10), sys.FileSystem.exists(converter.fileName));
-		buttonsGroup.indicator.visible = converter.fileContent != null;
-		if(converter.fileContent != null)
-		{
+		buttonsGroup.indicatorEnabled = converter.fileContent != null;
+		if(converter.fileContent != null) {
 			var thing:String = converter.fileName.replace("\\", "/");
 			logGroup.log("Successfully loaded " + thing.substring(thing.lastIndexOf("/") + 1) + "!", 0xff03cc03);
 		}

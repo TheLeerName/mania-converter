@@ -5,6 +5,12 @@ import flixel.util.FlxColor;
 
 class ButtonsGroup extends Group {
 	public var indicator:FlxSprite;
+	public var indicatorColors:Array<FlxColor> = [];
+	public var indicatorEnabled(default, set):Bool = false;
+	function set_indicatorEnabled(value:Bool):Bool {
+		indicator.color = indicatorColors[value ? 1 : 0];
+		return indicatorEnabled = value;
+	}
 
 	public function new(x:Float, y:Float, ?width:Int, ?height:Int, options:INIParser) {
 		super(x, y, width, height);
@@ -21,8 +27,9 @@ class ButtonsGroup extends Group {
 			}
 			if (n == "Indicator")
 			{
-				indicator = new FlxSprite(v["x"], v["y"]).makeGraphic(v["width"], v["height"], FlxColor.fromString("0x" + v["color"]));
-				indicator.visible = false;
+				indicator = new FlxSprite(v["x"], v["y"]).makeGraphic(v["width"], v["height"]);
+				indicatorColors = [FlxColor.fromString("0x" + v["colorDisabled"]), FlxColor.fromString("0x" + v["colorEnabled"])];
+				indicatorEnabled = false;
 				add(indicator);
 			}
 		}
