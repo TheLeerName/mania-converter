@@ -1,6 +1,11 @@
 # Changelogs of Mania Converter
 
-## (Latest) 2.0 - The UI Update
+## (Latest) 3.0 - The UI Update 2
+- Now on HaxeFlixel
+- Supports of 1-512 key
+- CMD arguments works too: `ManiaConverter.exe "Camellia - Quaoar (-MysticEyes) [Celestial].osu" "quaoar-celestial.json"`
+
+## 2.0 - The UI Update
 - Finally UI of app
 - After upload multiply files, app packs them in `.zip` file
 - Support of 1-32 key, for more keys use `mccmd.exe` arguments

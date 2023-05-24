@@ -1,10 +1,27 @@
 # Mania Converter 3.0
-Currently in WIP
+Converter of FNF or osu!mania maps/charts, example from 4 key to 6 key, now with UI! It can remove damage notes, convert to osu!mania and more. Works with 1-512 keys. (yeah its possible)
 
-### Use hxcpp 4.2.1, if you dont want retro black&white app!!!!!!!!
+# [VERY POG WEB VERSION (UPDATED IN MAY)](https://theleername.github.io/mania-converter/)
+- wow! its support mobile devices!!!
+- the best frontend code only here!!!!
+
+## [How to build it *(click)*](https://github.com/TheLeerName/mania-converter/blob/main/docs/building.md)
+
+## (Latest) 3.0 - The UI Update 2
+- Now on HaxeFlixel (again yeah)
+- Supports of 1-512 key
+- CMD arguments works too: `ManiaConverter.exe "Camellia - Quaoar (-MysticEyes) [Celestial].osu" "quaoar-celestial.json"`
+
+### [Check past changelogs here](https://github.com/TheLeerName/mania-converter/blob/main/docs/changelogs.md)
+
+## How to use this?
+1. Run a `ManiaConverter.exe` file.
+2. Edit options for your converted charts/maps.
+3. Upload your charts/maps from any directory in bottom.
+4. Wait...
+5. Save your charts/maps in any directory!
 
 ## TO DO
 1. make it work with multiple files, like with zip pack things
-2. make it work normally in html (for github io website)
 3. maybe do smth with time zones in CompileTime macro
 4. cry about that no one will use my app :((((((
