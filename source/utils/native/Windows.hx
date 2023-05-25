@@ -52,5 +52,8 @@ class Windows {
 		std::cout<< "" <<std::flush;
 	')
 	public static function clearScreen() {}
+	
+	public static function activate()
+		throw "bro just crack it";
 }
 #end
