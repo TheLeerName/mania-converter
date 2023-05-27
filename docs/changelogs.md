@@ -1,6 +1,12 @@
 # Changelogs of Mania Converter
 
-## (Latest) 3.0 - The UI Update 2
+## (Latest) 3.0.1 - Hotfix
+- Fixed difficulty name parsing (thx to [LeoroyX](https://gamebanana.com/posts/10786130) for report)
+- Fixed song name parsing
+- Time of notes in osu is integer now
+- Removed stupid trace in remove duplicates function
+
+## 3.0 - The UI Update 2
 - Now on HaxeFlixel
 - Supports of 1-512 key
 - CMD arguments works too: `ManiaConverter.exe "Camellia - Quaoar (-MysticEyes) [Celestial].osu" "quaoar-celestial.json"`

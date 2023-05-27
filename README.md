@@ -1,16 +1,17 @@
-# Mania Converter 3.0
+# Mania Converter 3.0.1
 Converter of FNF or osu!mania maps/charts, example from 4 key to 6 key, now with UI! It can remove damage notes, convert to osu!mania and more. Works with 1-512 keys. (yeah its possible)
 
-# [VERY POG WEB VERSION (UPDATED IN MAY)](https://theleername.github.io/mania-converter/)
+# [VERY POG WEB VERSION (UPD 27.05.2023)](https://theleername.github.io/mania-converter/)
 - wow! its support mobile devices!!!
 - the best frontend code only here!!!!
 
 ## [How to build it *(click)*](https://github.com/TheLeerName/mania-converter/blob/main/docs/building.md)
 
-## (Latest) 3.0 - The UI Update 2
-- Now on HaxeFlixel (again yeah)
-- Supports of 1-512 key
-- CMD arguments works too: `ManiaConverter.exe "Camellia - Quaoar (-MysticEyes) [Celestial].osu" "quaoar-celestial.json"`
+## (Latest) 3.0.1 - Hotfix
+- Fixed difficulty name parsing (thx to [LeoroyX](https://gamebanana.com/posts/10786130) for report)
+- Fixed song name parsing
+- Time of notes in osu is integer now
+- Removed stupid trace in remove duplicates function
 
 ### [Check past changelogs here](https://github.com/TheLeerName/mania-converter/blob/main/docs/changelogs.md)
 
