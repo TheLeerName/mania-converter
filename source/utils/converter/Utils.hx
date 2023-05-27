@@ -49,10 +49,11 @@ class Utils {
 		return {value: structure, extraValue: wasKC};
 	}
 
-	public static function makeSongName(string:String, toreplace:String = "-", replacer:String = " "):String
-	{
-		var array:Array<String> = string.replace(toreplace, replacer).split(replacer);
-		if (array.length != 1) array.splice(0, 1);
+	public static function makeSongName(string:String, toreplace:String = "-", replacer:String = " "):String {
+		string = string.replace(toreplace, replacer);
+		var array:Array<String> = [string];
+		if (string.contains(replacer)) array = string.split(replacer);
+
 		for (i in 0...array.length)
 			array[i] = array[i].substring(0, 1).toUpperCase() + array[i].substring(1);
 		return array.join(' ');
