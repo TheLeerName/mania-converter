@@ -107,7 +107,7 @@ class OsuParser {
 		return json;
 	}
 
-	public static function convertToOsu(json:SwagSong, options:Map<String, Dynamic>):INIParser
+	public static function convertToOsu(json:SwagSong, options:Map<String, Dynamic>, difficultyName:String):INIParser
 	{
 		var ini:INIParser = new INIParser();
 		var keyCount:Int = json.keyCount;
@@ -120,7 +120,7 @@ class OsuParser {
 			"Title:" + Utils.makeSongName(json.song),
 			"Artist:" + options.get("Artist"),
 			"Creator:" + options.get("Creator"),
-			"Version:poopy",
+			"Version:" + difficultyName,
 			"Source:" + options.get("Source"),
 			"GeneratedBy:Mania Converter " + Main.version
 		]);

@@ -317,8 +317,8 @@ class MenuState extends FlxUIState
 			logGroup.log("Successfully loaded " + thing.substring(thing.lastIndexOf("/") + 1) + "!", 0xff03cc03);
 		}
 		#else
-		converter.loadFromContent(text, options);
 		converter.fileName = fileName;
+		converter.loadFromContent(text, options);
 		buttonsGroup.indicatorEnabled = converter.fileContent != null;
 		if(converter.fileContent != null) {
 			var thing:String = converter.fileName.replace("\\", "/");
