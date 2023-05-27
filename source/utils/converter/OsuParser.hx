@@ -140,12 +140,12 @@ class OsuParser {
 				{
 					case 1:
 						if ((section.mustHitSection && songNotes[1] < keyCount) || (!section.mustHitSection && songNotes[1] >= keyCount))
-							notes.push(convertNote(Std.int(songNotes[1] - (songNotes[1] >= keyCount ? keyCount : 0)), keyCount, false) + ",192," + songNotes[0] + (songNotes[2] > 0 ? ",128,0," + songNotes[2] + ":0:0:0:0:" : ",1,0,0:0:0:0:"));
+							notes.push(convertNote(Std.int(songNotes[1] - (songNotes[1] >= keyCount ? keyCount : 0)), keyCount, false) + ",192," + Math.floor(songNotes[0]) + (songNotes[2] > 0 ? ",128,0," + Math.floor(songNotes[2]) + ":0:0:0:0:" : ",1,0,0:0:0:0:"));
 					case 2:
 						if ((section.mustHitSection && songNotes[1] >= keyCount) || (!section.mustHitSection && songNotes[1] < keyCount))
-							notes.push(convertNote(Std.int(songNotes[1] - (songNotes[1] >= keyCount ? keyCount : 0)), keyCount, false) + ",192," + songNotes[0] + (songNotes[2] > 0 ? ",128,0," + songNotes[2] + ":0:0:0:0:" : ",1,0,0:0:0:0:"));
+							notes.push(convertNote(Std.int(songNotes[1] - (songNotes[1] >= keyCount ? keyCount : 0)), keyCount, false) + ",192," + Math.floor(songNotes[0]) + (songNotes[2] > 0 ? ",128,0," + Math.floor(songNotes[2]) + ":0:0:0:0:" : ",1,0,0:0:0:0:"));
 					default:
-						notes.push(convertNote(Std.int(songNotes[1] - (songNotes[1] >= keyCount ? keyCount : 0)), keyCount, false) + ",192," + songNotes[0] + (songNotes[2] > 0 ? ",128,0," + songNotes[2] + ":0:0:0:0:" : ",1,0,0:0:0:0:"));
+						notes.push(convertNote(Std.int(songNotes[1] - (songNotes[1] >= keyCount ? keyCount : 0)), keyCount, false) + ",192," + Math.floor(songNotes[0]) + (songNotes[2] > 0 ? ",128,0," + Math.floor(songNotes[2]) + ":0:0:0:0:" : ",1,0,0:0:0:0:"));
 	
 				}
 		ini.setCategoryArrayByName("HitObjects", notes);
