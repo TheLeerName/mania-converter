@@ -21,7 +21,6 @@ class Utils {
 					lastSongNotes = songNotes;
 					continue;
 				}
-				if (lastSongNotes[0] >= (songNotes[0] - sensitivity) && songNotes[1] == lastSongNotes[1]) trace(songNotes, lastSongNotes);
 				if (lastSongNotes[0] >= (songNotes[0] - sensitivity) && songNotes[1] == lastSongNotes[1])
 					removedNotes++;
 				else
