@@ -55,6 +55,7 @@ class ScrollBar extends FlxSpriteGroup {
 	 */
 	public var scrollHeight(default, set):Int = 0;
 	function set_scrollHeight(value:Int):Int {
+		if (staticThing == null || movingThing == null) return scrollHeight = value;
 		if (scrollHeight < Std.int(staticThing.height)) value = Std.int(staticThing.height);
 		movingThing.height = staticThing.height - (value % staticThing.height);
 		return scrollHeight = value;
@@ -90,10 +91,10 @@ class ScrollBar extends FlxSpriteGroup {
 		if (width == null) width = FlxG.width;
 		if (height == null) height = FlxG.height;
 
+		if (scrollHeight == null || scrollHeight < height) this.scrollHeight = scrollHeight = height;
+
 		staticThing = new FlxSprite(x, y).makeGraphic(width, height, options.colorStatic);
 		add(staticThing);
-		
-		if (scrollHeight == null || scrollHeight < height) this.scrollHeight = scrollHeight = height;
 
 		movingThing = new FlxSprite(x, y).makeGraphic(width, height - (scrollHeight % height), options.colorMoving);
 		add(movingThing);
