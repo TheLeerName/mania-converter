@@ -3,12 +3,12 @@
 2. Do these commands in cmd:
 ```
 haxelib install hxcpp 4.2.1
-haxelib install lime
-haxelib install openfl
-haxelib install flixel
-haxelib install flixel-tools
-haxelib install flixel-ui
-haxelib install flixel-addons
+haxelib install lime 8.0.1
+haxelib install openfl 9.2.1
+haxelib install flixel 5.3.1
+haxelib install flixel-tools 1.5.1
+haxelib install flixel-ui 2.5.0
+haxelib install flixel-addons 3.1.1
 haxelib run lime setup
 haxelib run lime setup flixel
 haxelib run flixel-tools setup
