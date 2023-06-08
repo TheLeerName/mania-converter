@@ -26,6 +26,7 @@ class Converter {
 			if (versionShit != "14") MenuState.instance.logGroup.log('Osu file format is not v14 (you have v$versionShit), it may do some unexpected things!', 0xffffee00);
 
 			structure = OsuParser.convertFromOsu(value , options);
+			if (structure == null) return fileContent = value;
 
 			var ini = new INIParser().loadFromContent(value);
 			difficultyName = ini.getValueByName("Metadata", "Version");

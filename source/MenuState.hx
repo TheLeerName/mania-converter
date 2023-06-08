@@ -153,7 +153,7 @@ class MenuState extends FlxUIState
 						#end
 					});
 					buttonsGroup.setCallback("Export as FNF...", () -> {
-						if (converter.fileContent != null) {
+						if (converter.fileContent != null && converter.structure != null) {
 							converter.options = options;
 							var returnConv = converter.getAsJSON();
 							doSaveDialog(returnConv.value, returnConv.extraValue[2], fr -> {
@@ -167,7 +167,7 @@ class MenuState extends FlxUIState
 							logGroup.log("Map is not loaded!", 0xffff0000);
 					});
 					buttonsGroup.setCallback("Export as OSU...", () -> {
-						if (converter.fileContent != null) {
+						if (converter.fileContent != null && converter.structure != null) {
 							converter.options = options;
 							var returnConv = converter.getAsOSU();
 							doSaveDialog(returnConv.value, returnConv.extraValue[2], fr -> {
@@ -341,20 +341,15 @@ class MenuState extends FlxUIState
 	function updateConverter(text:String, ?fileName:String) {
 		#if sys
 		converter.load(text, options);
-		buttonsGroup.indicatorEnabled = converter.fileContent != null;
-		if(converter.fileContent != null) {
-			var thing:String = converter.fileName.replace("\\", "/");
-			logGroup.log("Successfully loaded " + thing.substring(thing.lastIndexOf("/") + 1) + "!", 0xff03cc03);
-		}
 		#else
 		converter.fileName = fileName;
 		converter.loadFromContent(text, options);
-		buttonsGroup.indicatorEnabled = converter.fileContent != null;
-		if(converter.fileContent != null) {
+		#end
+		buttonsGroup.indicatorEnabled = converter.fileContent != null && converter.structure != null;
+		if(converter.fileContent != null && converter.structure != null) {
 			var thing:String = converter.fileName.replace("\\", "/");
 			logGroup.log("Successfully loaded " + thing.substring(thing.lastIndexOf("/") + 1) + "!", 0xff03cc03);
 		}
-		#end
 	}
 
 	inline function makeText(x:Float = 0, y:Float = 0, width:Float = 0, text:String = '', size:Int = 8, font:String = 'vcr', color:FlxColor = 0xff000000) {
