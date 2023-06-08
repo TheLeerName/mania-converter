@@ -89,10 +89,11 @@ class ScrollBar extends FlxSpriteGroup {
 		super();
 		if (width == null) width = FlxG.width;
 		if (height == null) height = FlxG.height;
-		if (scrollHeight == null || scrollHeight < height) this.scrollHeight = scrollHeight = height;
 
 		staticThing = new FlxSprite(x, y).makeGraphic(width, height, options.colorStatic);
 		add(staticThing);
+		
+		if (scrollHeight == null || scrollHeight < height) this.scrollHeight = scrollHeight = height;
 
 		movingThing = new FlxSprite(x, y).makeGraphic(width, height - (scrollHeight % height), options.colorMoving);
 		add(movingThing);
