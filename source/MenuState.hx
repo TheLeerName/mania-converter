@@ -157,7 +157,7 @@ class MenuState extends FlxUIState
 							converter.options = options;
 							var returnConv = converter.getAsJSON();
 							doSaveDialog(returnConv.value, returnConv.extraValue[2], fr -> {
-								if (returnConv.extraValue[0] != options.get("Key count")) logGroup.log("Changed key count from " + returnConv.extraValue[0] + " to " + options.get("Key count") + "!", 0xffffffff);
+								if (returnConv.extraValue[0] != options.get("Key count") && options.get("Key count") != 0) logGroup.log("Changed key count from " + returnConv.extraValue[0] + " to " + options.get("Key count") + "!", 0xffffffff);
 								if (returnConv.extraValue[1] > 0) logGroup.log("Removed " + returnConv.extraValue[1] + " duplicated notes by " + options.get("Sensitivity") + " ms sensitivity!", 0xffffffff);
 			
 								logGroup.log("Successfully exported " + fr.name + " as FNF!", 0xff03cc03);
@@ -171,7 +171,7 @@ class MenuState extends FlxUIState
 							converter.options = options;
 							var returnConv = converter.getAsOSU();
 							doSaveDialog(returnConv.value, returnConv.extraValue[2], fr -> {
-								if (returnConv.extraValue[0] != options.get("Key count")) logGroup.log("Changed key count from " + returnConv.extraValue[0] + " to " + options.get("Key count") + "!", 0xffffffff);
+								if (returnConv.extraValue[0] != options.get("Key count") && options.get("Key count") != 0) logGroup.log("Changed key count from " + returnConv.extraValue[0] + " to " + options.get("Key count") + "!", 0xffffffff);
 								if (returnConv.extraValue[1] > 0) logGroup.log("Removed " + returnConv.extraValue[1] + " duplicated notes by " + options.get("Sensitivity") + " ms sensitivity!", 0xffffffff);
 			
 								logGroup.log("Successfully exported " + fr.name + " as OSU!", 0xff03cc03);

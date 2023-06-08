@@ -83,7 +83,7 @@ class Converter {
 		if (structure == null) return {value: ""};
 		var returnUtils = Utils.removeDuplicates(structure, options.get("Sensitivity"));
 		var removedNotes:Int = returnUtils.extraValue + 0;
-		returnUtils = Utils.changeKeyCount(returnUtils.value, options.get("Key count"));
+		returnUtils = Utils.changeKeyCount(returnUtils.value, options.get("Key count") == 0 ? returnUtils.value.keyCount : options.get("Key count"));
 		var oldKeyCount:Int = returnUtils.extraValue + 0;
 
 		return {value: OsuParser.convertToOsu(returnUtils.value, options, difficultyName).toString(), extraValue: [oldKeyCount, removedNotes, osuFileName]};
@@ -101,7 +101,7 @@ class Converter {
 		if (structure == null) return {value: ""};
 		var returnUtils = Utils.removeDuplicates(structure, options.get("Sensitivity"));
 		var removedNotes:Int = returnUtils.extraValue + 0;
-		returnUtils = Utils.changeKeyCount(returnUtils.value, options.get("Key count"));
+		returnUtils = Utils.changeKeyCount(returnUtils.value, options.get("Key count") == 0 ? returnUtils.value.keyCount : options.get("Key count"));
 		var oldKeyCount:Int = returnUtils.extraValue + 0;
 
 		return {value: Json.stringify({song: returnUtils.value}, space), extraValue: [oldKeyCount, removedNotes, jsonFileName]};
