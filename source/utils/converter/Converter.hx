@@ -20,8 +20,12 @@ class Converter {
 	function set_fileContent(value:String):String {
 		if (fileName == null) fileName = "";
 		if (value.length == 0 || value == null) return fileContent = value;
-		if (value.replace("\r", "").split("\n")[0] == "osu file format v14") {
-			structure = OsuParser.convertFromOsu(value, options);
+		var versionShit:String = value.replace("\r", "").split("\n")[0];
+		if (versionShit.startsWith("osu file format v")) {
+			versionShit = versionShit.substring(versionShit.lastIndexOf(" v") + 2, versionShit.length);
+			if (versionShit != "14") MenuState.instance.logGroup.log('Osu file format is not v14 (you have v$versionShit), it may do some unexpected things!', 0xffffee00);
+
+			structure = OsuParser.convertFromOsu(value , options);
 
 			var ini = new INIParser().loadFromContent(value);
 			difficultyName = ini.getValueByName("Metadata", "Version");

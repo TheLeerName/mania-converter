@@ -89,7 +89,7 @@ class INIParser {
 	}
 
 	function resolveValueFromString(value:String):Any {
-		if (Std.string(Std.parseFloat(value)).toLowerCase() != "nan") return Std.parseFloat(value);
+		if (!Math.isNaN(parseFloat(value))) return parseFloat(value);
 		if (Std.string(value) == "true") return true;
 		if (Std.string(value) == "false") return false;
 		return value;
@@ -177,7 +177,14 @@ class INIParser {
 		return structure.get(categoryName).get(name);
 	}
 
+
 	@:to public inline function toString():String {
 		return fileContent.replace("<", "[").replace(">", "]");
+	}
+
+	// not supports numbers like 0x01020304
+	public static function parseFloat(str:String):Float {
+		for (th in str.split('')) if (Math.isNaN(Std.parseFloat(th))) return Math.NaN;
+		return Std.parseFloat(str);
 	}
 }
