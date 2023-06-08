@@ -46,13 +46,36 @@ using StringTools;
 
 class MenuState extends FlxUIState
 {
+	var facts:Array<String> = [
+		"Someone said if you press O W C keys, but idk in which order, smth will appear.",
+		"i want to eat.",
+		"cyber swag 2077",
+		"challenge: convert galaxy collapse to 9 keys and do full combo on it",
+		"nerf this",
+		"barbecue bacon burger",
+		"i want collab of sonic and angry birds",
+		"Please take a shower immediately.",
+		"mario",
+		"lol",
+		"you will suffer for your sins.",
+		"FNF PLAYER SPOTTED DEPLOYING camellia ghost brand FNF PLAYER MAULING PITBULL",
+		"FNF PLAYER SPOTTED DEPLOYING laur sound chimera brand FNF PLAYER MAULING PITBULL",
+		"FNF PLAYER SPOTTED DEPLOYING %puthardsonghere% brand FNF PLAYER MAULING PITBULL",
+		"FNF PLAYER SPOTTED DEPLOYING null brand FNF PLAYER MAULING PITBULL",
+		"OSU PLAYER SPOTTED DEPLOYING fnf bopeebo brand OSU PLAYER MAULING PITBULL",
+		"huh?",
+		"i use psych engine too *gif with sonic and shadow kissing*",
+		"hello my name is big boobs",
+		"u going to ohio"
+	];
+
 	var bgs:Map<String, FlxSprite> = [];
 	var titleText:FlxText;
 
-	var optionsGroup:OptionsGroup;
-	var buttonsGroup:ButtonsGroup;
-	var logGroup:LogGroup;
-	var descriptionGroup:DescriptionGroup;
+	public var optionsGroup:OptionsGroup;
+	public var buttonsGroup:ButtonsGroup;
+	public var logGroup:LogGroup;
+	public var descriptionGroup:DescriptionGroup;
 
 	var defaultOptions:Map<String, Dynamic> = [];
 	var options:Map<String, Dynamic> = [];
@@ -64,6 +87,8 @@ class MenuState extends FlxUIState
 	var cowCamera:FlxCamera;
 	var swt:SecretWordType;
 
+	public static var instance:MenuState;
+
 	function addBG(name:String, bg:FlxSprite) {
 		bgs.set(name, bg);
 		add(bg);
@@ -72,6 +97,7 @@ class MenuState extends FlxUIState
 
 	override public function create() {
 		super.create();
+		instance = this;
 		var basicOptions:Map<String, Dynamic> = new INIParser().load("assets/menu/basic.ini").getCategoryByName("#Basic settings#");
 		FlxG.drawFramerate = FlxG.updateFramerate = basicOptions["windowFPS"];
 		Application.current.window.onClose.add(destroy);
@@ -189,7 +215,11 @@ class MenuState extends FlxUIState
 			});
 		}
 
-		logGroup.log("Hello! You're running version " + Main.version, 0xffffffff);
+		logGroup.log("Hello! You're running version " + Main.version);
+		if (Date.now().getDate() == 15 && Date.now().getMonth() == 2)
+			logGroup.log('  you should be hiding it\'s march 15', 0xff59e3e7);
+		else
+			logGroup.log('  ' + facts[FlxG.random.int(0, facts.length - 1)], 0xff59e3e7);
 
 		#if !sys for (th in buttonsGroup) if (th is FlxUIInputText && cast(th, FlxUIInputText).name == "File path") th.visible = false; #end
 		#if sys updateConverter(options["File path"]); #end
