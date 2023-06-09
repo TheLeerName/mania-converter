@@ -32,9 +32,10 @@ class Utils {
 		return {value: structure, extraValue: removedNotes};
 	}
 
-	public static function changeKeyCount(structure:SwagSong, toKey:Int):UtilsReturn
+	public static function changeKeyCount(structure:SwagSong, ?toKey:Int):UtilsReturn
 	{
 		if (structure.keyCount == null) structure.keyCount = 4;
+		if (toKey == null) toKey = 4;
 		if (structure.keyCount == toKey) return {value: structure, extraValue: structure.keyCount};
 
 		var alg:Array<Array<Int>> = getAlg(structure.keyCount, toKey);
