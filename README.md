@@ -1,18 +1,19 @@
-# Mania Converter 3.0.2
+# Mania Converter 3.0.3
 Converter of FNF or osu!mania maps/charts, example from 4 key to 6 key, now with UI! It can remove damage notes, convert to osu!mania and more. Works with 1-512 keys. (yeah its possible)
 
-# [VERY POG WEB VERSION (UPD 09.06.2023)](https://theleername.github.io/mania-converter/)
+# [VERY POG WEB VERSION (UPD 10.06.2023)](https://theleername.github.io/mania-converter/)
 - wow! its support mobile devices!!!
 - the best frontend code only here!!!!
 
 ## [How to build it *(click)*](https://github.com/TheLeerName/mania-converter/blob/main/docs/building.md)
 
-## (Latest) 3.0.2 - Hotfix
-- Shows things on start app
-- If key count setted as 0, then uses current key count on map
-- Fixed difficulty name parsing again (thx to [ItzEnderArkail](https://gamebanana.com/posts/10811434) for report)
-- Fixed unsupported osu modes
-
+## (Latest) 3.0.3 - Hotfix
+- Fix of 0 key count
+- Fix of space char in start of diff name
+- Fix of sustain length in convert to osu
+- Fix of BPM in convert from osu
+- First BPM in TimingPoints uses now, instead of average
+- Fix of exported message for web version
 
 ### [Check past changelogs here](https://github.com/TheLeerName/mania-converter/blob/main/docs/changelogs.md)
 

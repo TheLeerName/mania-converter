@@ -1,7 +1,16 @@
 # Changelogs of Mania Converter
 
-## (Latest) 3.0.2 - Hotfix
+## (Latest) 3.0.3 - Hotfix
+- Shows things on start app
+- If key count setted as 0, then uses current key count on map
 - Fixed difficulty name parsing again (thx to [ItzEnderArkail](https://gamebanana.com/posts/10811434) for report)
+- Fixed unsupported osu modes
+
+## 3.0.2 - Hotfix
+- Shows things on start app
+- If key count setted as 0, then uses current key count on map
+- Fixed difficulty name parsing again (thx to [ItzEnderArkail](https://gamebanana.com/posts/10811434) for report)
+- Fixed unsupported osu modes
 
 ## 3.0.1 - Hotfix
 - Fixed difficulty name parsing (thx to [LeoroyX](https://gamebanana.com/posts/10786130) for report)
