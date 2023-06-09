@@ -60,12 +60,9 @@ class OsuParser {
 		toData.sort((a, b) -> a[0] - b[0]); // sorting notes by time...
 
 		var timingPoints:Map<String, Dynamic> = ini.getCategoryByName("TimingPoints");
-		if (timingPoints != null) {
-			var bpmthing:Array<Float> = [0, 1];
-			for (n => v in timingPoints) if (n.split(",")[6] == '1')
-				bpmthing = [bpmthing[0] + Std.parseFloat(n.split(",")[1]), bpmthing[1]++];
-			json.bpm = Math.floor(bpmthing[0] / bpmthing[1]);
-			json.bpm = Math.floor(60000 / json.bpm); // osu stupid thingie
+		if (timingPoints != null) for (n => v in timingPoints) if (n.split(",")[6] == '1') {
+			json.bpm = Math.floor(60000 / Std.parseFloat(n.split(",")[1])); // osu stupid thingie
+			break;
 		}
 
 		/*for (i in 0...toData.length)
