@@ -156,11 +156,11 @@ class MenuState extends FlxUIState
 						if (converter.fileContent != null && converter.structure != null) {
 							converter.options = options;
 							var returnConv = converter.getAsJSON();
-							doSaveDialog(returnConv.value, returnConv.extraValue[2], fr -> {
+							doSaveDialog(returnConv.value, returnConv.extraValue[2], name -> {
 								if (returnConv.extraValue[0] != options.get("Key count") && options.get("Key count") != 0) logGroup.log("Changed key count from " + returnConv.extraValue[0] + " to " + options.get("Key count") + "!", 0xffffffff);
 								if (returnConv.extraValue[1] > 0) logGroup.log("Removed " + returnConv.extraValue[1] + " duplicated notes by " + options.get("Sensitivity") + " ms sensitivity!", 0xffffffff);
 			
-								logGroup.log("Successfully exported " + fr.name + " as FNF!", 0xff03cc03);
+								logGroup.log("Successfully exported " + name + " as FNF!", 0xff03cc03);
 							});
 						}
 						else
@@ -170,11 +170,11 @@ class MenuState extends FlxUIState
 						if (converter.fileContent != null && converter.structure != null) {
 							converter.options = options;
 							var returnConv = converter.getAsOSU();
-							doSaveDialog(returnConv.value, returnConv.extraValue[2], fr -> {
+							doSaveDialog(returnConv.value, returnConv.extraValue[2], name -> {
 								if (returnConv.extraValue[0] != options.get("Key count") && options.get("Key count") != 0) logGroup.log("Changed key count from " + returnConv.extraValue[0] + " to " + options.get("Key count") + "!", 0xffffffff);
 								if (returnConv.extraValue[1] > 0) logGroup.log("Removed " + returnConv.extraValue[1] + " duplicated notes by " + options.get("Sensitivity") + " ms sensitivity!", 0xffffffff);
 			
-								logGroup.log("Successfully exported " + fr.name + " as OSU!", 0xff03cc03);
+								logGroup.log("Successfully exported " + name + " as OSU!", 0xff03cc03);
 							});
 						}
 						else
@@ -251,12 +251,17 @@ class MenuState extends FlxUIState
 	 * @param data Data to save
 	 * @param defaultFileName Default file name to save
 	 */
-	function doSaveDialog(data:Dynamic, ?defaultFileName:String, ?onSelectCallback:FileReference->Void) {
+	function doSaveDialog(data:Dynamic, ?defaultFileName:String, ?onSelectCallback:String->Void) {
 		var fr = new FileReference();
+		// idk it dont work on html5
+		#if sys
 		fr.addEventListener(Event.SELECT, function (e:Event) {
 			fr.load();
-			onSelectCallback(cast(e.target, FileReference));
+			onSelectCallback(cast(e.target, FileReference).name);
 		});
+		#else
+		onSelectCallback(defaultFileName);
+		#end
 		fr.save(data, defaultFileName);
 	}
 
