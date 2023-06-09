@@ -1,10 +1,12 @@
 # Changelogs of Mania Converter
 
 ## (Latest) 3.0.3 - Hotfix
-- Shows things on start app
-- If key count setted as 0, then uses current key count on map
-- Fixed difficulty name parsing again (thx to [ItzEnderArkail](https://gamebanana.com/posts/10811434) for report)
-- Fixed unsupported osu modes
+- First BPM in TimingPoints uses now, instead of average
+- Fix of 0 key count (thx to [CcinoWrath](https://gamebanana.com/posts/10815716) for report)
+- Fix of space char in start of diff name
+- Fix of sustain length in convert to osu
+- Fix of BPM in convert from osu
+- Fix of exported message for web version
 
 ## 3.0.2 - Hotfix
 - Shows things on start app

@@ -8,11 +8,11 @@ Converter of FNF or osu!mania maps/charts, example from 4 key to 6 key, now with
 ## [How to build it *(click)*](https://github.com/TheLeerName/mania-converter/blob/main/docs/building.md)
 
 ## (Latest) 3.0.3 - Hotfix
-- Fix of 0 key count
+- First BPM in TimingPoints uses now, instead of average
+- Fix of 0 key count (thx to [CcinoWrath](https://gamebanana.com/posts/10815716) for report)
 - Fix of space char in start of diff name
 - Fix of sustain length in convert to osu
 - Fix of BPM in convert from osu
-- First BPM in TimingPoints uses now, instead of average
 - Fix of exported message for web version
 
 ### [Check past changelogs here](https://github.com/TheLeerName/mania-converter/blob/main/docs/changelogs.md)
