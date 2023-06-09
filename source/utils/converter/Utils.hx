@@ -68,48 +68,54 @@ class Utils {
 		return hideChars.split(path).join("").toLowerCase();
 	}
 
-	public static function getAlg(from_key:Int, to_key:Int):Array<Array<Int>>
+	/**
+	 * Returns algorithm to set keys from `input` key count to `output` key count
+	 * @param input Key count from
+	 * @param output Key count to
+	 */
+	public static function getAlg(input:Int, output:Int):Array<Array<Int>>
 	{
-		var res:Array<Array<Int>> = [];
-		for (i in 0...(from_key * 2))
-			res[i] = [];
+		var noteArray:Array<Array<Int>> = [];
+		for (i in 0...(input * 2))
+			noteArray[i] = [];
 
-		if (from_key > to_key)
+		// bro i dont remember what i did like year ago
+		if (input > output)
 		{
-			var ha = Std.int(from_key / to_key);
+			var keyRatio:Int = Std.int(input / output);
 
 			// bf
 			var num = 0;
 			var num1 = 0;
 			var num2 = 0;
-			for (i in 0...from_key)
+			for (i in 0...input)
 			{
-				if (num > ha - 1)
+				if (num > keyRatio - 1)
 				{
 					num = 0;
 					num1 = i;
-					if (num2 < to_key - 1)
+					if (num2 < output - 1)
 						num2++;
 				}
-				res[num + num1] = [num2];
+				noteArray[num + num1] = [num2];
 				num++;
 			}
 
 			// opponent
 			num = 0;
 			num1 = 0;
-			num2 = to_key;
-			for (i in 0...from_key)
+			num2 = output;
+			for (i in 0...input)
 			{
-				if (num > ha - 1)
+				if (num > keyRatio - 1)
 				{
 					num = 0;
 					num1 = i;
-					if (num2 < to_key * 2 - 1)
+					if (num2 < output * 2 - 1)
 						num2++;
 				}
 				
-				res[from_key + num + num1] = [num2];
+				noteArray[input + num + num1] = [num2];
 				num++;
 			}
 		}
@@ -117,25 +123,24 @@ class Utils {
 		{
 			// bf
 			var num = 0;
-			for (i in 0...to_key)
+			for (i in 0...output)
 			{
-				if (num > from_key - 1)
+				if (num > input - 1)
 					num = 0;
-				res[num].push(i);
+				noteArray[num].push(i);
 				num++;
 			}
 
 			// opponent
 			num = 0;
-			for (i in 0...to_key)
+			for (i in 0...output)
 			{
-				if (num > from_key - 1)
+				if (num > input - 1)
 					num = 0;
-				res[from_key + num].push(to_key + i);
+				noteArray[input + num].push(output + i);
 				num++;
 			}
 		}
-		//console.log(res)
-		return res;
+		return noteArray;
 	}
 }

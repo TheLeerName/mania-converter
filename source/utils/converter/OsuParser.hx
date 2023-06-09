@@ -53,9 +53,11 @@ class OsuParser {
 		//Sys.println("Parsing notes from osu!mania map...");
 		for (n => v in ini.getCategoryByName("HitObjects"))
 		{
+			// "320,192,21636,1,0,0:0:0:0:" => [21636, 2, 0]
+			// "192,192,22000,128,0,22090:0:0:0:0:" => [22000, 1, 90]
 			toData.push([
 				Std.parseInt(n.split(",")[2]),
-				convertNote(Std.parseInt(n.split(",")[0]), keyCount),
+				convertNoteFromOsu(Std.parseInt(n.split(",")[0]), keyCount),
 				Std.parseFloat(n.split(",")[5]) - Std.parseFloat(n.split(",")[2])
 			]);
 			if (toData[toData.length - 1][2] < 0) toData[toData.length - 1][2] = 0; // removing negative values of hold notes
@@ -135,53 +137,43 @@ class OsuParser {
 
 		var notes:Array<String> = [];
 		for (section in json.notes)
-			for (songNotes in section.sectionNotes)
-				switch (options.get("Side"))
-				{
-					case 1:
-						if ((section.mustHitSection && songNotes[1] < keyCount) || (!section.mustHitSection && songNotes[1] >= keyCount))
-							notes.push(convertNote(Std.int(songNotes[1] - (songNotes[1] >= keyCount ? keyCount : 0)), keyCount, false) + ",192," + Math.floor(songNotes[0]) + (songNotes[2] > 0 ? ",128,0," + Math.floor(songNotes[2]) + ":0:0:0:0:" : ",1,0,0:0:0:0:"));
-					case 2:
-						if ((section.mustHitSection && songNotes[1] >= keyCount) || (!section.mustHitSection && songNotes[1] < keyCount))
-							notes.push(convertNote(Std.int(songNotes[1] - (songNotes[1] >= keyCount ? keyCount : 0)), keyCount, false) + ",192," + Math.floor(songNotes[0]) + (songNotes[2] > 0 ? ",128,0," + Math.floor(songNotes[2]) + ":0:0:0:0:" : ",1,0,0:0:0:0:"));
-					default:
-						notes.push(convertNote(Std.int(songNotes[1] - (songNotes[1] >= keyCount ? keyCount : 0)), keyCount, false) + ",192," + Math.floor(songNotes[0]) + (songNotes[2] > 0 ? ",128,0," + Math.floor(songNotes[2]) + ":0:0:0:0:" : ",1,0,0:0:0:0:"));
-	
-				}
+			for (songNotes in section.sectionNotes) {
+				var conditions:Array<Bool> = [
+					true,
+					(section.mustHitSection && songNotes[1] < keyCount) || (!section.mustHitSection && songNotes[1] >= keyCount),
+					(section.mustHitSection && songNotes[1] >= keyCount) || (!section.mustHitSection && songNotes[1] < keyCount)
+				];
+				if (conditions[options.get("Side")])
+					// [17818, 3, 0] => "448,192,17818,1,0,0:0:0:0:"
+					// [18545, 0, 181] => "64,192,18545,128,0,18726:0:0:0:0:"
+					notes.push(
+						convertNoteToOsu(Std.int(songNotes[1] - (songNotes[1] >= keyCount ? keyCount : 0)), keyCount) +
+						",192," +
+						Math.floor(songNotes[0]) +
+						(songNotes[2] > 0 ? ",128,0," + Math.floor(songNotes[0] + songNotes[2]) + ":0:0:0:0:" : ",1,0,0:0:0:0:")
+					);
+			}
 		ini.setCategoryArrayByName("HitObjects", notes);
 
 		return ini;
 	}
 
-	public static function convertNote(from_note:Int, keyCount:Int, fromosu:Bool = true):Int
-	{
-		//console.log('da ' + from_note)
+	public static function convertNoteFromOsu(input:Int, keyCount:Int):Int {
+		var noteData:Float = 512 / keyCount;
 
-		var num:Float = 512 / keyCount;
-		//console.log(ty + ' | ' + keyCount)
+		for (i in 0...keyCount) if (input >= noteData * i && input <= (noteData * (i + 1)) - 1) return i;
 
-		if (fromosu)
-		{
-			for (i in 0...keyCount)
-			{
-				var th:Array<Float> = [num * i, (num * (i + 1)) - 1];
-				if (from_note >= th[0] && from_note <= th[1])
-				{
-					//console.log(th);
-					//console.log(keyCount + 'K: ' + from_note + ' -> from ' + th[0] + ' to ' + th[1]);
-					return i;
-				}
-			}
-		}
-		else
-		{
-			if (from_note >= keyCount)
-			from_note = from_note - keyCount + 1;
-			//console.log(keyCount + 'K: ' + from_note + ' -> ' + (parseInt(((num * from_note) + ((num * (from_note + 1)) - 1)) / 2) + 1));
-			return Std.int(((num * from_note) + ((num * (from_note + 1)) - 1)) / 2) + 1;
-		}
+		Paths.log('[Mania Converter] Note ' + input + ' not found in array!');
+		return 0;
+	}
 
-		Paths.log('[Mania Converter] Note ' + from_note + ' not found in array!');
+	public static function convertNoteToOsu(input:Int, keyCount:Int):Int {
+		var noteData:Float = 512 / keyCount;
+
+		if (input >= keyCount) input = input - keyCount + 1;
+		return Std.int(((noteData * input) + ((noteData * (input + 1)) - 1)) / 2) + 1;
+
+		Paths.log('[Mania Converter] Note ' + input + ' not found in array!');
 		return 0;
 	}
 }
