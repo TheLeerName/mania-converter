@@ -10,7 +10,6 @@ package utils.converter;
 
 class OsuParser {
 	public static function convertFromOsu(content:String, options:Map<String, Dynamic>):SwagSong {
-		//Sys.println("[Mania Converter] Getting osu! map data...");
 		var ini:INIParser = new INIParser().loadFromContent(content);
 
 		var keyCount:Int = ini.getValueByName("Difficulty", "CircleSize");
@@ -28,9 +27,6 @@ class OsuParser {
 			keyCount: keyCount,
 			generatedBy: "",
 		};
-		//if (content.replace("\r", "").split("\n")[0] != "osu file format v14") return null;
-
-		//Sys.println("[Mania Converter] Found " + Lambda.count(ini.getCategoryByName("HitObjects")) + " notes...");
 
 		json.song = ini.getValueByName("Metadata", "Title");
 		if (json.song == null) json.song = ini.getValueByName("Metadata", "TitleUnicode");
@@ -50,7 +46,6 @@ class OsuParser {
 		}
 
 		var toData:Array<Dynamic> = [];
-		//Sys.println("Parsing notes from osu!mania map...");
 		for (n => v in ini.getCategoryByName("HitObjects"))
 		{
 			// "320,192,21636,1,0,0:0:0:0:" => [21636, 2, 0]
@@ -62,8 +57,7 @@ class OsuParser {
 			]);
 			if (toData[toData.length - 1][2] < 0) toData[toData.length - 1][2] = 0; // removing negative values of hold notes
 		}
-		toData.sort((a, b) -> a[0] - b[0]); // map is stupid fuck, why it sorts by alphabet or smth
-		//trace(toData.length);
+		toData.sort((a, b) -> a[0] - b[0]); // sorting notes by time...
 
 		var timingPoints:Map<String, Dynamic> = ini.getCategoryByName("TimingPoints");
 		if (timingPoints != null) {
@@ -71,10 +65,8 @@ class OsuParser {
 			for (n => v in timingPoints) if (n.split(",")[6] == '1')
 				bpmthing = [bpmthing[0] + Std.parseFloat(n.split(",")[1]), bpmthing[1]++];
 			json.bpm = Math.floor(bpmthing[0] / bpmthing[1]);
+			json.bpm = Math.floor(60000 / json.bpm); // osu stupid thingie
 		}
-		//trace(json.bpm);
-
-		//Sys.println("Placing notes to FNF map...");
 
 		/*for (i in 0...toData.length)
 		{
@@ -101,8 +93,6 @@ class OsuParser {
 			if (toData[toData.length - 1] == json.notes[Std.int(json.notes.length - 1)].sectionNotes[Std.int(json.notes[Std.int(json.notes.length - 1)].sectionNotes.length - 1)])
 				break;
 		}
-
-		// skipping remove duplicate notes for now...
 
 		json.generatedBy = "Mania Converter " + Main.version;
 
