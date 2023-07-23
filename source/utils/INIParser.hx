@@ -184,7 +184,7 @@ class INIParser {
 
 	// not supports numbers like 0x01020304
 	public static function parseFloat(str:String):Float {
-		for (th in str.replace("-", "").split('')) if (Math.isNaN(Std.parseFloat(th))) return Math.NaN;
+		for (th in str.replace("-", "").replace(".", "").split('')) if (Math.isNaN(Std.parseFloat(th))) return Math.NaN;
 		return Std.parseFloat(str);
 	}
 }
