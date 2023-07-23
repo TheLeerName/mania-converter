@@ -14,7 +14,7 @@ import flixel.FlxSprite;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import flixel.#if (flixel >= "5.3.0") sound #else system #end.FlxSound;
+import flixel.sound.FlxSound;
 import flixel.addons.ui.FlxUIState;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUIDropDownMenu;

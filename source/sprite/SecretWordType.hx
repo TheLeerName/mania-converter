@@ -3,7 +3,7 @@ package sprite;
 import flixel.FlxG;
 import flixel.FlxBasic;
 import flixel.math.FlxMath;
-import flixel.#if (flixel >= "5.3.0") sound #else system #end.FlxSound;
+import flixel.sound.FlxSound;
 import flixel.input.keyboard.FlxKey;
 
 class SecretWordType extends FlxBasic {
