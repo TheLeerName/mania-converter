@@ -40,7 +40,6 @@ class Converter {
 
 				difficultyName = Utils.makeSongName(fileName.substring(fileName.lastIndexOf(Utils.formatToSongPath(structure.song)) + Utils.formatToSongPath(structure.song).length, fileName.lastIndexOf("."))).trim();
 				if (difficultyName == null || difficultyName == "") difficultyName = "Normal";
-				trace(difficultyName);
 
 				osuFileName = options.get("Artist") + " - " + Utils.makeSongName(structure.song) + " (" + options.get("Creator") + ") [" + Utils.makeSongName(difficultyName) + "].osu";
 				jsonFileName = Utils.formatToSongPath(structure.song + (difficultyName != "Normal" ? "-" + difficultyName : "")) + ".json";
