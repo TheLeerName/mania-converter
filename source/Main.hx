@@ -17,7 +17,7 @@ class Main extends Sprite
 {
 	public static var version(get, default):String;
 	static function get_version():String {
-		var curVersion:String = "3.0.3 (&CT)"; // &CT will be replaced by formatted compileTime
+		var curVersion:String = "3.0.4 (&CT)"; // &CT will be replaced by formatted compileTime
 
 		var suffix:String = compileTime.substring(0, compileTime.indexOf(" ", compileTime.indexOf(" ") + 1)); // removing utc thing
 		suffix = suffix.replace("-", ""); // removing underline

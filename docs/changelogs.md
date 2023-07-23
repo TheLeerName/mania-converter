@@ -1,6 +1,11 @@
 # Changelogs of Mania Converter
 
-## (Latest) 3.0.3 - Hotfix
+## (Latest) 3.0.4 - Hotfix 4: The Electric Boogaloo
+- Sensitivity now in range of 0 to 100 (was from 1) (thx to [CcinoWrath](https://gamebanana.com/posts/10815716) for report)
+- Fix of parsing decimal value from .ini's (thx to [CcinoWrath](https://gamebanana.com/posts/10815716) for report)
+- Fix of sensitivity (hopefully) (thx to [CcinoWrath](https://gamebanana.com/posts/10815716) for report)
+
+## 3.0.3 - Hotfix
 - First BPM in TimingPoints uses now, instead of average
 - Fix of 0 key count (thx to [CcinoWrath](https://gamebanana.com/posts/10815716) for report)
 - Fix of space char in start of diff name
