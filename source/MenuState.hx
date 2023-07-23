@@ -157,28 +157,28 @@ class MenuState extends FlxUIState
 							converter.options = options;
 							var returnConv = converter.getAsJSON();
 							doSaveDialog(returnConv.value, returnConv.extraValue[2], name -> {
-								if (returnConv.extraValue[0] != options.get("Key count") && options.get("Key count") != 0) Paths.log("Changed key count from " + returnConv.extraValue[0] + " to " + options.get("Key count") + "!", 0xffffffff);
-								if (returnConv.extraValue[1] > 0) Paths.log("Removed " + returnConv.extraValue[1] + " duplicated notes by " + options.get("Sensitivity") + " ms sensitivity!", 0xffffffff);
+								if (returnConv.extraValue[0] != options.get("Key count") && options.get("Key count") != 0) logGroup.log("Changed key count from " + returnConv.extraValue[0] + " to " + options.get("Key count") + "!", 0xffffffff);
+								if (returnConv.extraValue[1] > 0) logGroup.log("Removed " + returnConv.extraValue[1] + " duplicated notes by " + options.get("Sensitivity") + " ms sensitivity!", 0xffffffff);
 			
-								Paths.log("Successfully exported " + name + " as FNF!", 0xff03cc03);
+								logGroup.log("Successfully exported " + name + " as FNF!", 0xff03cc03);
 							});
 						}
 						else
-							Paths.log("Map is not loaded!", 0xffff0000);
+							logGroup.log("Map is not loaded!", 0xffff0000);
 					});
 					buttonsGroup.setCallback("Export as OSU...", () -> {
 						if (converter.fileContent != null && converter.structure != null) {
 							converter.options = options;
 							var returnConv = converter.getAsOSU();
 							doSaveDialog(returnConv.value, returnConv.extraValue[2], name -> {
-								if (returnConv.extraValue[0] != options.get("Key count") && options.get("Key count") != 0) Paths.log("Changed key count from " + returnConv.extraValue[0] + " to " + options.get("Key count") + "!", 0xffffffff);
-								if (returnConv.extraValue[1] > 0) Paths.log("Removed " + returnConv.extraValue[1] + " duplicated notes by " + options.get("Sensitivity") + " ms sensitivity!", 0xffffffff);
+								if (returnConv.extraValue[0] != options.get("Key count") && options.get("Key count") != 0) logGroup.log("Changed key count from " + returnConv.extraValue[0] + " to " + options.get("Key count") + "!", 0xffffffff);
+								if (returnConv.extraValue[1] > 0) logGroup.log("Removed " + returnConv.extraValue[1] + " duplicated notes by " + options.get("Sensitivity") + " ms sensitivity!", 0xffffffff);
 			
-								Paths.log("Successfully exported " + name + " as OSU!", 0xff03cc03);
+								logGroup.log("Successfully exported " + name + " as OSU!", 0xff03cc03);
 							});
 						}
 						else
-							Paths.log("Map is not loaded!", 0xffff0000);
+							logGroup.log("Map is not loaded!", 0xffff0000);
 					});
 			}
 		}
@@ -215,11 +215,11 @@ class MenuState extends FlxUIState
 			});
 		}
 
-		Paths.log("Hello! You're running version " + Main.version);
+		logGroup.log("Hello! You're running version " + Main.version);
 		if (Date.now().getDate() == 15 && Date.now().getMonth() == 2)
-			Paths.log('  you should be hiding it\'s march 15', 0xff59e3e7);
+			logGroup.log('  you should be hiding it\'s march 15', 0xff59e3e7);
 		else
-			Paths.log('  ' + facts[FlxG.random.int(0, facts.length - 1)], 0xff59e3e7);
+			logGroup.log('  ' + facts[FlxG.random.int(0, facts.length - 1)], 0xff59e3e7);
 
 		#if !sys for (th in buttonsGroup) if (th is FlxUIInputText && cast(th, FlxUIInputText).name == "File path") th.visible = false; #end
 		#if sys updateConverter(options["File path"]); #end
@@ -294,7 +294,7 @@ class MenuState extends FlxUIState
 		ini.setCategoryMapByName("#Basic settings#", []);
 		for (n => v in defaultOptions) ini.setValueByName("#Basic settings#", n, options.get(n));
 		ini.save("assets/menu/save.ini");
-		Paths.log("Options saved!");
+		logGroup.log("Options saved!");
 	}
 
 	function setValuesToGroup(group:Group, ?optionsMap:Map<String, Dynamic>) {
@@ -353,7 +353,7 @@ class MenuState extends FlxUIState
 		buttonsGroup.indicatorEnabled = converter.fileContent != null && converter.structure != null;
 		if(converter.fileContent != null && converter.structure != null) {
 			var thing:String = converter.fileName.replace("\\", "/");
-			Paths.log("Successfully loaded " + thing.substring(thing.lastIndexOf("/") + 1) + "!", 0xff03cc03);
+			logGroup.log("Successfully loaded " + thing.substring(thing.lastIndexOf("/") + 1) + "!", 0xff03cc03);
 		}
 	}
 

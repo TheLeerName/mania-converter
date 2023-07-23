@@ -89,8 +89,7 @@ class Paths {
 		return null;
 	}
 
-	public static function log(text:String, color:FlxColor = 0xffffffff) {
-		if (MenuState.instance.logGroup != null && MenuState.instance.logGroup.active) MenuState.instance.logGroup.log(text, color);
+	public static function log(text:String) {
 		#if sys Sys.println(text); #end
 		#if html5 Console.log(text); #end
 	}
