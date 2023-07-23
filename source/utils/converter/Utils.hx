@@ -12,16 +12,12 @@ class Utils {
 
 	public static function removeDuplicates(structure:SwagSong, sensitivity:Int = 0):UtilsReturn
 	{
-		var lastSongNotes:Array<Float> = [];
+		var lastSongNotes:Array<Float> = [-237908, -243567, 0];
 		var removedNotes:Int = 0;
 		for (section in structure.notes) {
 			var newArray:Array<Dynamic> = [];
 			for (songNotes in section.sectionNotes) {
-				if (lastSongNotes.length == 0) {
-					lastSongNotes = songNotes;
-					continue;
-				}
-				if (lastSongNotes[0] >= (songNotes[0] - sensitivity) && songNotes[1] == lastSongNotes[1])
+				if (lastSongNotes[0] >= songNotes[0] - (sensitivity / 2) && lastSongNotes[0] < songNotes[0] + (sensitivity / 2) && songNotes[1] == lastSongNotes[1])
 					removedNotes++;
 				else
 					newArray.push(songNotes);
