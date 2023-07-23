@@ -23,7 +23,7 @@ class Converter {
 		var versionShit:String = value.replace("\r", "").split("\n")[0];
 		if (versionShit.startsWith("osu file format v")) {
 			versionShit = versionShit.substring(versionShit.lastIndexOf(" v") + 2, versionShit.length);
-			if (versionShit != "14") MenuState.instance.logGroup.log('Osu file format is not v14 (you have v$versionShit), it may do some unexpected things!', 0xffffee00);
+			if (versionShit != "14") Paths.log('Osu file format is not v14 (you have v$versionShit), it may do some unexpected things!', 0xffffee00);
 
 			structure = OsuParser.convertFromOsu(value , options);
 			if (structure == null) return fileContent = value;
@@ -46,7 +46,7 @@ class Converter {
 				jsonFileName = Utils.formatToSongPath(structure.song + (difficultyName != "Normal" ? "-" + difficultyName : "")) + ".json";
 			}
 			catch (e) {
-				trace('Error parsing $fileName: ' + e);
+				Paths.log('Error parsing $fileName: ' + e);
 			}
 		}
 		return fileContent = value;

@@ -2,6 +2,7 @@ package;
 
 import haxe.Json;
 
+import flixel.util.FlxColor;
 import flixel.graphics.FlxGraphic;
 
 import openfl.media.Sound;
@@ -88,7 +89,8 @@ class Paths {
 		return null;
 	}
 
-	public static function log(text:String) {
+	public static function log(text:String, color:FlxColor = 0xffffffff) {
+		if (MenuState.instance.logGroup != null && MenuState.instance.logGroup.active) MenuState.instance.logGroup.log(text, color);
 		#if sys Sys.println(text); #end
 		#if html5 Console.log(text); #end
 	}

@@ -59,7 +59,7 @@ class Group extends FlxSpriteGroup {
 			if (raaah.name == name) {
 				raaah.text = text;
 				FlxUI.event(FlxUIInputText.CHANGE_EVENT, raaah, raaah.text, raaah.params);
-				trace("bruh! updated!");
+				//trace("bruh! updated!");
 				break;
 			}
 		}

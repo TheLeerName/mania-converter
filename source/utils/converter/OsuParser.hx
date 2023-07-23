@@ -41,7 +41,7 @@ class OsuParser {
 				'osu!catch',
 				'osu!mania'
 			];
-			MenuState.instance.logGroup.log('Converter supports only osu!mania mode! You have a ' + osuModes[curMode] + ' beatmap.', 0xffff0000);
+			Paths.log('Converter supports only osu!mania mode! You have a ' + osuModes[curMode] + ' beatmap.', 0xffff0000);
 			return null;
 		}
 
