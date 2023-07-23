@@ -17,7 +17,7 @@ class Utils {
 		for (section in structure.notes) {
 			var newArray:Array<Dynamic> = [];
 			for (songNotes in section.sectionNotes) {
-				if (lastSongNotes[0] >= songNotes[0] - (sensitivity / 2) && lastSongNotes[0] < songNotes[0] + (sensitivity / 2) && songNotes[1] == lastSongNotes[1])
+				if (lastSongNotes[0] >= songNotes[0] - sensitivity && lastSongNotes[0] < songNotes[0] + sensitivity && songNotes[1] == lastSongNotes[1])
 					removedNotes++;
 				else
 					newArray.push(songNotes);
