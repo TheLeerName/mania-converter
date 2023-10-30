@@ -34,7 +34,6 @@
 		<assets path="assets" embed="true"/>
 	</section>
 	<haxeflag name="--macro" value="macros.CompileTime.addCompileTime('Main', 'compileTime')"/>
-	<haxeflag name="--macro" value="sprite.ClassFieldsMenu.ClassFieldsMacro.addClassFieldsVar()"/>
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
