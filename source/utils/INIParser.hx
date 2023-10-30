@@ -35,7 +35,7 @@ class INIParser {
 	public function load(file:String):INIParser {
 		fileContent = null;
 		var content:String = "";
-		#if lime if (Assets.exists(file, TEXT)) content = Assets.getText(file); #end
+		if (Assets.exists(file, TEXT)) content = Assets.getText(file);
 		#if sys if (FileSystem.exists(file) && !FileSystem.isDirectory(file)) content = File.getContent(file); #end
 		if (content != "") fileContent = content;
 		return this;

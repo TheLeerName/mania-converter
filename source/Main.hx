@@ -6,8 +6,6 @@ import flixel.FlxGame;
 import openfl.Lib;
 import openfl.display.Sprite;
 
-import lime.app.Application;
-
 import utils.INIParser;
 import utils.converter.Converter;
 
@@ -38,12 +36,12 @@ class Main extends Sprite
 		if (Sys.args().length >= 2) {
 			var converter = new Converter();
 			converter.load(Sys.args()[0], new INIParser().load("assets/menu/save.ini").getCategoryByName("#Basic settings#"));
-			if (converter.structure == null) Application.current.window.close();
+			if (converter.structure == null) Sys.exit(1);
 			if (Sys.args()[1].endsWith(".osu"))
 				converter.saveAsOSU(Sys.args()[1]);
 			else
 				converter.saveAsJSON(Sys.args()[1]);
-			Application.current.window.close();
+			Sys.exit(1);
 		}
 		#end
 	}

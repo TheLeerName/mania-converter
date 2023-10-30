@@ -3,6 +3,5 @@ import utils.converter.Song;
 import sys.FileSystem;
 import sys.io.File;
 #end
-import lime.utils.Assets;
 
 using StringTools;

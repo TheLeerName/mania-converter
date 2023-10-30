@@ -2,6 +2,6 @@
 import sys.FileSystem;
 import sys.io.File;
 #end
-import lime.utils.Assets;
+import openfl.Assets;
 
 using StringTools;

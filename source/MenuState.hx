@@ -21,14 +21,13 @@ import flixel.addons.ui.FlxUIDropDownMenu;
 import flixel.addons.ui.FlxUISlider;
 import flixel.addons.ui.FlxUICheckBox;
 
-import lime.app.Application;
-import lime.ui.FileDialog;
-import lime.ui.FileDialogType;
-import lime.system.System;
-
 import openfl.events.Event;
 import openfl.net.FileFilter;
-import openfl.net.FileReference;
+#if sys
+import openfl.filesystem.File;
+#else
+import openfl.net.FileReference as File;
+#end
 
 import group.Group;
 import group.LogGroup;
@@ -100,7 +99,7 @@ class MenuState extends FlxUIState
 		instance = this;
 		var basicOptions:Map<String, Dynamic> = new INIParser().load("assets/menu/basic.ini").getCategoryByName("#Basic settings#");
 		FlxG.drawFramerate = FlxG.updateFramerate = basicOptions["windowFPS"];
-		Application.current.window.onClose.add(destroy);
+		FlxG.stage.window.onClose.add(destroy);
 
 		NativeAPI.setDarkMode(true);
 
@@ -141,16 +140,14 @@ class MenuState extends FlxUIState
 					add(buttonsGroup);
 
 					buttonsGroup.setCallback("Browse...", function () {
-						#if sys
-						doFileDialog(OPEN, "*.json; *.osu", function(str:String) {
-							buttonsGroup.setInputText("File path", str);
-						});
-						#else
 						doBrowseDialog([new FileFilter("Song files", "*.json;*.osu")], fr -> {
 							//race(fr.data);
+							#if sys
+							buttonsGroup.setInputText("File path", fr.nativePath);
+							#else
 							updateConverter(fr.data.toString(), fr.name);
+							#end
 						});
-						#end
 					});
 					buttonsGroup.setCallback("Export as FNF...", () -> {
 						if (converter.fileContent != null && converter.structure != null) {
@@ -232,32 +229,17 @@ class MenuState extends FlxUIState
 	}
 
 	/**
-	 * Lime method of calling browse/save dialog. Not supports setting default file name on save type!
-	 * @param type FileDialogType enum value
-	 * @param filter Filter of file extensions
-	 * @param onSelectCallback Calls on select file
-	 */
-	function doFileDialog(type:FileDialogType = OPEN, filter:String = "", onSelectCallback:String->Void) {
-		#if sys
-		var fd:FileDialog = new FileDialog();
-		fd.onSelect.add(onSelectCallback);
-		if (filter.startsWith("*.")) filter = filter.substring(2);
-		fd.browse(type, "" + filter, System.documentsDirectory);
-		#end
-	}
-
-	/**
 	 * Flash method of calling save dialog.
 	 * @param data Data to save
 	 * @param defaultFileName Default file name to save
 	 */
 	function doSaveDialog(data:Dynamic, ?defaultFileName:String, ?onSelectCallback:String->Void) {
-		var fr = new FileReference();
+		var fr = new File();
 		// idk it dont work on html5
 		#if sys
 		fr.addEventListener(Event.SELECT, function (e:Event) {
 			fr.load();
-			onSelectCallback(cast(e.target, FileReference).name);
+			onSelectCallback(cast(e.target, File).name);
 		});
 		#else
 		onSelectCallback(defaultFileName);
@@ -266,16 +248,15 @@ class MenuState extends FlxUIState
 	}
 
 	/**
-	 * Flash method of calling browse dialog.
+	 * OpenFL method of calling browse dialog.
 	 * @param filter Array with FileFilter class, ex. `new FileFilter("Images", "*.jpg;*.gif;*.png")`
 	 * @param onSelectCallback Calls on select file
 	 */
-	// thx to flixel tutorial
-	function doBrowseDialog(?filter:Array<FileFilter>, onSelectCallback:FileReference->Void) {
-		var fr = new FileReference();
+	function doBrowseDialog(?filter:Array<FileFilter>, onSelectCallback:File->Void) {
+		var fr = new File();
 		fr.addEventListener(Event.SELECT, function (e:Event) {
-			cast(e.target, FileReference).addEventListener(Event.COMPLETE, e_ -> {
-				onSelectCallback(cast(e_.target, FileReference));
+			cast(e.target, File).addEventListener(Event.COMPLETE, e_ -> {
+				onSelectCallback(cast(e_.target, File));
 			}, false, 0, true);
 			fr.load();
 		}, false, 0, true);
