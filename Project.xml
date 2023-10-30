@@ -41,7 +41,7 @@
 	<haxelib name="flixel" version="5.3.1" />
 	<haxelib name="flixel-addons" version="3.1.1" />
 	<haxelib name="flixel-ui" version="2.5.0" />
-	<haxelib name="hxcpp" version="4.2.1" />
+	<haxelib name="hxcpp" version="4.3.2" />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 

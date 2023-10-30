@@ -1,5 +1,9 @@
 package utils;
 
+#if flixel
+import flixel.util.FlxColor;
+#end
+
 class INIParser {
 	public var fileContent(default, set):String;
 	private function set_fileContent(value:String):String {
@@ -90,8 +94,11 @@ class INIParser {
 
 	function resolveValueFromString(value:String):Any {
 		if (!Math.isNaN(parseFloat(value))) return parseFloat(value);
-		if (Std.string(value) == "true") return true;
-		if (Std.string(value) == "false") return false;
+		#if flixel
+		if (FlxColor.fromString(value) != null) return FlxColor.fromString(value);
+		#end
+		if (value == "true") return true;
+		if (value == "false") return false;
 		return value;
 	}
 

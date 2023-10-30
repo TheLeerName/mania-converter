@@ -49,12 +49,12 @@ class ClassShortcuts {
 		return d;
 	}
 
-    public static function makeButton(x:Float, y:Float, width:Int, height:Int, offset_x:Float, offset_y:Float, size:Int, color:String, name:String):FlxButton {
+    public static function makeButton(x:Float, y:Float, width:Int, height:Int, offset_x:Float, offset_y:Float, size:Int, color:FlxColor, name:String):FlxButton {
 		var button:FlxButton = new FlxButton(x, y, name);
 		button.setGraphicSize(width, height);
 		button.updateHitbox();
-		button.color = FlxColor.fromString("0x" + color);
-		button.label.setFormat(Paths.font("vendana"), size, FlxColor.fromString('0xFF000000'), CENTER);
+		button.color = color;
+		button.label.setFormat(Paths.font("vendana"), size, 0xFF000000, CENTER);
 		setAllLabelsOffset(button, offset_x, offset_y);
 		button.label.fieldWidth = width;
 		return button;

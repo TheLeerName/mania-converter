@@ -121,14 +121,14 @@ class MenuState extends FlxUIState
 
 		for (name in ["description", "title", "options", "log", "buttons"])
 		{
-			addBG(name, new FlxSprite(basicOptions['${name}X'], basicOptions['${name}Y']).makeGraphic(basicOptions['${name}Width'], basicOptions['${name}Height'], Std.parseInt("0x" + basicOptions['${name}Color'])));
+			addBG(name, new FlxSprite(basicOptions['${name}X'], basicOptions['${name}Y']).makeGraphic(basicOptions['${name}Width'], basicOptions['${name}Height'], basicOptions['${name}Color']));
 
 			switch(name) {
 				case "description":
 					descriptionGroup = new DescriptionGroup(bgs.get("description").x, bgs.get("description").y, Std.int(bgs.get("description").width), Std.int(bgs.get("description").height));
 					add(descriptionGroup);
 				case "title":
-					titleText = makeText(bgs.get("title").x, basicOptions["titleTextY"], bgs.get("title").width, basicOptions["titleText"], basicOptions["titleTextSize"], 'verdana', Std.parseInt("0x" + basicOptions["titleTextColor"]));
+					titleText = makeText(bgs.get("title").x, basicOptions["titleTextY"], bgs.get("title").width, basicOptions["titleText"], basicOptions["titleTextSize"], 'verdana', basicOptions["titleTextColor"]);
 					add(titleText);
 				case "options":
 					optionsGroup = new OptionsGroup(bgs.get("options").x, bgs.get("options").y, Std.int(bgs.get("options").width), Std.int(bgs.get("options").height), new INIParser().load("assets/menu/options.ini"));

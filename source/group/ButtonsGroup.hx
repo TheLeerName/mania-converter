@@ -28,7 +28,7 @@ class ButtonsGroup extends Group {
 			if (n == "Indicator")
 			{
 				indicator = new FlxSprite(v["x"], v["y"]).makeGraphic(v["width"], v["height"]);
-				indicatorColors = [FlxColor.fromString("0x" + v["colorDisabled"]), FlxColor.fromString("0x" + v["colorEnabled"])];
+				indicatorColors = [v["colorDisabled"], v["colorEnabled"]];
 				indicatorEnabled = false;
 				add(indicator);
 			}
