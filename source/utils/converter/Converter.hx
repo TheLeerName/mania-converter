@@ -99,6 +99,9 @@ class Converter {
 
 	public function getAsJSON(space:String = "\t"):ReturnString {
 		if (structure == null) return {value: ""};
+
+		structure.generatedBy = "Mania Converter " + Main.version;
+
 		var returnUtils = Utils.removeDuplicates(structure, options.get("Sensitivity"));
 		var removedNotes:Int = returnUtils.extraValue + 0;
 		returnUtils = Utils.changeKeyCount(returnUtils.value, options.get("Key count") == 0 ? returnUtils.value.keyCount : options.get("Key count"));

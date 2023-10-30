@@ -91,8 +91,6 @@ class OsuParser {
 				break;
 		}
 
-		json.generatedBy = "Mania Converter " + Main.version;
-
 		return json;
 	}
 
