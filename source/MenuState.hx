@@ -124,7 +124,7 @@ class MenuState extends FlxUIState
 
 			switch(name) {
 				case "description":
-					descriptionGroup = new DescriptionGroup(bgs.get("description").x, bgs.get("description").y, Std.int(bgs.get("description").width), Std.int(bgs.get("description").height));
+					descriptionGroup = new DescriptionGroup(bgs.get("description").x, bgs.get("description").y, Std.int(bgs.get("description").width), Std.int(bgs.get("description").height), basicOptions["descriptionText"]);
 					add(descriptionGroup);
 				case "title":
 					titleText = makeText(bgs.get("title").x, basicOptions["titleTextY"], bgs.get("title").width, basicOptions["titleText"], basicOptions["titleTextSize"], 'verdana', basicOptions["titleTextColor"]);
