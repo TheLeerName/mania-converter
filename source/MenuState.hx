@@ -212,7 +212,7 @@ class MenuState extends FlxUIState
 
 		changeValue = ClassShortcuts.makeInput(0, 0, 150, '35', 16, 'idontcare');
 		changeValue.setFormat(Paths.font('verdana'), 16, 0xff000000);
-		changeValue.filterMode = 2;
+		changeValue.customFilterPattern = ~/[^0-9.]*/g; // NUMERIC_ONLY cant write . for decimals lol
 		changeValue.cameras = optionsGroup.cameras;
 		add(changeValue);
 		changeValue.kill();
