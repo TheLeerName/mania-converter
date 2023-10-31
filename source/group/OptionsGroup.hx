@@ -1,8 +1,9 @@
 package group;
 
-import flixel.text.FlxText;
 import flixel.FlxG;
 import flixel.FlxObject;
+import flixel.text.FlxText;
+import flixel.addons.ui.FlxUISlider;
 
 import sprite.ScrollBar;
 
@@ -21,6 +22,8 @@ class OptionsGroup extends Group {
 
 	var scrollBar:ScrollBar;
 
+	public var sliders:Array<FlxUISlider> = [];
+
 	public function new(x:Float = 0, y:Float = 0, ?width:Int = null, ?height:Int = null, options:INIParser)
 	{
 		super(x, y, width, height);
@@ -36,7 +39,9 @@ class OptionsGroup extends Group {
 			add(new Text(v["x"], this.height + v["y"], n, v["description"]));
 			switch (v["displayMode"]) {
 				case 0:
-					add(ClassShortcuts.makeSlider(v["displayX"], this.height + v["displayY"], v["width"], v["decimals"], v["value"], v["min"], v["max"], n));
+					var obj = ClassShortcuts.makeSlider(v["displayX"], this.height + v["displayY"], v["width"], v["decimals"], v["value"], v["min"], v["max"], n);
+					add(obj);
+					sliders.push(obj);
 				case 1:
 					add(ClassShortcuts.makeDrop(v["displayX"], this.height + v["displayY"], Std.string(v["array"]).split(","), v["value"], n));
 				case 2:

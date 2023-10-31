@@ -37,12 +37,14 @@ import group.DescriptionGroup;
 
 import utils.INIParser;
 import utils.NativeAPI;
+import utils.ClassShortcuts;
 import utils.converter.Converter;
 
 import sprite.SecretWordType;
 
 using StringTools;
 
+@:access(flixel.addons.ui.FlxUISlider)
 class MenuState extends FlxUIState
 {
 	var facts:Array<String> = [
@@ -85,6 +87,10 @@ class MenuState extends FlxUIState
 	var cowSound:FlxSound;
 	var cowCamera:FlxCamera;
 	var swt:SecretWordType;
+
+	var doubleClick = new utils.DoubleClickChecker();
+	var changeValue:FlxUIInputText;
+	var curClicked:FlxUISlider;
 
 	public static var instance:MenuState;
 
@@ -186,6 +192,31 @@ class MenuState extends FlxUIState
 		cowCamera.bgColor.alpha = 0;
 		FlxG.cameras.add(cowCamera, false);
 
+		doubleClick.onDoubleClick = () -> {
+			for (slider in optionsGroup.sliders) {
+				if (slider.overlapsPoint(FlxG.mouse.getPositionInCameraView(slider.cameras[0]), true)) {
+					trace('opening change value input text...');
+					changeValue.setPosition(slider.valueLabel.x, slider.handle.y);
+					changeValue.width = slider.valueLabel.width;
+					changeValue.revive();
+					changeValue.text = slider.value + '';
+					changeValue.caretIndex = 0;
+					curClicked = slider;
+					changeValue.hasFocus = true;
+					break;
+				}
+			}
+		};
+		doubleClick.onClick = hideChangeValue;
+		add(doubleClick);
+
+		changeValue = ClassShortcuts.makeInput(0, 0, 150, '35', 16, 'idontcare');
+		changeValue.setFormat(Paths.font('verdana'), 16, 0xff000000);
+		changeValue.filterMode = 2;
+		changeValue.cameras = optionsGroup.cameras;
+		add(changeValue);
+		changeValue.kill();
+
 		cow = new FlxSprite(0, 0).loadGraphic(Paths.image("cow"));
 		cow.screenCenter();
 		cow.cameras = [cowCamera];
@@ -220,6 +251,20 @@ class MenuState extends FlxUIState
 
 		#if !sys for (th in buttonsGroup) if (th is FlxUIInputText && cast(th, FlxUIInputText).name == "File path") th.visible = false; #end
 		#if sys updateConverter(options["File path"]); #end
+	}
+
+	function hideChangeValue() {
+		if (changeValue.alive) {
+			changeValue.hasFocus = false;
+			changeValue.kill();
+
+			var value:Float = Std.parseFloat(changeValue.text);
+			if (value < curClicked.minValue || value > curClicked.maxValue)
+				value = curClicked.maxValue - curClicked.minValue;
+
+			curClicked.value = value;
+			curClicked.updateValue();
+		}
 	}
 
 	public override function destroy() {
@@ -355,6 +400,9 @@ class MenuState extends FlxUIState
 		super.update(elapsed);
 
 		descriptionGroup.desc = getDesc();
+
+		if (FlxG.keys.justPressed.ENTER)
+			hideChangeValue();
 
 		#if sys if (FlxG.keys.justPressed.F5) FlxG.switchState(new MenuState()); #end
 	}
