@@ -814,6 +814,7 @@ class FlxInputText extends FlxText
 				_caretTimer = new FlxTimer().start(0.5, toggleCaret, 0);
 				caret.visible = true;
 				caretIndex = text.length;
+				FlxG.stage.window.textInputEnabled = true;
 			}
 		}
 		else
