@@ -1,4 +1,4 @@
-# Mania Converter 3.0.3
+# Mania Converter 3.0.5
 Converter of FNF or osu!mania maps/charts, example from 4 key to 6 key, now with UI! It can remove damage notes, convert to osu!mania and more. Works with 1-512 keys. (yeah its possible)
 
 # [VERY POG WEB VERSION (UPD 24.07.2023)](https://theleername.github.io/mania-converter/)
@@ -7,10 +7,13 @@ Converter of FNF or osu!mania maps/charts, example from 4 key to 6 key, now with
 
 ## [How to build it *(click)*](https://github.com/TheLeerName/mania-converter/blob/main/docs/building.md)
 
-## (Latest) 3.0.4 - Hotfix 4: The Electric Boogaloo
-- Sensitivity now in range of 0 to 100 (was from 1) (thx to [CcinoWrath](https://gamebanana.com/posts/10815716) for report)
-- Fix of parsing decimal value from .ini's (thx to [CcinoWrath](https://gamebanana.com/posts/10815716) for report)
-- Fix of sensitivity (hopefully) (thx to [CcinoWrath](https://gamebanana.com/posts/10815716) for report)
+## (Latest) 3.0.5 - sliders update
+- Now u can change value of sliders with double click on it (feat. [ZeroSupply](https://gamebanana.com/members/2007471))
+- Fixed colors and updated hxcpp to 4.3.2
+- Now it not using lime things so u can remove lime.ndll
+- Changed bf to pico and vice versa (im idiot)
+- Fixed watermark
+- Fixed unvisible buttons on web version smh idk (feat. [Binsu1126](https://gamebanana.com/members/2297338))
 
 ### [Check past changelogs here](https://github.com/TheLeerName/mania-converter/blob/main/docs/changelogs.md)
 
