@@ -64,7 +64,7 @@ class Converter {
 		
 		fileContent = fileName = null;
 		var content:String = "";
-		#if lime if (Assets.exists(file, TEXT)) content = Assets.getText(file); #end
+		if (Assets.exists(file, TEXT)) content = Assets.getText(file);
 		#if sys if (FileSystem.exists(file) && !FileSystem.isDirectory(file)) content = File.getContent(file); #end
 		if (content != "") {
 			this.options = options;
