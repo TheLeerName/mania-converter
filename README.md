@@ -1,3 +1,5 @@
+## Not interested to work on this for now, sorry guys
+
 # Mania Converter 3.0.5
 Converter of FNF or osu!mania maps/charts, example from 4 key to 6 key, now with UI! It can remove damage notes, convert to osu!mania and more. Works with 1-512 keys. (yeah its possible)
 
